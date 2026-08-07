@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, sans-serif;
+  background: #F7F6FF;
+  overflow-x: hidden;
+}
+
+:root {
+  --color-primary: #6D4AFF;
+  --color-secondary: #8B5CF6;
+  --color-background: #F8F7FF;
+  --color-text: #0F172A;
+  --radius-card: 24px;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #020617;
+    color: #F8FAFC;
+  }
+
+  :root {
+    --color-background: #0F172A;
+    --color-text: #F8FAFC;
+  }
+}
+
+html.dark body {
+  background: #020617;
+  color: #F8FAFC;
+}
+
+html.dark :root {
+  --color-background: #0F172A;
+  --color-text: #F8FAFC;
+}
+
+html.dark .bg-white,
+html.dark .bg-\[\#F4F3FF\],
+html.dark .bg-\[\#F8F7FF\],
+html.dark .bg-\[\#D8D6FE\],
+html.dark .bg-\[\#EBE9FE\] {
+  background-color: #0F172A !important;
+}
+
+html.dark .text-\[\#241065\],
+html.dark .text-\[\#423186\],
+html.dark .text-\[\#4B5563\],
+html.dark .text-\[\#6133DA\],
+html.dark .text-\[\#5B3DF5\],
+html.dark .text-slate-900,
+html.dark .text-slate-700 {
+  color: #F8FAFC !important;
+}
+
+html.dark .border-slate-100,
+html.dark .border-slate-200 {
+  border-color: #334155 !important;
+}
