@@ -1,30 +1,31 @@
 import heroImage from "../assets/images/hero.png";
 import logo from "../assets/images/nav.png";
 
-export default function AuthPanel() {
+export default function AuthPanel({ heroClassName = "" }) {
   return (
-    <div className="relative overflow-hidden bg-[#6133DA] min-h-170 lg:min-h-screen">
+    <div className="relative overflow-hidden bg-[#6133DA] h-full">
       <img
         src={heroImage}
         alt="Trendysize hero"
-        className="absolute inset-0 h-full w-full object-cover opacity-90"
+        className={`absolute inset-0 h-full w-full object-cover object-left opacity-100 scale-90 -translate-x-20 -translate-y-10 ${heroClassName}`}
       />
 
-      <div className="absolute inset-0 bg-[#6133DA]/30" />
+      <div className="absolute inset-0 bg-[#6133DA]/20" />
 
       <div className="relative z-10 flex h-full flex-col px-6 py-8 lg:px-8">
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-0">
           <img
             src={logo}
             alt="Trendysize logo"
-            className="h-16 w-16 rounded-xl bg-white p-2"
+            className="h-12 w-12 rounded-xl -mr-1"
           />
 
           <h1
-            className="text-[24px] font-bold tracking-wide text-[#241065]"
+            className="-ml-2 text-[22px] font-bold tracking-normal text-[#241065]"
             style={{ fontFamily: "Agency FB, sans-serif" }}
           >
-            TRENDYSIZE
+            TRENDY
+            <span className="text-white">SIZE</span>
           </h1>
         </div>
 

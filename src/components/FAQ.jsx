@@ -109,7 +109,11 @@ const FAQ = () => {
           <p className="mb-4 text-[14px] text-[#241065] sm:text-[16px]">
             Can't find what you're looking for?
           </p>
-          <button className="rounded-lg bg-[#6133DA] px-6 py-3 font-semibold text-white transition hover:bg-[#4C26C2]">
+          <button
+            type="button"
+            onClick={() => alert("Support contact is not available yet. Please email support@trendysize.com.")}
+            className="rounded-lg bg-[#6133DA] px-6 py-3 font-semibold text-white transition hover:bg-[#4C26C2]"
+          >
             Contact Our Support
           </button>
         </div>

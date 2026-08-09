@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import { HiOutlineMenuAlt3, HiOutlineMoon, HiOutlineSun, HiOutlineX } from "react-icons/hi";
 import logoSrc from "../assets/images/nav.png";
 
@@ -46,12 +47,12 @@ export default function Navbar() {
   };
 
   const navLinks = [
-    "Home",
-    "Features",
-    "How it Works",
-    "Benefits",
-    "FAQ",
-    "Pricing",
+    { label: "Home", to: "/#home" },
+    { label: "Features", to: "/#features" },
+    { label: "How it Works", to: "/#how-it-works" },
+    { label: "Benefits", to: "/#benefits" },
+    { label: "FAQ", to: "/#faq" },
+    { label: "Pricing", to: "/#pricing" },
   ];
 
   const headerActive = scrolled || scrollingUp;
@@ -61,7 +62,7 @@ export default function Navbar() {
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-8">
 
         {/* LOGO */}
-        <a href="/" className="flex items-center gap-0">
+        <Link to="/" className="flex items-center gap-0">
           <img
             src={logoSrc}
             alt="Trendysize logo"
@@ -71,20 +72,20 @@ export default function Navbar() {
           <span className="-ml-2 text-[16px] font-extrabold tracking-tight text-[#423186]">
             TRENDYSIZE
           </span>
-        </a>
+        </Link>
 
         {/* Desktop Menu */}
         <nav className="hidden flex-1 items-center justify-center gap-10 lg:flex">
           {navLinks.map((item) => {
             const showBg = scrolled || scrollingUp;
             return (
-              <a
-                key={item}
-                href={`#${item.toLowerCase().replace(/\s+/g, "-")}`}
+              <Link
+                key={item.label}
+                to={item.to}
                 className={`text-[15px] font-medium transition duration-200 ${showBg ? 'text-[#241065]' : 'text-slate-600'} hover:text-[#6F4CFF] hover:underline hover:underline-offset-4`}
               >
-                {item}
-              </a>
+                {item.label}
+              </Link>
             );
           })}
         </nav>
@@ -98,9 +99,9 @@ export default function Navbar() {
             {isDark ? <HiOutlineSun className="h-5 w-5" /> : <HiOutlineMoon className="h-5 w-5" />}
             <span>{isDark ? 'Light' : 'Dark'}</span>
           </button>
-          <button className="rounded-xl bg-[#6F4CFF] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#5E3EF5]">
+          <Link to="/signin" className="rounded-xl bg-[#6F4CFF] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#5E3EF5]">
             Sign in
-          </button>
+          </Link>
         </div>
 
         {/* Mobile Buttons */}
@@ -112,9 +113,9 @@ export default function Navbar() {
             {isDark ? <HiOutlineSun className="h-5 w-5" /> : <HiOutlineMoon className="h-5 w-5" />}
             <span>{isDark ? 'Light' : 'Dark'}</span>
           </button>
-          <button className="rounded-lg bg-[#6F4CFF] px-3 py-2 text-xs font-semibold text-white transition hover:bg-[#5E3EF5]">
+          <Link to="/signin" className="rounded-lg bg-[#6F4CFF] px-3 py-2 text-xs font-semibold text-white transition hover:bg-[#5E3EF5]">
             Sign in
-          </button>
+          </Link>
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="text-3xl text-[#1B1642] dark:text-slate-100"
@@ -132,15 +133,22 @@ export default function Navbar() {
       >
         <div className="space-y-6 px-6 py-6">
           {navLinks.map((item) => (
-            <a
-              key={item}
-              href={`#${item.toLowerCase().replace(/\s+/g, "-")}`}
+            <Link
+              key={item.label}
+              to={item.to}
               className="block text-[15px] font-medium text-slate-700 transition duration-200 hover:text-[#6F4CFF] hover:underline hover:underline-offset-4"
               onClick={() => setIsOpen(false)}
             >
-              {item}
-            </a>
+              {item.label}
+            </Link>
           ))}
+          <Link
+            to="/signin"
+            onClick={() => setIsOpen(false)}
+            className="block rounded-lg bg-[#6F4CFF] px-4 py-3 text-center text-xs font-semibold text-white transition hover:bg-[#5E3EF5]"
+          >
+            Sign in
+          </Link>
         </div>
       </div>
     </header>

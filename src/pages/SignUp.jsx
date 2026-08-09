@@ -6,6 +6,7 @@ const SignUp = () => (
     pageTitle="Create your account"
     submitLabel="Create account"
     isSignUp
+    heroClassName="-translate-y-40"
   />
 );
 

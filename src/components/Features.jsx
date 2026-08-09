@@ -34,7 +34,7 @@ const features = [
 
 export default function Features() {
   return (
-    <section className="overflow-x-hidden bg-[#6133DA] py-16 sm:py-20 lg:py-24">
+    <section id="features" className="overflow-x-hidden bg-[#6133DA] py-16 sm:py-20 lg:py-24">
       <div className="mx-auto flex max-w-[1376px] flex-col items-center px-4 sm:px-6 lg:px-8 xl:px-12">
         <div className="max-w-3xl text-center">
           <h2 className="text-[28px] font-bold leading-tight text-white sm:text-[36px] lg:text-[44px]">

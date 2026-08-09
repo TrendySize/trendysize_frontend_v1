@@ -56,7 +56,7 @@ const BenefitCard = ({ benefit }) => {
 
 const Benefits = () => {
   return (
-    <section className="overflow-x-hidden bg-[#D8D6FE] text-slate-900 dark:bg-slate-950 dark:text-slate-100 py-16 sm:py-20 lg:py-24">
+    <section id="benefits" className="overflow-x-hidden bg-[#D8D6FE] text-slate-900 dark:bg-slate-950 dark:text-slate-100 py-16 sm:py-20 lg:py-24">
       <div className="mx-auto max-w-[1436px] px-4 sm:px-6 lg:px-8 xl:px-12">
         <div className="mx-auto max-w-[700px] text-center">
           <p className="text-[18px] font-medium leading-6 text-[#241065] dark:text-slate-300 sm:text-[20px]">Benefits</p>

@@ -1,209 +1,555 @@
+
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { HiOutlineEye, HiOutlineEyeOff } from "react-icons/hi";
+import { signup, login, getProfile } from "../services/api";
 
-export default function AuthForm({ isSignUp = false, submitLabel = "Continue" }) {
+export default function AuthForm({
+  isSignUp = false,
+  submitLabel = "Continue",
+}) {
+  const navigate = useNavigate();
+
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const [formData, setFormData] = useState({
-    first_name: "",
-    last_name: "",
-    phone_number: "",
-    email: "",
-    password: "",
-    password_confirmation: "",
-  });
+  // Sign-in fields
+  const [loginValue, setLoginValue] = useState("");
 
-  const [error, setError] = useState("");
+  // Signup fields
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [username, setUsername] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [email, setEmail] = useState("");
+
+  // Shared password fields
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
   const [loading, setLoading] = useState(false);
-
-  const API_URL = "http://127.0.0.1:8000/api";
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
+  const [error, setError] = useState("");
+  const [info, setInfo] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    setLoading(true);
     setError("");
 
+    // ==================================================
+    // SIGN UP
+    // ==================================================
+    if (isSignUp) {
+      if (
+        !firstName.trim() ||
+        !lastName.trim() ||
+        !username.trim() ||
+        !phoneNumber.trim() ||
+        !email.trim() ||
+        !password ||
+        !confirmPassword
+      ) {
+        setError("Please complete all required fields.");
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        setError("Passwords do not match.");
+        return;
+      }
+
+      try {
+        setLoading(true);
+
+        const data = await signup({
+          first_name: firstName.trim(),
+          last_name: lastName.trim(),
+          username: username.trim(),
+          phone_number: phoneNumber.trim(),
+          email: email.trim(),
+          password,
+          password_confirmation: confirmPassword,
+        });
+
+        console.log("Signup successful:", data);
+
+        // Save the email so the verification page knows
+        // which account is being verified.
+        localStorage.setItem(
+          "verification_email",
+          email.trim()
+        );
+
+        alert(
+          data.message ||
+            "Account created successfully. Please check your email for the verification code."
+        );
+
+        // New user goes to email verification.
+        navigate("/verify-email");
+      } catch (err) {
+        console.error("Signup error:", err);
+
+        if (err.data?.errors) {
+          const firstError = Object.values(err.data.errors)[0]?.[0];
+
+          setError(
+            firstError ||
+              err.data.message ||
+              "Unable to create your account."
+          );
+        } else {
+          setError(
+            err.message ||
+              "Unable to connect to the server. Make sure Laravel is running."
+          );
+        }
+      } finally {
+        setLoading(false);
+      }
+
+      return;
+    }
+
+    // ==================================================
+    // SIGN IN
+    // ==================================================
+    if (!loginValue.trim() || !password) {
+      setError("Please enter your email and password.");
+      return;
+    }
+
     try {
-      const endpoint = isSignUp ? "/signup" : "/login";
+      setLoading(true);
 
-      const payload = isSignUp
-        ? formData
-        : {
-            email: formData.email,
-            password: formData.password,
-          };
-
-
-      const response = await fetch(`${API_URL}${endpoint}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-
-
-      const data = await response.json();
-
-
-      if (!response.ok) {
-        throw new Error(data.message || "Authentication failed");
-      }
-
-
-      if (!isSignUp && data.token) {
-        localStorage.setItem("token", data.token);
-      }
-
-
-      console.log(data);
-
-      alert(
-        isSignUp
-          ? "Account created successfully"
-          : "Login successful"
+      // Login through your existing Laravel API
+      const data = await login(
+        loginValue.trim(),
+        password
       );
 
+      // Save Laravel Sanctum token
+      localStorage.setItem(
+        "auth_token",
+        data.token
+      );
 
+      // Save logged-in user
+      localStorage.setItem(
+        "auth_user",
+        JSON.stringify(data.user)
+      );
+
+      console.log("Login successful:", data);
+
+      // Test the authenticated /api/profile endpoint
+      const profile = await getProfile();
+
+      console.log(
+        "Authenticated profile:",
+        profile
+      );
+
+      alert("Login successful!");
+
+      // Existing user goes directly to dashboard.
+      navigate("/dashboard");
     } catch (err) {
-      setError(err.message);
+      console.error("Login error:", err);
+
+      if (err.data?.errors) {
+        const firstError = Object.values(err.data.errors)[0]?.[0];
+
+        setError(
+          firstError ||
+            err.data.message ||
+            "Login failed."
+        );
+      } else {
+        setError(
+          err.message ||
+            "Unable to connect to the server. Make sure Laravel is running."
+        );
+      }
     } finally {
       setLoading(false);
     }
   };
 
+  const goToSignIn = () => {
+    setError("");
+    setInfo("");
+    navigate("/signin");
+  };
+
+  const goToSignUp = () => {
+    setError("");
+    setInfo("");
+    navigate("/signup");
+  };
+
+  const handleForgotPassword = () => {
+    setError("");
+    setInfo("Password reset is not available yet.");
+  };
+
+  const handleGoogleLogin = () => {
+    setError("");
+    setInfo("Google login is not available yet.");
+  };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form
+      onSubmit={handleSubmit}
+      className="space-y-0"
+    >
+      {/* ==================================================
+          SIGNUP FIELDS
+      ================================================== */}
 
       {isSignUp && (
         <>
-          <div>
-            <label className="mb-2 block text-[16px] font-semibold text-[#241065]">
-              Full Name
+          <div className="grid gap-5 sm:grid-cols-2">
+            {/* First Name */}
+            <div className="mb-5">
+              <label
+                className="mb-2 block text-[16px] font-semibold leading-6 text-[#241065]"
+                style={{
+                  fontFamily: "SF Pro Display, sans-serif",
+                }}
+              >
+                First Name
+              </label>
+
+              <input
+                type="text"
+                placeholder="Enter your first name"
+                value={firstName}
+                onChange={(e) =>
+                  setFirstName(e.target.value)
+                }
+                autoComplete="given-name"
+                className="h-14 w-full rounded-xl border border-[#D1D5DB] bg-[#F4F3FF] px-4 text-[14px] font-medium text-[#241065] transition placeholder:text-[#6B7280] focus:border-[#6133DA] focus:outline-none focus:ring-2 focus:ring-[#EBE9FE]"
+              />
+            </div>
+
+            {/* Last Name */}
+            <div className="mb-5">
+              <label
+                className="mb-2 block text-[16px] font-semibold leading-6 text-[#241065]"
+                style={{
+                  fontFamily: "SF Pro Display, sans-serif",
+                }}
+              >
+                Last Name
+              </label>
+
+              <input
+                type="text"
+                placeholder="Enter your last name"
+                value={lastName}
+                onChange={(e) =>
+                  setLastName(e.target.value)
+                }
+                autoComplete="family-name"
+                className="h-14 w-full rounded-xl border border-[#D1D5DB] bg-[#F4F3FF] px-4 text-[14px] font-medium text-[#241065] transition placeholder:text-[#6B7280] focus:border-[#6133DA] focus:outline-none focus:ring-2 focus:ring-[#EBE9FE]"
+              />
+            </div>
+          </div>
+
+              <div className="mb-5">
+            <label
+              className="mb-2 block text-[16px] font-semibold leading-6 text-[#241065]"
+              style={{
+                fontFamily: "SF Pro Display, sans-serif",
+              }}
+            >
+              Username
             </label>
 
             <input
-              name="first_name"
-              value={formData.first_name}
-              onChange={handleChange}
-              placeholder="Enter your name"
-              className="h-14 w-full rounded-xl border border-[#D1D5DB] bg-[#F4F3FF] px-4"
+              type="text"
+              placeholder="Choose a username"
+              value={username}
+              onChange={(e) =>
+                setUsername(e.target.value)
+              }
+              autoComplete="username"
+              className="h-14 w-full rounded-xl border border-[#D1D5DB] bg-[#F4F3FF] px-4 text-[14px] font-medium text-[#241065] transition placeholder:text-[#6B7280] focus:border-[#6133DA] focus:outline-none focus:ring-2 focus:ring-[#EBE9FE]"
             />
           </div>
 
-
-          <div className="mt-4">
-            <label className="mb-2 block text-[16px] font-semibold text-[#241065]">
+          <div className="mb-5">
+            <label
+              className="mb-2 block text-[16px] font-semibold leading-6 text-[#241065]"
+              style={{
+                fontFamily: "SF Pro Display, sans-serif",
+              }}
+            >
               Phone Number
             </label>
 
             <input
-              name="phone_number"
-              value={formData.phone_number}
-              onChange={handleChange}
-              placeholder="Enter phone number"
-              className="h-14 w-full rounded-xl border border-[#D1D5DB] bg-[#F4F3FF] px-4"
+              type="tel"
+              placeholder="Enter your phone number"
+              value={phoneNumber}
+              onChange={(e) =>
+                setPhoneNumber(e.target.value)
+              }
+              autoComplete="tel"
+              className="h-14 w-full rounded-xl border border-[#D1D5DB] bg-[#F4F3FF] px-4 text-[14px] font-medium text-[#241065] transition placeholder:text-[#6B7280] focus:border-[#6133DA] focus:outline-none focus:ring-2 focus:ring-[#EBE9FE]"
             />
           </div>
         </>
       )}
 
+      {/* ==================================================
+          EMAIL / LOGIN
+      ================================================== */}
 
-      <div className="mt-4">
-        <label className="mb-2 block text-[16px] font-semibold text-[#241065]">
-          Email Address
+      <div className="mb-5">
+        <label
+          className="mb-2 block text-[16px] font-semibold leading-6 text-[#241065]"
+          style={{
+            fontFamily: "SF Pro Display, sans-serif",
+          }}
+        >
+          {isSignUp
+            ? "Email Address"
+            : "Email or Username"}
         </label>
 
         <input
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          type="email"
-          placeholder="Enter your email"
-          className="h-14 w-full rounded-xl border border-[#D1D5DB] bg-[#F4F3FF] px-4"
+          type={isSignUp ? "email" : "text"}
+          placeholder={
+            isSignUp
+              ? "Enter your email"
+              : "Enter your email or username"
+          }
+          value={isSignUp ? email : loginValue}
+          onChange={(e) =>
+            isSignUp
+              ? setEmail(e.target.value)
+              : setLoginValue(e.target.value)
+          }
+          autoComplete={
+            isSignUp ? "email" : "username"
+          }
+          className="h-14 w-full rounded-xl border border-[#D1D5DB] bg-[#F4F3FF] px-4 text-[14px] font-medium text-[#241065] transition placeholder:text-[#6B7280] focus:border-[#6133DA] focus:outline-none focus:ring-2 focus:ring-[#EBE9FE]"
         />
       </div>
 
+      {/* ==================================================
+          PASSWORD
+      ================================================== */}
 
-      <div className="mt-4">
-        <label className="mb-2 block text-[16px] font-semibold text-[#241065]">
+      <div className="mb-5">
+        <label
+          className="mb-2 block text-[16px] font-semibold leading-6 text-[#241065]"
+          style={{
+            fontFamily: "SF Pro Display, sans-serif",
+          }}
+        >
           Password
         </label>
 
-        <div className="flex h-12 items-center rounded-xl border border-[#D1D5DB] bg-[#F4F3FF] px-4">
-
+        <div className="flex h-14 items-center justify-between rounded-xl border border-[#D1D5DB] bg-[#F4F3FF] px-4 transition focus-within:border-[#6133DA] focus-within:ring-2 focus-within:ring-[#EBE9FE]">
           <input
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
             type={showPassword ? "text" : "password"}
             placeholder="Enter your password"
-            className="w-full bg-transparent outline-none"
+            value={password}
+            onChange={(e) =>
+              setPassword(e.target.value)
+            }
+            autoComplete={
+              isSignUp
+                ? "new-password"
+                : "current-password"
+            }
+            className="w-full bg-transparent text-[14px] font-medium text-[#241065] outline-none placeholder:text-[#6B7280]"
           />
-
 
           <button
             type="button"
-            onClick={() => setShowPassword(!showPassword)}
+            onClick={() =>
+              setShowPassword((prev) => !prev)
+            }
+            className="ml-4 text-[#7A5DF5] transition-colors hover:text-[#6133DA]"
+            aria-label={
+              showPassword
+                ? "Hide password"
+                : "Show password"
+            }
           >
             {showPassword ? (
-              <HiOutlineEyeOff size={24}/>
+              <HiOutlineEyeOff size={24} />
             ) : (
-              <HiOutlineEye size={24}/>
+              <HiOutlineEye size={24} />
             )}
           </button>
-
         </div>
+
+        {/* ==================================================
+            CONFIRM PASSWORD
+        ================================================== */}
+
+        {isSignUp && (
+          <div className="mt-5">
+            <label
+              className="mb-2 block text-[16px] font-semibold leading-6 text-[#241065]"
+              style={{
+                fontFamily: "SF Pro Display, sans-serif",
+              }}
+            >
+              Confirm Password
+            </label>
+
+            <div className="flex h-14 items-center justify-between rounded-xl border border-[#D1D5DB] bg-[#F4F3FF] px-4 transition focus-within:border-[#6133DA] focus-within:ring-2 focus-within:ring-[#EBE9FE]">
+              <input
+                type={
+                  showConfirmPassword
+                    ? "text"
+                    : "password"
+                }
+                placeholder="Confirm your password"
+                value={confirmPassword}
+                onChange={(e) =>
+                  setConfirmPassword(e.target.value)
+                }
+                autoComplete="new-password"
+                className="w-full bg-transparent text-[14px] font-medium text-[#241065] outline-none placeholder:text-[#6B7280]"
+              />
+
+              <button
+                type="button"
+                onClick={() =>
+                  setShowConfirmPassword((prev) => !prev)
+                }
+                className="ml-4 text-[#7A5DF5] transition-colors hover:text-[#6133DA]"
+                aria-label={
+                  showConfirmPassword
+                    ? "Hide password"
+                    : "Show password"
+                }
+              >
+                {showConfirmPassword ? (
+                  <HiOutlineEyeOff size={24} />
+                ) : (
+                  <HiOutlineEye size={24} />
+                )}
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
+      {/* ==================================================
+          FORGOT PASSWORD
+      ================================================== */}
 
-      {isSignUp && (
-        <div className="mt-4">
-
-          <label className="mb-2 block text-[16px] font-semibold text-[#241065]">
-            Confirm Password
-          </label>
-
-
-          <input
-            name="password_confirmation"
-            value={formData.password_confirmation}
-            onChange={handleChange}
-            type="password"
-            placeholder="Confirm password"
-            className="h-12 w-full rounded-xl border border-[#D1D5DB] bg-[#F4F3FF] px-4"
-          />
-
+      {!isSignUp && (
+        <div className="mb-5 flex justify-end">
+          <button
+            type="button"
+            onClick={handleForgotPassword}
+            className="text-[12px] font-medium text-[#6133DA] hover:underline"
+          >
+            Forgot password?
+          </button>
         </div>
       )}
 
-
-      {error && (
-        <p className="mt-3 text-sm text-red-600">
-          {error}
-        </p>
+      {info && (
+        <div className="mb-5 rounded-xl border border-sky-200 bg-sky-50 px-4 py-3 text-sm font-medium text-sky-700">
+          {info}
+        </div>
       )}
 
+      {/* ==================================================
+          ERROR
+      ================================================== */}
+
+      {error && (
+        <div className="mb-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-600">
+          {error}
+        </div>
+      )}
+
+      {/* ==================================================
+          SUBMIT
+      ================================================== */}
 
       <button
         type="submit"
         disabled={loading}
-        className="mt-6 h-12 w-full rounded-xl bg-[#6133DA] text-white"
+        className="mt-6 flex h-12 w-full items-center justify-center rounded-xl bg-[#6133DA] text-[16px] font-semibold text-white transition-all duration-300 hover:bg-[#4F28C7] hover:shadow-lg active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
+        style={{
+          fontFamily: "SF Pro Display, sans-serif",
+        }}
       >
-        {loading ? "Please wait..." : submitLabel}
+        {loading
+          ? isSignUp
+            ? "Creating account..."
+            : "Signing in..."
+          : submitLabel}
       </button>
 
+      {/* ==================================================
+          GOOGLE
+      ================================================== */}
+
+      <div className="my-3 flex items-center">
+        <div className="h-px flex-1 bg-gray-300" />
+
+        <span className="px-4 text-sm text-gray-500">
+          OR
+        </span>
+
+        <div className="h-px flex-1 bg-gray-300" />
+      </div>
+
+      <button
+        type="button"
+        onClick={handleGoogleLogin}
+        className="flex h-12 w-full items-center justify-center gap-3 rounded-lg border border-gray-300 bg-white font-semibold text-gray-700 transition hover:bg-gray-50"
+      >
+        <img
+          src="https://www.svgrepo.com/show/475656/google-color.svg"
+          alt="Google"
+          className="h-6 w-6"
+        />
+
+        Continue with Google
+      </button>
+
+      {/* ==================================================
+          SWITCH AUTH PAGE
+      ================================================== */}
+
+      <p className="mt-3 text-center text-[13px] font-medium text-[#4B5563]">
+        {isSignUp ? (
+          <>
+            Already have an account?{" "}
+            <button
+              type="button"
+              onClick={goToSignIn}
+              className="font-semibold text-[#6133DA] hover:underline"
+            >
+              Login
+            </button>
+          </>
+        ) : (
+          <>
+            Don't have an account?{" "}
+            <button
+              type="button"
+              onClick={goToSignUp}
+              className="font-semibold text-[#6133DA] hover:underline"
+            >
+              Sign up
+            </button>
+          </>
+        )}
+      </p>
     </form>
   );
 }

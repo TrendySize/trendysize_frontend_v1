@@ -1,4 +1,5 @@
 import "react";
+import logoSrc from "../assets/images/nav.png";
 import {
   FaFacebookF,
   FaInstagram,
@@ -37,7 +38,7 @@ const Footer = () => {
           {/* Logo */}
           <div className="flex items-center justify-center gap-2 lg:justify-start">
             <img
-              src="/src/assets/images/nav.png"
+              src={logoSrc}
               alt="Trendysize Logo"
               className="h-8 w-8"
             />
@@ -87,15 +88,24 @@ const Footer = () => {
               PRODUCT
             </h4>
 
-            {productLinks.map((item) => (
+            {productLinks.map((item) => {
+            const hrefMap = {
+              Features: "/#features",
+              "How it works": "/#how-it-works",
+              Benefits: "/#benefits",
+              Pricing: "/#pricing",
+            };
+
+            return (
               <a
                 key={item}
-                href="#"
+                href={hrefMap[item] || "/#home"}
                 className="text-[13px] font-medium text-[#4B5563] transition-colors duration-300 hover:text-[#6133DA] sm:text-[14px]"
               >
                 {item}
               </a>
-            ))}
+            );
+          })}
           </div>
 
           {/* Resources */}
@@ -104,15 +114,24 @@ const Footer = () => {
               RESOURCES
             </h4>
 
-            {resourceLinks.map((item) => (
+            {resourceLinks.map((item) => {
+            const hrefMap = {
+              "Help Center": "/#faq",
+              Blog: "/signup",
+              FAQs: "/#faq",
+              "Contact us": "mailto:support@trendysize.com",
+            };
+
+            return (
               <a
                 key={item}
-                href="#"
+                href={hrefMap[item] || "/signup"}
                 className="text-[13px] font-medium text-[#4B5563] transition-colors duration-300 hover:text-[#6133DA] sm:text-[14px]"
               >
                 {item}
               </a>
-            ))}
+            );
+          })}
           </div>
 
           {/* Company */}
@@ -124,7 +143,7 @@ const Footer = () => {
             {companyLinks.map((item) => (
               <a
                 key={item}
-                href="#"
+                href="/signup"
                 className="text-[13px] font-medium text-[#4B5563] transition-colors duration-300 hover:text-[#6133DA] sm:text-[14px]"
               >
                 {item}

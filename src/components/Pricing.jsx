@@ -1,4 +1,5 @@
 import  { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { CheckCircle2 } from "lucide-react";
 import comingSoonBanner from "../assets/images/coming.png";
 
@@ -23,7 +24,7 @@ const plans = [
     badge: "PRO",
     price: "₦7,500",
     duration: "/month",
-    button: "Coming Soon",
+    button: "Get Started",
     featured: true,
     features: [
       "Everything in Free",
@@ -39,7 +40,7 @@ const plans = [
     badge: "PREMIUM",
     price: "₦15,000",
     duration: "/month",
-    button: "Coming Soon",
+    button: "Get Started",
     featured: false,
     features: [
       "Everything in Pro",
@@ -52,7 +53,7 @@ const plans = [
   },
 ];
 
-const PricingCard = ({ plan }) => {
+const PricingCard = ({ plan, onSignup }) => {
   return (
     <div
       className={`group
@@ -132,6 +133,8 @@ const PricingCard = ({ plan }) => {
       </div>
 
       <button
+        type="button"
+        onClick={onSignup}
         className={`mt-10 w-full rounded-lg py-4 font-semibold transition
         ${
           plan.featured
@@ -146,11 +149,12 @@ const PricingCard = ({ plan }) => {
 };
 
 const Pricing = () => {
+  const navigate = useNavigate();
   const [hovered, setHovered] = useState(null);
   const [selected, setSelected] = useState(null);
 
   return (
-    <section className="overflow-x-hidden bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100 py-16 sm:py-20 lg:py-24">
+    <section id="pricing" className="overflow-x-hidden bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100 py-16 sm:py-20 lg:py-24">
       <div className="mx-auto max-w-[1376px] px-4 sm:px-6 lg:px-8 xl:px-12">
 
         {/* Heading */}
@@ -193,7 +197,7 @@ const Pricing = () => {
                 tabIndex={0}
                 onKeyDown={(e) => e.key === "Enter" && setSelected(plan.id)}
               >
-                <PricingCard plan={plan} />
+                <PricingCard plan={plan} onSignup={() => navigate("/signup")} />
               </div>
             );
           })}

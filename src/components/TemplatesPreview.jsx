@@ -1,4 +1,4 @@
-// import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import menSuit from "../assets/images/suit.webp";
 import senator from "../assets/images/senator.webp";
@@ -47,6 +47,8 @@ const templates = [
 ];
 
 export default function TemplatesPreview() {
+  const navigate = useNavigate();
+
   return (
     <section className="bg-[#F8F7FF] text-slate-900 dark:bg-slate-950 dark:text-slate-100 py-24">
       <div className="mx-auto max-w-7xl px-6">
@@ -121,6 +123,8 @@ export default function TemplatesPreview() {
                 </p>
 
                 <button
+                  type="button"
+                  onClick={() => navigate("/signup")}
                   className="
                     mt-6
                     rounded-lg
@@ -154,6 +158,8 @@ export default function TemplatesPreview() {
         <div className="mt-20 text-center">
 
           <button
+            type="button"
+            onClick={() => navigate("/signup")}
             className="
               inline-flex
               items-center
@@ -188,6 +194,8 @@ export default function TemplatesPreview() {
           </p>
 
           <button
+            type="button"
+            onClick={() => navigate("/signup")}
             className="
               mt-8
               inline-flex

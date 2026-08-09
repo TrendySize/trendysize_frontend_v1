@@ -81,7 +81,7 @@ const StepCard = ({ step }) => {
 
 const HowItWorks = () => {
   return (
-    <section className="bg-white px-6 py-16 lg:px-8 xl:px-0 xl:py-24">
+    <section id="how-it-works" className="bg-white px-6 py-16 lg:px-8 xl:px-0 xl:py-24">
       <div className="mx-auto max-w-7xl">
         {/* Heading */}
         <div className="text-center">
