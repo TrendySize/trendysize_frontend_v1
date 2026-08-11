@@ -1,5 +1,9 @@
+﻿
 const API_BASE_URL = "http://127.0.0.1:8000/api";
 
+// ================================
+// GENERIC API REQUEST
+// ================================
 export async function apiRequest(endpoint, options = {}) {
   const token = localStorage.getItem("auth_token");
 
@@ -9,7 +13,7 @@ export async function apiRequest(endpoint, options = {}) {
     ...(options.headers || {}),
   };
 
-  // Add authentication token when available
+  // Add Laravel Sanctum authentication token
   if (token) {
     headers.Authorization = `Bearer ${token}`;
   }
@@ -19,7 +23,8 @@ export async function apiRequest(endpoint, options = {}) {
     headers,
   });
 
-  let data;
+  // eslint-disable-next-line no-useless-assignment
+  let data = {};
 
   try {
     data = await response.json();
@@ -78,6 +83,7 @@ export function resendOtp(email) {
 
 // ================================
 // LOGIN
+// Supports EMAIL or USERNAME
 // ================================
 export function login(loginValue, password) {
   return apiRequest("/login", {
@@ -91,16 +97,21 @@ export function login(loginValue, password) {
 
 // ================================
 // GET PROFILE
+// Requires Sanctum token
 // ================================
 export function getProfile() {
-  return apiRequest("/profile");
+  return apiRequest("/profile", {
+    method: "GET",
+  });
 }
 
 // ================================
 // LOGOUT
+// Requires Sanctum token
 // ================================
 export function logout() {
   return apiRequest("/logout", {
     method: "POST",
   });
 }
+

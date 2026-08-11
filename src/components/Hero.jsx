@@ -1,3 +1,4 @@
+
 import { useNavigate } from "react-router-dom";
 import heroImage from "../assets/images/hero.png";
 import floatingImage from "../assets/images/floating-card.png";
@@ -29,7 +30,7 @@ const Hero = () => {
               Collect, organize and retrieve customer measurements from one simple workspace
             </p>
 
-            <div className="mt-24 flex flex-col gap-3 sm:mt-10 sm:flex-row lg:mt-16">
+            <div className="mt-10 flex flex-col gap-3 sm:mt-10 sm:flex-row lg:mt-16">
               <button
                 type="button"
                 onClick={() => navigate("/signup")}
@@ -37,6 +38,7 @@ const Hero = () => {
               >
                 Create free account
               </button>
+
               <button
                 type="button"
                 onClick={() => navigate("/#how-it-works")}
@@ -48,8 +50,12 @@ const Hero = () => {
           </div>
         </div>
 
-        <div className="mt-16 flex flex-grow items-end justify-center sm:mt-10 lg:absolute lg:right-0 lg:top-2/3 lg:mt-0 lg:flex-grow-0 lg:-translate-y-1/2">
-          <img src={floatingImage} alt="floating card" className="z-10 h-[100vw] w-[100vw] max-h-[760px] max-w-[760px] rotate-[-8deg] drop-shadow-[0_20px_20px_rgba(0,0,0,0.15)] object-contain sm:h-[560px] sm:w-[560px] lg:h-[760px] lg:w-[760px]" />
+        <div className="mt-2 flex flex-grow items-start justify-center sm:mt-10 lg:absolute lg:right-0 lg:top-2/3 lg:mt-0 lg:flex-grow-0 lg:-translate-y-1/2">
+          <img
+            src={floatingImage}
+            alt="floating card"
+            className="z-10 h-[90vw] w-[125vw] max-h-[760px] max-w-[760px] rotate-[-8deg] drop-shadow-[0_20px_20px_rgba(0,0,0,0.15)] object-contain sm:h-[560px] sm:w-[560px] lg:h-[760px] lg:w-[760px]"
+          />
         </div>
       </div>
     </section>
@@ -57,3 +63,4 @@ const Hero = () => {
 };
 
 export default Hero;
+
