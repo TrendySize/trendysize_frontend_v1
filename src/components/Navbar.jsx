@@ -29,7 +29,6 @@ export default function Navbar() {
 
       setScrolled(y > 20);
 
-      // Show the glass navbar when scrolling
       setScrollingUp(y < lastY.current);
 
       lastY.current = y;
@@ -78,19 +77,20 @@ export default function Navbar() {
           : "bg-transparent dark:bg-transparent"
       }`}
     >
-      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-8">
+      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-8 max-[380px]:h-16 max-[380px]:px-3">
 
         {/* LOGO */}
         <Link to="/" className="flex items-center gap-0">
           <img
             src={logoSrc}
             alt="Trendysize logo"
-            className="h-10 w-10 rounded-lg p-0"
+            className="h-9 w-9 rounded-lg p-0 max-[380px]:h-8 max-[380px]:w-8"
           />
 
-          <span className="-ml-2 text-[16px] font-extrabold tracking-tight text-[#423186]">
-            TRENDYSIZE
-          </span>
+          <span className="-ml-1 text-[14px] font-extrabold tracking-tight max-[380px]:-ml-1 max-[380px]:text-[13px]">
+  <span className="text-[#241065]">TRENDY</span>
+  <span className="text-[#9B8AFB]">SIZE</span>
+</span>
         </Link>
 
         {/* Desktop Menu */}
@@ -139,29 +139,33 @@ export default function Navbar() {
         </div>
 
         {/* Mobile Buttons */}
-        <div className="flex items-center gap-2 lg:hidden">
+        <div className="flex items-center gap-1.5 lg:hidden max-[380px]:gap-1">
+
+          {/* Dark Mode */}
           <button
             onClick={toggleDarkMode}
             aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
-            className="flex items-center justify-center rounded-lg border border-slate-300 bg-white p-2 text-slate-700 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:hover:bg-slate-800"
+            className="flex items-center justify-center rounded-lg border border-slate-300 bg-white p-1.5 text-slate-700 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:hover:bg-slate-800 max-[380px]:p-1.5"
           >
             {isDark ? (
-              <HiOutlineSun className="h-5 w-5" />
+              <HiOutlineSun className="h-4.5 w-4.5 max-[380px]:h-4 max-[380px]:w-4" />
             ) : (
-              <HiOutlineMoon className="h-5 w-5" />
+              <HiOutlineMoon className="h-4.5 w-4.5 max-[380px]:h-4 max-[380px]:w-4" />
             )}
           </button>
 
+          {/* Sign In */}
           <Link
             to="/signin"
-            className="rounded-lg bg-[#6F4CFF] px-3 py-2 text-xs font-semibold text-white transition hover:bg-[#5E3EF5]"
+            className="rounded-lg bg-[#6F4CFF] px-2.5 py-1.5 text-[11px] font-semibold text-white transition hover:bg-[#5E3EF5] max-[380px]:px-2 max-[380px]:py-1.5 max-[380px]:text-[10px]"
           >
             Sign in
           </Link>
 
+          {/* Menu */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="text-3xl text-[#1B1642] dark:text-slate-100"
+            className="text-[27px] text-[#1B1642] dark:text-slate-100 max-[380px]:text-2xl"
           >
             {isOpen ? <HiOutlineX /> : <HiOutlineMenuAlt3 />}
           </button>
@@ -176,12 +180,13 @@ export default function Navbar() {
             : "max-h-0"
         }`}
       >
-        <div className="space-y-6 px-6 py-6">
+        <div className="space-y-5 px-5 py-5 max-[380px]:space-y-4 max-[380px]:px-4 max-[380px]:py-4">
+
           {navLinks.map((item) => (
             <Link
               key={item.label}
               to={item.to}
-              className="block text-[15px] font-medium text-slate-700 transition duration-200 hover:text-[#6F4CFF] hover:underline hover:underline-offset-4 dark:text-slate-200"
+              className="block text-[14px] font-medium text-slate-700 transition duration-200 hover:text-[#6F4CFF] hover:underline hover:underline-offset-4 dark:text-slate-200 max-[380px]:text-[13px]"
               onClick={() => setIsOpen(false)}
             >
               {item.label}
@@ -191,7 +196,7 @@ export default function Navbar() {
           <Link
             to="/signin"
             onClick={() => setIsOpen(false)}
-            className="block rounded-lg bg-[#6F4CFF] px-4 py-3 text-center text-xs font-semibold text-white transition hover:bg-[#5E3EF5]"
+            className="block rounded-lg bg-[#6F4CFF] px-4 py-2.5 text-center text-xs font-semibold text-white transition hover:bg-[#5E3EF5] max-[380px]:px-3 max-[380px]:py-2 max-[380px]:text-[11px]"
           >
             Sign in
           </Link>
