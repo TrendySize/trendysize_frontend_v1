@@ -10,6 +10,8 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
+import { getProfile, whatsappLinkFor } from "../services/api";
+
 const SUBSCRIPTION_PLANS = [
   {
     id: "starter",
@@ -99,16 +101,14 @@ function buildSubscription(plan) {
   };
 }
 
-function createMeasurementLink() {
-  const token =
-    typeof crypto !== "undefined" && crypto.randomUUID
-      ? crypto.randomUUID()
-      : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
-
-  const link = `${window.location.origin}/customer-profile?measurementToken=${token}`;
+function createMeasurementLink(username) {
+  // The backend only exposes a public WhatsApp redirect for a vendor
+  // (GET /api/public/v/{username} — guide §6). Measurement links that carry a
+  // submission token are generated per customer from the Customers page.
+  const link = whatsappLinkFor(username);
 
   const measurementLink = {
-    token,
+    token: username,
     link,
     used: false,
     createdAt: Date.now(),
@@ -237,7 +237,7 @@ export default function Subscription() {
    * GENERATE MEASUREMENT LINK
    * ============================================================
    */
-  const handleGenerateLink = () => {
+  const handleGenerateLink = async () => {
     const currentSubscription = getSubscription();
 
     if (!currentSubscription) {
@@ -246,7 +246,22 @@ export default function Subscription() {
       return;
     }
 
-    const newLink = createMeasurementLink();
+    let username = "";
+    try {
+      const profile = await getProfile();
+      username = profile?.username || "";
+    } catch (error) {
+      console.error("Could not load vendor username:", error);
+    }
+
+    if (!username) {
+      alert(
+        "We could not find your public link. Please try again later."
+      );
+      return;
+    }
+
+    const newLink = createMeasurementLink(username);
 
     setGeneratedLink(newLink);
 
