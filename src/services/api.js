@@ -343,30 +343,11 @@ export function backendVanityUrl(username) {
   return `${API_BASE_URL}/public/v/${encodeURIComponent(username)}`;
 }
 
-// Normalise a raw phone number into the digits-only international form wa.me
-// requires. Vendors often store a local number (e.g. Nigerian "0807…") which
-// wa.me rejects with "isn't on WhatsApp" — so strip non-digits, drop a single
-// leading "+", then convert a leading local "0" to the Nigerian country code.
-export function toWhatsappDigits(whatsappNumber) {
-  let digits = String(whatsappNumber || "").replace(/\D/g, "");
-  if (!digits) return "";
-
-  if (digits.startsWith("00")) {
-    // 00 international prefix → drop it (00 234... → 234...)
-    digits = digits.slice(2);
-  } else if (digits.startsWith("0")) {
-    // Local format with a trunk "0" (0 807... → 234 807...)
-    digits = `234${digits.replace(/^0+/, "")}`;
-  }
-
-  return digits;
-}
-
 // Mirror of PublicController.RedirectToWhatsApp (guide §6.1): build the wa.me
 // link directly from the vendor's raw WhatsApp number. wa.me expects digits
-// only (international format, no leading "+") and a percent-encoded message.
+// only (no leading "+") and a percent-encoded prefilled message.
 export function whatsappDirectLinkFor(whatsappNumber) {
-  const digits = toWhatsappDigits(whatsappNumber);
+  const digits = String(whatsappNumber || "").replace(/\D/g, "");
   if (!digits) return "";
 
   const message = encodeURIComponent(
