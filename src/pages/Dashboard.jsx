@@ -525,7 +525,7 @@ export default function Dashboard() {
   // MOBILE NAVIGATION
   // ============================================================
   return (
-    <div className="min-h-screen bg-[#F4F3FF] text-[#241065]">
+    <div className="relative min-h-screen bg-transparent text-[var(--tk-ink)]">
 
       {/* =====================================================
           DESKTOP SIDEBAR
@@ -538,7 +538,7 @@ export default function Dashboard() {
       {/* =====================================================
           MAIN
       ===================================================== */}
-      <main className="min-h-screen bg-[#F4F3FF] pb-[calc(88px+env(safe-area-inset-bottom))] lg:ml-[240px] lg:pb-0">
+      <main className="relative z-10 min-h-screen bg-transparent pb-[calc(88px+env(safe-area-inset-bottom))] lg:ml-[240px] lg:pb-0">
 
         {/* =====================================================
             HEADER
@@ -1148,20 +1148,15 @@ export default function Dashboard() {
             {/* CUSTOMERS */}
             <motion.div
               variants={statCardVariants}
-              whileHover={{ y: -3 }}
-              whileTap={{ scale: 0.99 }}
               className="
+                tk-tile
                 flex
                 h-[145px]
                 w-full
                 items-center
                 gap-[12px]
                 rounded-[11px]
-                bg-[#EBE9FE]
                 px-[14px]
-                shadow-[0_1px_2px_rgba(36,16,101,0.04)]
-                transition-shadow
-                hover:shadow-[0_10px_24px_-12px_rgba(36,16,101,0.35)]
 
                 max-lg:h-[96px]
                 max-lg:gap-[11px]
@@ -1245,20 +1240,15 @@ export default function Dashboard() {
             {/* MEASUREMENTS */}
             <motion.div
               variants={statCardVariants}
-              whileHover={{ y: -3 }}
-              whileTap={{ scale: 0.99 }}
               className="
+                tk-tile
                 flex
                 h-[145px]
                 w-full
                 items-center
                 gap-[12px]
                 rounded-[11px]
-                bg-[#EBE9FE]
                 px-[14px]
-                shadow-[0_1px_2px_rgba(36,16,101,0.04)]
-                transition-shadow
-                hover:shadow-[0_10px_24px_-12px_rgba(36,16,101,0.35)]
 
                 max-lg:h-[96px]
                 max-lg:gap-[11px]
@@ -1342,9 +1332,8 @@ export default function Dashboard() {
             {/* NEEDS REVIEW */}
             <motion.div
               variants={statCardVariants}
-              whileHover={{ y: -3 }}
-              whileTap={{ scale: 0.99 }}
               className="
+                tk-tile
                 relative
                 flex
                 h-[145px]
@@ -1352,11 +1341,7 @@ export default function Dashboard() {
                 items-center
                 gap-[12px]
                 rounded-[11px]
-                bg-[#EBE9FE]
                 px-[14px]
-                shadow-[0_1px_2px_rgba(36,16,101,0.04)]
-                transition-shadow
-                hover:shadow-[0_10px_24px_-12px_rgba(36,16,101,0.35)]
 
                 max-lg:h-[96px]
                 max-lg:rounded-[12px]

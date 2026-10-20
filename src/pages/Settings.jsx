@@ -457,10 +457,10 @@ export default function Settings() {
   };
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-[var(--tk-bg)] text-[var(--tk-ink)]">
+    <div className="relative min-h-screen overflow-x-hidden bg-transparent text-[var(--tk-ink)]">
       <DashboardSidebar activeLabel="Settings" />
 
-      <main className="ml-0 min-h-screen px-4 pb-[calc(88px+env(safe-area-inset-bottom))] pt-5 sm:px-6 sm:pt-6 lg:ml-[240px] lg:px-7 lg:pb-14 lg:pt-5">
+      <main className="relative z-10 ml-0 min-h-screen px-4 pb-[calc(88px+env(safe-area-inset-bottom))] pt-5 sm:px-6 sm:pt-6 lg:ml-[240px] lg:px-7 lg:pb-14 lg:pt-5">
         <div className="mx-auto max-w-[820px]">
           {/* HEADER */}
           <header className="mb-5 sm:mb-7">
@@ -570,7 +570,7 @@ export default function Settings() {
                       className="h-full w-full object-cover object-top"
                     />
                   ) : (
-                    <div className="flex h-full items-center justify-center bg-gradient-to-r from-[#241065] via-[#6133DA] to-[#241065] text-[11px] text-white/70 sm:text-[14px]">
+                    <div className="flex h-full items-center justify-center bg-[var(--tk-brand)] bg-gradient-to-b from-white/[0.08] to-black/[0.12] text-[11px] text-white/70 sm:text-[14px]">
                       Add Cover Image
                     </div>
                   )}
@@ -900,7 +900,7 @@ export default function Settings() {
           </div>
 
           {/* SAVE BAR */}
-          <div className="sticky bottom-[calc(72px+env(safe-area-inset-bottom))] z-30 mt-6 flex items-center justify-end gap-2 rounded-xl border border-[var(--tk-border)] bg-[var(--tk-bg-elevated)]/95 p-3 shadow-lg backdrop-blur-md lg:bottom-4">
+          <div className="tk-glass tk-glass-line sticky bottom-[calc(72px+env(safe-area-inset-bottom))] z-30 mt-6 flex items-center justify-end gap-2 rounded-xl border border-[var(--tk-glass-border)] p-3 shadow-lg lg:bottom-4">
             <button
               type="button"
               onClick={requestReset}

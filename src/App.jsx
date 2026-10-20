@@ -2,6 +2,8 @@ import { lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import ProtectedRoute from "./components/ProtectedRoute";
+import PageTransition from "./components/PageTransition";
+import AmbientBackground from "./components/AmbientBackground";
 
 // Marketing / auth shell is eager so the first paint is fast.
 import Home from "./pages/Home";
@@ -52,8 +54,10 @@ function RouteFallback() {
 export default function App() {
   return (
     <BrowserRouter>
+      <AmbientBackground />
       <Suspense fallback={<RouteFallback />}>
-        <Routes>
+        <PageTransition>
+          <Routes>
 
           {/* =========================
               PUBLIC ROUTES
@@ -206,6 +210,7 @@ export default function App() {
           </Route>
 
         </Routes>
+        </PageTransition>
       </Suspense>
     </BrowserRouter>
   );

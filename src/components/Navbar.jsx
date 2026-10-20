@@ -40,9 +40,9 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 z-50 w-full transition-all duration-300 ${
+      className={`fixed top-0 left-0 z-50 w-full transition-all duration-[var(--tk-dur-slow)] ease-[var(--tk-ease-out)] ${
         headerActive
-          ? "bg-white/30 backdrop-blur-xl dark:bg-[#221D2E]/60"
+          ? "tk-glass tk-glass-line border-b border-[var(--tk-glass-border)]"
           : "bg-transparent"
       }`}
     >
@@ -127,8 +127,8 @@ export default function Navbar() {
       {/* Mobile Menu */}
       <div
         id="mobile-nav"
-        className={`overflow-hidden bg-[var(--tk-bg-elevated)] transition-all duration-300 lg:hidden ${
-          isOpen ? "max-h-96 border-t border-[var(--tk-border)]" : "max-h-0"
+        className={`tk-glass overflow-hidden transition-all duration-[var(--tk-dur-slow)] ease-[var(--tk-ease-out)] lg:hidden ${
+          isOpen ? "max-h-96 border-t border-[var(--tk-glass-border)]" : "max-h-0"
         }`}
       >
         <nav

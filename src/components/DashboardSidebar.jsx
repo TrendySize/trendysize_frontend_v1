@@ -24,13 +24,13 @@ const navItems = [
 ];
 
 const itemBase =
-  "flex h-[63px] w-[204px] items-center gap-4 rounded-l-[30px] px-4 text-left text-[14px] font-medium leading-[17px] text-[#241065] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA] focus-visible:ring-inset";
+  "flex h-[63px] w-[204px] items-center gap-4 rounded-l-[30px] px-4 text-left text-[14px] font-medium leading-[17px] text-[var(--tk-ink)] transition-colors duration-[var(--tk-dur-base)] ease-[var(--tk-ease-out)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tk-brand)] focus-visible:ring-inset";
 
 function itemClass(active) {
   return `${itemBase} ${
     active
-      ? "bg-[#6133DA] text-[#EBE9FE]"
-      : "bg-transparent hover:bg-white"
+      ? "bg-[var(--tk-brand)] text-[var(--tk-brand-ink)]"
+      : "bg-transparent hover:bg-[var(--tk-glass-highlight)]"
   }`;
 }
 
@@ -52,7 +52,7 @@ export default function DashboardSidebar({ activeLabel = "Dashboard" }) {
     <>
       <MobileBottomNav activeLabel={activeLabel} />
 
-      <aside className="fixed left-0 top-0 z-40 hidden h-screen w-[220px] shrink-0 border-r border-[#6133DA] bg-[#EBE9FE] shadow-[0_0_24px_8px_rgba(0,0,0,0.25)] lg:block">
+      <aside className="tk-glass tk-glass-line fixed left-0 top-0 z-40 hidden h-screen w-[220px] shrink-0 border-r border-[var(--tk-glass-border)] lg:block">
         <div className="absolute left-[32px] top-[113px] flex h-[56px] w-[200px] items-center">
           <img
             src={logoSrc}
@@ -84,7 +84,7 @@ export default function DashboardSidebar({ activeLabel = "Dashboard" }) {
                   strokeWidth={1.5}
                   aria-hidden="true"
                   className={`shrink-0 ${
-                    active ? "text-[#EBE9FE]" : "text-[#241065]"
+                    active ? "text-[var(--tk-brand-ink)]" : "text-[var(--tk-icon-strong)]"
                   }`}
                 />
                 <span>{label}</span>

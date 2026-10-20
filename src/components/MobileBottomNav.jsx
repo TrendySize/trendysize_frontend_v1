@@ -20,10 +20,10 @@ const primaryTabs = [
   { label: "Dashboard", path: "/dashboard", icon: LayoutDashboard },
   { label: "Customers", path: "/customers", icon: UsersRound },
   { label: "Profile", path: "/profile", icon: UserRound },
-  { label: "Help Center", path: "/help-center", icon: CircleHelp },
 ];
 
 const moreItems = [
+  { label: "Help Center", path: "/help-center", icon: CircleHelp },
   { label: "Settings", path: "/settings", icon: Settings },
   { label: "Contact Support", path: "/contact-support", icon: Headphones },
 ];
@@ -107,8 +107,8 @@ export default function MobileBottomNav({ activeLabel = "Dashboard" }) {
   }, [moreOpen]);
 
   const tabClass = (active) =>
-    `flex flex-1 flex-col items-center justify-center gap-0.5 py-2 text-[10px] font-medium leading-none transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--tk-brand)] ${
-      active ? "text-[var(--tk-brand)]" : "text-[var(--tk-ink-muted)]"
+    `flex flex-1 flex-col items-center justify-center gap-0.5 py-2 text-[10px] font-medium leading-none transition-colors duration-[var(--tk-dur-base)] ease-[var(--tk-ease-out)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--tk-brand)] ${
+      active ? "text-[var(--tk-brand)]" : "text-[var(--tk-ink-muted)] hover:text-[var(--tk-ink-soft)]"
     }`;
 
   return (
@@ -128,7 +128,7 @@ export default function MobileBottomNav({ activeLabel = "Dashboard" }) {
             role="dialog"
             aria-modal="true"
             aria-label="More options"
-            className="relative z-10 rounded-t-2xl border-t border-[var(--tk-border)] bg-[var(--tk-bg-elevated)] pb-[calc(env(safe-area-inset-bottom)+12px)] shadow-2xl"
+            className="tk-glass tk-glass-line relative z-10 rounded-t-2xl border-t border-[var(--tk-glass-border)] pb-[calc(env(safe-area-inset-bottom)+12px)] shadow-2xl"
           >
             <div className="flex items-center justify-between px-4 pt-3 pb-1">
               <span className="text-[13px] font-bold text-[var(--tk-ink)]">
@@ -185,7 +185,7 @@ export default function MobileBottomNav({ activeLabel = "Dashboard" }) {
       {/* BOTTOM NAV */}
       <nav
         aria-label="Primary"
-        className="fixed inset-x-0 bottom-0 z-[990] flex border-t border-[var(--tk-border)] bg-[var(--tk-bg-elevated)]/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-md lg:hidden"
+        className="tk-glass tk-glass-line fixed inset-x-0 bottom-0 z-[990] flex border-t border-[var(--tk-glass-border)] pb-[env(safe-area-inset-bottom)] lg:hidden"
       >
         {primaryTabs.map(({ label, path, icon: Icon }) => {
           const active = isActive(label, path);
@@ -200,6 +200,9 @@ export default function MobileBottomNav({ activeLabel = "Dashboard" }) {
                 size={22}
                 strokeWidth={active ? 2.1 : 1.6}
                 aria-hidden="true"
+                className={`transition-transform duration-[var(--tk-dur-base)] ease-[var(--tk-ease-out)] ${
+                  active ? "motion-safe:-translate-y-0.5" : ""
+                }`}
               />
               <span className="max-[360px]:text-[9px]">
                 {label}

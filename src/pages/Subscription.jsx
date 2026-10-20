@@ -405,7 +405,7 @@ export default function Subscription() {
 
 
   return (
-    <div className="min-h-screen bg-[#F4F3FF] px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-12">
+    <div className="relative z-10 min-h-screen bg-transparent px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-12">
 
       <div className="mx-auto max-w-[1180px]">
 

@@ -655,7 +655,7 @@ export default function Customers() {
   */
 
   return (
-    <div className="min-h-screen bg-[#F4F3FF] text-[#241065]">
+    <div className="relative min-h-screen bg-transparent text-[var(--tk-ink)]">
 
       {/* SIDEBAR */}
 
@@ -663,7 +663,7 @@ export default function Customers() {
 
       {/* MAIN */}
 
-      <main className="min-h-screen lg:ml-[240px]">
+      <main className="relative z-10 min-h-screen lg:ml-[240px]">
 
         {/* =====================================================
             HEADER
@@ -884,7 +884,7 @@ export default function Customers() {
 
             {/* CUSTOMERS */}
 
-            <div className="flex min-h-[64px] min-w-0 items-center justify-between gap-3 rounded-xl border border-[#E7E3FA] bg-white px-3 py-2.5 shadow-[0_2px_8px_rgba(36,16,101,0.04)]">
+            <div className="tk-tile flex min-h-[64px] min-w-0 items-center justify-between gap-3 rounded-xl px-3 py-2.5">
 
               <div className="flex min-w-0 items-center gap-3">
                 <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#F0EDFF] text-[#6133DA]">
@@ -910,7 +910,7 @@ export default function Customers() {
 
             {/* MEASUREMENTS */}
 
-            <div className="flex min-h-[64px] min-w-0 items-center justify-between gap-3 rounded-xl border border-[#E7E3FA] bg-white px-3 py-2.5 shadow-[0_2px_8px_rgba(36,16,101,0.04)]">
+            <div className="tk-tile flex min-h-[64px] min-w-0 items-center justify-between gap-3 rounded-xl px-3 py-2.5">
 
               <div className="flex min-w-0 items-center gap-3">
                 <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#E6F7EC] text-[#3BA968]">
@@ -936,7 +936,7 @@ export default function Customers() {
 
             {/* NEW */}
 
-            <div className="flex min-h-[64px] min-w-0 items-center justify-between gap-3 rounded-xl border border-[#E7E3FA] bg-white px-3 py-2.5 shadow-[0_2px_8px_rgba(36,16,101,0.04)]">
+            <div className="tk-tile flex min-h-[64px] min-w-0 items-center justify-between gap-3 rounded-xl px-3 py-2.5">
 
               <div className="flex min-w-0 items-center gap-3">
                 <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#F0EDFF] text-[#6133DA]">
@@ -1134,11 +1134,11 @@ export default function Customers() {
               ORIGINAL TABLE PRESERVED
           ===================================================== */}
 
-          <div className="mt-4 hidden overflow-hidden rounded-[10px] bg-white md:block">
+          <div className="tk-tile mt-4 hidden overflow-hidden rounded-[10px] md:block">
 
             {/* TABLE HEADER */}
 
-            <div className="hidden grid-cols-[1.5fr_1.3fr_1fr_1fr_90px] items-center border-b border-[#EFECF8] bg-[#f3f2f6] px-5 py-3 md:grid">
+            <div className="hidden grid-cols-[1.5fr_1.3fr_1fr_1fr_90px] items-center border-b border-[var(--tk-glass-border)] bg-[var(--tk-surface-muted)] px-5 py-3 md:grid">
 
               <span className="text-[11px] font-semibold text-[#8179AD]">
                 Name
@@ -1369,7 +1369,7 @@ export default function Customers() {
 
               /* MOBILE LOADING */
 
-              <div className="rounded-[14px] bg-white px-5 py-12 text-center">
+              <div className="rounded-[14px] tk-tile px-5 py-12 text-center">
 
                 <div className="mx-auto h-6 w-6 animate-spin rounded-full border-2 border-[#D8D6FE] border-t-[#6133DA]" />
 
@@ -1399,7 +1399,7 @@ export default function Customers() {
 
                       <div
                         key={customer.id}
-                        className="overflow-hidden rounded-[15px] border border-[#E7E3F4] bg-white shadow-[0_3px_12px_rgba(36,16,101,0.04)]"
+                        className="tk-tile overflow-hidden rounded-[15px]"
                       >
 
                         {/* TOP */}
@@ -1452,15 +1452,15 @@ export default function Customers() {
 
                         {/* DETAILS */}
 
-                        <div className="mx-4 mt-4 grid grid-cols-2 overflow-hidden rounded-[10px] bg-[#F8F7FC]">
+                        <div className="mx-4 mt-4 grid grid-cols-2 overflow-hidden rounded-[10px] bg-[var(--tk-surface-muted)]">
 
-                          <div className="border-r border-[#EAE7F3] px-3 py-2.5">
+                          <div className="border-r border-[var(--tk-border)] px-3 py-2.5">
 
-                            <p className="text-[8px] font-medium uppercase tracking-[0.4px] text-[#A19ABA]">
+                            <p className="text-[8px] font-medium uppercase tracking-[0.4px] text-[var(--tk-ink-muted)]">
                               Last measurement
                             </p>
 
-                            <p className="mt-1 text-[10px] font-semibold text-[#5E5782]">
+                            <p className="mt-1 text-[10px] font-semibold text-[var(--tk-ink-soft)]">
                               {formatDate(
                                 customer.lastMeasurement
                               )}
@@ -1470,11 +1470,11 @@ export default function Customers() {
 
                           <div className="px-3 py-2.5">
 
-                            <p className="text-[8px] font-medium uppercase tracking-[0.4px] text-[#A19ABA]">
+                            <p className="text-[8px] font-medium uppercase tracking-[0.4px] text-[var(--tk-ink-muted)]">
                               Date added
                             </p>
 
-                            <p className="mt-1 text-[10px] font-semibold text-[#5E5782]">
+                            <p className="mt-1 text-[10px] font-semibold text-[var(--tk-ink-soft)]">
                               {formatDate(
                                 customer?.created_at ||
                                   customer?.createdAt
@@ -1563,7 +1563,7 @@ export default function Customers() {
                  MOBILE EMPTY STATE
               ================================================= */
 
-              <div className="rounded-[15px] bg-white px-5 py-10 text-center">
+              <div className="rounded-[15px] tk-tile px-5 py-10 text-center">
 
                 <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[#EBE9FE] text-[#6133DA]">
                   <UsersRound size={23} />

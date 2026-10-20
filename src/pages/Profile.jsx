@@ -119,14 +119,14 @@ export default function Profile() {
   };
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-[var(--tk-bg)] text-[var(--tk-ink)]">
+    <div className="relative min-h-screen overflow-x-hidden bg-transparent text-[var(--tk-ink)]">
       <DashboardSidebar activeLabel="Profile" />
 
-      <main className="ml-0 min-h-screen px-4 pb-[calc(88px+env(safe-area-inset-bottom))] pt-0 sm:px-6 lg:ml-[240px] lg:px-7 lg:pb-14 lg:pt-0">
+      <main className="relative z-10 ml-0 min-h-screen px-4 pb-[calc(88px+env(safe-area-inset-bottom))] pt-0 sm:px-6 lg:ml-[240px] lg:px-7 lg:pb-14 lg:pt-0">
         <div className="mx-auto max-w-[1180px]">
           {/* COVER + PROFILE */}
           <section>
-            <div className="relative -mx-4 h-[220px] bg-[var(--tk-brand)] sm:-mx-6 sm:h-[150px] lg:-mx-7 lg:h-[190px]">
+            <div className="relative -mx-4 h-[110px] bg-[var(--tk-brand)] sm:-mx-6 sm:h-[150px] lg:-mx-7 lg:h-[190px]">
               <div className="absolute inset-0 overflow-hidden">
                 {profile.coverImage ? (
                   <img
@@ -135,19 +135,15 @@ export default function Profile() {
                     className="h-full w-full object-cover object-top"
                   />
                 ) : (
-                  <div className="relative h-full w-full overflow-hidden bg-gradient-to-r from-[#241065] via-[#6133DA] to-[#241065]">
-                    <div className="absolute -left-8 -top-14 h-56 w-40 rotate-12 rounded-full bg-white/10 blur-2xl" />
-                    <div className="absolute left-[34%] -top-12 h-64 w-52 -rotate-12 rounded-full bg-white/10 blur-2xl" />
-                    <div className="absolute right-8 -top-10 h-56 w-44 rotate-[25deg] rounded-full bg-white/10 blur-2xl" />
-                  </div>
+                  <div className="h-full w-full bg-[var(--tk-brand)] bg-gradient-to-b from-white/[0.08] to-black/[0.12]" />
                 )}
 
-                <div className="absolute inset-0 bg-gradient-to-r from-[#241065]/20 via-transparent to-[#241065]/25" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/25 to-transparent" />
               </div>
 
               {/* PROFILE PICTURE — banner bottom meets the avatar's midpoint */}
               <div className="absolute bottom-0 left-1/2 z-10 -translate-x-1/2 translate-y-1/2">
-                <div className="h-[112px] w-[112px] overflow-hidden rounded-full border-[5px] border-[var(--tk-bg)] bg-[var(--tk-surface)] shadow-[0_12px_30px_rgba(36,16,101,0.18)] sm:h-[125px] sm:w-[125px] lg:h-[160px] lg:w-[160px] lg:border-[6px]">
+                <div className="h-[146px] w-[146px] overflow-hidden rounded-full border-[5px] border-[var(--tk-bg)] bg-[var(--tk-surface)] shadow-[0_12px_30px_rgba(36,16,101,0.18)] sm:h-[125px] sm:w-[125px] lg:h-[160px] lg:w-[160px] lg:border-[6px]">
                   {profile.profileImage ? (
                     <img
                       src={profile.profileImage}
@@ -164,7 +160,7 @@ export default function Profile() {
             </div>
 
             {/* BUSINESS INFORMATION */}
-            <div className="relative mx-auto mt-[68px] max-w-[680px] px-2 text-center sm:mt-[75px] lg:mt-[92px] lg:px-0">
+            <div className="relative mx-auto mt-[85px] max-w-[680px] px-2 text-center sm:mt-[75px] lg:mt-[92px] lg:px-0">
               <div className="flex items-center justify-center gap-1.5 sm:gap-2">
                 <h1
                   className={`max-w-[80%] truncate text-[18px] font-bold sm:text-[20px] lg:max-w-none lg:text-[22px] ${
@@ -326,7 +322,7 @@ export default function Profile() {
               href={whatsappLink}
               target="_blank"
               rel="noreferrer"
-              className="flex min-h-[68px] w-[210px] shrink-0 items-center gap-3 rounded-xl border border-[var(--tk-border-strong)] bg-[var(--tk-surface)] px-4 transition hover:bg-[var(--tk-hover)]"
+              className="tk-tile flex min-h-[68px] w-[210px] shrink-0 items-center gap-3 rounded-xl px-4"
             >
               <FaWhatsapp
                 size={20}
@@ -347,7 +343,7 @@ export default function Profile() {
               href={profile.portfolioUrl || "#"}
               target="_blank"
               rel="noreferrer"
-              className="flex min-h-[68px] w-[210px] shrink-0 items-center gap-3 rounded-xl border border-[var(--tk-border-strong)] bg-[var(--tk-surface)] px-4 transition hover:bg-[var(--tk-hover)]"
+              className="tk-tile flex min-h-[68px] w-[210px] shrink-0 items-center gap-3 rounded-xl px-4"
             >
               <ExternalLink size={20} className="text-[var(--tk-brand)]" />
               <div>
@@ -362,7 +358,7 @@ export default function Profile() {
 
             <a
               href={profile.phone ? `tel:${profile.phone}` : "#"}
-              className="flex min-h-[68px] w-[210px] shrink-0 items-center gap-3 rounded-xl border border-[var(--tk-border-strong)] bg-[var(--tk-surface)] px-4 transition hover:bg-[var(--tk-hover)]"
+              className="tk-tile flex min-h-[68px] w-[210px] shrink-0 items-center gap-3 rounded-xl px-4"
             >
               <Phone size={20} className="text-[var(--tk-brand)]" />
               <div>
@@ -377,7 +373,7 @@ export default function Profile() {
 
             <Link
               to="/settings"
-              className="flex min-h-[68px] w-[210px] shrink-0 items-center gap-3 rounded-xl border border-[var(--tk-border-strong)] bg-[var(--tk-surface)] px-4 text-left transition hover:bg-[var(--tk-hover)]"
+              className="tk-tile flex min-h-[68px] w-[210px] shrink-0 items-center gap-3 rounded-xl px-4 text-left"
             >
               <SettingsIcon size={20} className="text-[var(--tk-brand)]" />
               <div>
@@ -393,7 +389,7 @@ export default function Profile() {
 
           {/* STATS */}
           <section className="mt-4 sm:mt-5">
-            <div className="grid grid-cols-3 divide-x divide-[var(--tk-border-strong)] overflow-hidden rounded-xl bg-[var(--tk-surface)]">
+            <div className="tk-tile grid grid-cols-3 divide-x divide-[var(--tk-border-strong)] overflow-hidden rounded-xl">
               <StatCard
                 icon={<Award size={19} />}
                 value={profile.happyClients}
@@ -434,7 +430,7 @@ export default function Profile() {
             </div>
 
             {products.length === 0 ? (
-              <div className="flex min-h-[160px] flex-col items-center justify-center rounded-xl border border-[var(--tk-border-strong)] bg-[var(--tk-surface)] px-4 text-center sm:min-h-[180px] lg:min-h-[190px]">
+              <div className="tk-tile flex min-h-[160px] flex-col items-center justify-center rounded-xl px-4 text-center sm:min-h-[180px] lg:min-h-[190px]">
                 <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[var(--tk-surface-muted)] text-[var(--tk-brand)] lg:h-12 lg:w-12">
                   <ImageIcon size={23} />
                 </div>

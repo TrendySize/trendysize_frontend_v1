@@ -106,7 +106,7 @@ export default function AddCustomerModal({ open, onClose, onCreated }) {
 
   return (
     <div
-      className="fixed inset-0 z-[60] flex items-end justify-center bg-[#241065]/40 p-0 backdrop-blur-sm sm:items-center sm:p-4"
+      className="tk-scrim-enter fixed inset-0 z-[60] flex items-end justify-center bg-[#241065]/40 p-0 backdrop-blur-sm sm:items-center sm:p-4"
       role="dialog"
       aria-modal="true"
       aria-labelledby="add-customer-title"
@@ -117,7 +117,7 @@ export default function AddCustomerModal({ open, onClose, onCreated }) {
         tabIndex={-1}
         onSubmit={submit}
         onClick={(event) => event.stopPropagation()}
-        className="flex max-h-[92dvh] w-full max-w-[440px] flex-col overflow-hidden rounded-t-2xl bg-[var(--tk-bg-elevated)] shadow-2xl sm:max-h-[90vh] sm:rounded-2xl"
+        className="tk-panel-enter flex max-h-[92dvh] w-full max-w-[440px] flex-col overflow-hidden rounded-t-2xl bg-[var(--tk-bg-elevated)] shadow-2xl sm:max-h-[90vh] sm:rounded-2xl"
       >
         {/* HEADER */}
         <div className="flex items-start justify-between gap-3 border-b border-[var(--tk-border)] px-5 py-4">

@@ -59,6 +59,36 @@
   --tk-toggle-thumb-ink: #6133DA;
   --tk-shadow: 0 1px 2px rgba(36, 16, 101, 0.06),
     0 8px 24px -12px rgba(36, 16, 101, 0.18);
+
+  /* Motion tokens — one source of truth for app-wide transition timing.
+   * Enter eases out (decelerates on arrival); exits resolve faster. */
+  --tk-dur-fast: 150ms;
+  --tk-dur-base: 240ms;
+  --tk-dur-slow: 400ms;
+  --tk-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --tk-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* Light glass — frosted chrome over content. Tint follows the brand
+   * surface so it reads as intentional, not a generic white blur. */
+  --tk-glass-bg: rgba(255, 255, 255, 0.62);
+  --tk-glass-bg-strong: rgba(255, 255, 255, 0.78);
+  --tk-glass-border: rgba(36, 16, 101, 0.10);
+  --tk-glass-highlight: rgba(255, 255, 255, 0.7);
+  --tk-glass-blur: 18px;
+
+  /* Content cards — near-solid surfaces (not frosted). Hover lifts them and
+   * deepens the shadow. */
+  --tk-tile-bg: #FFFFFF;
+  --tk-tile-bg-hover: #FFFFFF;
+  --tk-tile-shadow: 0 1px 2px rgba(36, 16, 101, 0.05),
+    0 10px 28px -18px rgba(36, 16, 101, 0.28);
+  --tk-tile-shadow-hover: 0 2px 6px rgba(36, 16, 101, 0.07),
+    0 18px 40px -20px rgba(97, 51, 218, 0.34);
+
+  /* Ambient background wash the frosted surfaces reveal. Kept faint so it
+   * reads as lighting, not decoration. */
+  --tk-ambient-1: rgba(109, 74, 255, 0.10);
+  --tk-ambient-2: rgba(109, 74, 255, 0.05);
 }
 
 .dark {
@@ -83,6 +113,23 @@
   --tk-toggle-thumb: #8B6FEA;
   --tk-toggle-thumb-ink: #17131F;
   --tk-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 12px 32px -16px rgba(0, 0, 0, 0.7);
+
+  /* Glass tinted darker in dark mode: a white blur would glow and hurt
+   * contrast against the plum-charcoal background. */
+  --tk-glass-bg: rgba(34, 29, 46, 0.62);
+  --tk-glass-bg-strong: rgba(34, 29, 46, 0.82);
+  --tk-glass-border: rgba(255, 255, 255, 0.12);
+  --tk-glass-highlight: rgba(255, 255, 255, 0.06);
+
+  --tk-tile-bg: #221D2E;
+  --tk-tile-bg-hover: #262130;
+  --tk-tile-shadow: 0 1px 2px rgba(0, 0, 0, 0.35),
+    0 12px 30px -18px rgba(0, 0, 0, 0.6);
+  --tk-tile-shadow-hover: 0 2px 6px rgba(0, 0, 0, 0.4),
+    0 18px 40px -20px rgba(139, 111, 234, 0.4);
+
+  --tk-ambient-1: rgba(139, 111, 234, 0.12);
+  --tk-ambient-2: rgba(139, 111, 234, 0.05);
 }
 
 /* Normalise any legacy inline family declarations to the app font stack. */
@@ -108,6 +155,168 @@
 
 @media (prefers-reduced-motion: reduce) {
   .mobile-drawer-drop {
+    animation: none;
+  }
+}
+
+/* ============================================================================
+ * LIGHT GLASS SURFACE
+ * ----------------------------------------------------------------------------
+ * Frosted chrome (headers, sidebar, bottom nav, sheets) that lets content
+ * subtly show through. A hairline highlight on the top edge sells the "light
+ * source" without a heavy drop shadow. Falls back to a near-solid fill when
+ * the browser can't blur (backdrop-filter unsupported) so text stays legible.
+ * ========================================================================== */
+.tk-glass {
+  background-color: var(--tk-glass-bg-strong);
+  border-color: var(--tk-glass-border);
+  -webkit-backdrop-filter: saturate(1.4) blur(var(--tk-glass-blur));
+  backdrop-filter: saturate(1.4) blur(var(--tk-glass-blur));
+}
+
+.tk-glass-line {
+  box-shadow: inset 0 1px 0 0 var(--tk-glass-highlight);
+}
+
+/* ============================================================================
+ * CARD SURFACE
+ * ----------------------------------------------------------------------------
+ * Content cards. A clean, near-solid surface with a hairline border — NOT
+ * frosted glass (glass-everywhere is a tell). Hover morphs the tile: a small
+ * lift + scale with a deepening shadow, on the shared motion tokens.
+ * ========================================================================== */
+.tk-tile {
+  background-color: var(--tk-tile-bg);
+  border: 1px solid var(--tk-glass-border);
+  box-shadow: var(--tk-tile-shadow);
+  transition: transform var(--tk-dur-base) var(--tk-ease-out),
+    box-shadow var(--tk-dur-base) var(--tk-ease-out),
+    background-color var(--tk-dur-base) var(--tk-ease-out);
+}
+
+@media (hover: hover) {
+  .tk-tile:hover {
+    background-color: var(--tk-tile-bg-hover);
+    box-shadow: var(--tk-tile-shadow-hover);
+  }
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .tk-tile:hover {
+    transform: translateY(-3px) scale(1.01);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tk-tile {
+    transition: box-shadow var(--tk-dur-base) var(--tk-ease-out);
+  }
+}
+
+/* ============================================================================
+ * AMBIENT BACKGROUND
+ * ----------------------------------------------------------------------------
+ * A calm, single-source light wash behind the app content. Deliberately NOT
+ * floating blurred blobs (the cliché "AI gradient-mesh" look): one soft pool
+ * anchored to the top edge with a gentle vertical falloff, so surfaces read
+ * as lit rather than decorated. Fixed and non-interactive.
+ * ========================================================================== */
+.tk-ambient {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: var(--tk-bg);
+}
+
+.tk-ambient::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      120% 60% at 50% -10%,
+      var(--tk-ambient-1) 0%,
+      transparent 60%
+    ),
+    linear-gradient(to bottom, transparent 70%, var(--tk-ambient-2) 100%);
+}
+
+/* ============================================================================
+ * REDUCED MOTION
+ * ----------------------------------------------------------------------------
+ * Glass blur and all entrance animations are dropped when the user prefers
+ * reduced motion; surfaces fall back to their solid fill and content renders
+ * in its final state immediately.
+ * ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .tk-glass,
+  .tk-glass-line {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+
+/* Scrim + dialog entrance — the scrim fades, the panel rises/scales in.
+ * Deceleration easing so it settles rather than snaps. */
+@keyframes tk-scrim-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes tk-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.tk-scrim-enter {
+  animation: tk-scrim-in var(--tk-dur-fast) var(--tk-ease-out) both;
+}
+
+.tk-panel-enter {
+  animation: tk-panel-in var(--tk-dur-base) var(--tk-ease-out) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tk-scrim-enter,
+  .tk-panel-enter {
+    animation: none;
+  }
+}
+
+/* Toast entrance preserves its horizontal centering (translate-x), so it gets
+ * its own keyframe instead of reusing tk-page-enter. */
+@keyframes tk-toast-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.tk-toast-enter {
+  animation: tk-toast-in var(--tk-dur-base) var(--tk-ease-out) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tk-toast-enter {
     animation: none;
   }
 }
@@ -183,6 +392,8 @@ body {
 .dark [class~="bg-[#EBE9FE]"],
 .dark [class~="bg-[#EAE7FF]"],
 .dark [class~="bg-[#EAE7F3]"],
+.dark [class~="bg-[#F8F7FC]"],
+.dark [class~="bg-[#F8F7F9]"],
 .dark [class~="bg-[#D8D5F6]"],
 .dark [class~="bg-[#D8D6FE]"],
 .dark [class~="bg-[#DCD6FF]"],
@@ -229,6 +440,9 @@ body {
 .dark [class~="border-[#D1D5DB]"],
 .dark [class~="border-[#D8D6FE]"],
 .dark [class~="border-[#E5E7EB]"],
+.dark [class~="border-[#EAE7F3]"],
+.dark [class~="border-[#E7E3F4]"],
+.dark [class~="border-[#F0EDF8]"],
 .dark [class~="border-[#BCB5FD]"] {
   border-color: var(--tk-border) !important;
 }

@@ -182,7 +182,7 @@ export default function HelpCenter() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F4F3FF] text-[#241065]">
+    <div className="relative z-10 min-h-screen bg-transparent text-[#241065]">
       <DashboardSidebar
         activeLabel="Help Center"
       />

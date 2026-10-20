@@ -20,8 +20,8 @@ export default function Toast({ message, tone = "success", onDismiss, duration =
     <div
       role={isError ? "alert" : "status"}
       aria-live={isError ? "assertive" : "polite"}
-      className="fixed bottom-5 left-1/2 z-[1000] flex w-[min(92vw,380px)] -translate-x-1/2 items-start gap-3 rounded-xl border bg-white px-4 py-3 shadow-[0_12px_40px_rgba(36,16,101,0.18)]"
-      style={{ borderColor: isError ? "#FECACA" : "#D8D6FE" }}
+      className="tk-toast-enter tk-glass tk-glass-line fixed bottom-5 left-1/2 z-[1000] flex w-[min(92vw,380px)] -translate-x-1/2 items-start gap-3 rounded-xl border px-4 py-3 shadow-[0_12px_40px_rgba(36,16,101,0.18)]"
+      style={{ borderColor: isError ? "#FECACA" : "rgba(216, 214, 254, 0.6)" }}
     >
       <Icon
         size={18}

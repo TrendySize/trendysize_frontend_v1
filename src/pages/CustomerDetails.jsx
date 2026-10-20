@@ -182,7 +182,7 @@ export default function CustomerDetails() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#F4F3FF]">
+      <div className="relative z-10 min-h-screen bg-transparent">
         <DashboardSidebar activeLabel="Customers" />
 
         <main className="flex min-h-screen items-center justify-center lg:ml-[240px]">
@@ -208,7 +208,7 @@ export default function CustomerDetails() {
 
   if (!customer) {
     return (
-      <div className="min-h-screen bg-[#F4F3FF] text-[#241065]">
+      <div className="relative z-10 min-h-screen bg-transparent text-[#241065]">
 
         <DashboardSidebar activeLabel="Customers" />
 
@@ -265,7 +265,7 @@ export default function CustomerDetails() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F4F3FF] text-[#241065]">
+    <div className="relative z-10 min-h-screen bg-transparent text-[#241065]">
 
       <DashboardSidebar activeLabel="Customers" />
 

@@ -165,7 +165,7 @@ export default function PublicVendorProfile() {
     <div className="min-h-screen bg-[var(--tk-bg)]">
       <div className="mx-auto w-full max-w-[880px] px-4 pb-12 sm:px-6">
         {/* BANNER */}
-        <div className="relative mt-4 h-[150px] overflow-hidden rounded-2xl bg-gradient-to-br from-[#6133DA] to-[#9B8AFB] sm:h-[190px]">
+        <div className="relative mt-4 h-[150px] overflow-hidden rounded-2xl bg-[var(--tk-brand)] sm:h-[190px]">
           {vendor.bannerImageUrl && !bannerFailed ? (
             <img
               src={vendor.bannerImageUrl}
