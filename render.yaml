@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: trendysize-frontend
+    runtime: static
+    branch: frontend-integration
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_API_URL
+        value: https://backend-dotnet-gjhs.onrender.com/api
+      - key: VITE_GOOGLE_CLIENT_ID
+        value: 1009242265792-r8ani5034sjpfipuccmmqtova8u7o3pp.apps.googleusercontent.com
