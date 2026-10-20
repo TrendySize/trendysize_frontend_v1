@@ -3,7 +3,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
-import EmailVerify from "./pages/EmailVerify";
+import ConfirmEmail from "./pages/ConfirmEmail";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
+import GoogleHandle from "./pages/GoogleHandle";
 import Dashboard from "./pages/Dashboard";
 import Subscription from "./pages/Subscription";
 import Customers from "./pages/Customers";
@@ -50,9 +53,39 @@ export default function App() {
         />
 
         <Route
-          path="/verify-email"
-          element={<EmailVerify />}
+          path="/confirm-email"
+          element={<ConfirmEmail />}
         />
+
+        <Route
+          path="/forgot-password"
+          element={<ForgotPassword />}
+        />
+
+        <Route
+          path="/reset-password"
+          element={<ResetPassword />}
+        />
+
+        <Route
+          path="/google-handle"
+          element={<GoogleHandle />}
+        />
+
+        {/* =========================
+            PUBLIC — CUSTOMER MEASUREMENT FLOW
+            (reached from a shared link, no vendor auth)
+        ========================== */}
+
+        <Route path="/measure" element={<GetMeasured />} />
+
+        <Route path="/how-it-works" element={<HowItWorks />} />
+
+        <Route path="/front-photo" element={<FrontPhoto />} />
+
+        <Route path="/side-photo" element={<SidePhoto />} />
+
+        <Route path="/processing" element={<Processing />} />
 
 
         {/* =========================
@@ -130,28 +163,6 @@ export default function App() {
   path="/customer-profile"
   element={<CustomerProfile />}
 />
-
-<Route
-  path="/get-measured"
-  element={<GetMeasured />}
-/>
-
-<Route path="/how-it-works"
- element={<HowItWorks />} />
-
- <Route
-  path="/front-photo"
-  element={<FrontPhoto />}
-/>
-
-<Route
-  path="/side-photo"
-  element={<SidePhoto />}
-/>
- 
- <Route path="/processing"
-  element={<Processing />} />
- 
 
         </Route>
 

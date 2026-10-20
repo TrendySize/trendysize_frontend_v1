@@ -5,7 +5,7 @@ import {
   LockKeyhole,
   UserRound,
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import PhoneInputModule from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
@@ -16,12 +16,22 @@ const PhoneInput = PhoneInputModule.default ?? PhoneInputModule;
 
 export default function GetMeasured() {
   const navigate = useNavigate();
+  const [params] = useSearchParams();
 
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
   const [height, setHeight] = useState("");
   const [heightUnit, setHeightUnit] = useState("cm");
   const phoneInputRef = useRef(null);
+
+  // The measurement token travels in the shared link (?token=...).
+  // Persist it so the final submit step can read it.
+  useEffect(() => {
+    const token = params.get("token");
+    if (token) {
+      localStorage.setItem("trendySize_measure_token", token);
+    }
+  }, [params]);
 
   useEffect(() => {
     const phoneInput = phoneInputRef.current;

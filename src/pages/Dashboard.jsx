@@ -10,7 +10,6 @@ import {
   Share2,
   Sparkles,
   UsersRound,
-  UserRound,
 } from "lucide-react";
 
 import {
@@ -23,6 +22,7 @@ import {
 import bannerImage from "../assets/images/hero.png";
 import drawerLogo from "../assets/images/nav.png";
 import DashboardSidebar from "../components/DashboardSidebar";
+import { getProfile, getCustomers, getMeasurements } from "../services/api";
 
 const bannerImageLayers = Array.from({ length: 10 });
 
@@ -110,51 +110,44 @@ export default function Dashboard() {
   // LOAD DASHBOARD DATA
   // ============================================================
   useEffect(() => {
-    const apiUrl = import.meta.env.VITE_API_URL;
-
-    if (!apiUrl) return;
-
     const loadDashboard = async () => {
       try {
-        const token =
-          localStorage.getItem("auth_token");
+        // The .NET backend has no aggregate /dashboard endpoint; compose the
+        // dashboard from the real resources (guide §3.5, §4.2, §5.1).
+        const [profile, customers, measurements] = await Promise.all([
+          getProfile(),
+          getCustomers(),
+          getMeasurements(),
+        ]);
 
-        const response = await fetch(
-          `${apiUrl}/dashboard`,
-          {
-            headers: {
-              Accept: "application/json",
-              ...(token
-                ? {
-                    Authorization: `Bearer ${token}`,
-                  }
-                : {}),
-            },
-          }
-        );
-
-        if (!response.ok) return;
-
-        const data = await response.json();
-
-        if (data.user) {
-          setUser(data.user);
-
-          localStorage.setItem(
-            "trendySize_user",
-            JSON.stringify(data.user)
-          );
+        if (profile) {
+          setUser(profile);
+          localStorage.setItem("trendySize_user", JSON.stringify(profile));
         }
 
-        setCustomers(data.customers || []);
-        setMeasurements(data.measurements || []);
-        setSubmissions(data.submissions || []);
-        setActivities(data.activities || []);
-      } catch (error) {
-        console.error(
-          "Unable to load dashboard:",
-          error
+        const customerList = Array.isArray(customers) ? customers : [];
+        const measurementList = Array.isArray(measurements) ? measurements : [];
+
+        setCustomers(customerList);
+        setMeasurements(measurementList);
+
+        // `submissions` is a count of completed/submitted measurements.
+        setSubmissions(measurementList);
+
+        // Derive a light activity feed from the newest measurements.
+        setActivities(
+          measurementList.slice(0, 8).map((m) => ({
+            id: m.id,
+            type: "measurement",
+            status: m.status,
+            customerName:
+              [m.customerFirstName, m.customerLastName].filter(Boolean).join(" ") ||
+              "A customer",
+            createdAt: m.createdAt,
+          }))
         );
+      } catch (error) {
+        console.error("Unable to load dashboard:", error);
       }
     };
 

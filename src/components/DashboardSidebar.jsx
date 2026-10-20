@@ -72,8 +72,13 @@ export default function DashboardSidebar({
         <button
           type="button"
           onClick={() => {
-            localStorage.removeItem("auth_token");
-            window.location.href = "/signin";
+            // Best-effort server call, then discard the token (guide §3.4).
+            import("../services/api").then(({ logout, clearToken }) => {
+              logout().catch(() => {}).finally(() => {
+                clearToken();
+                window.location.href = "/signin";
+              });
+            });
           }}
           className="dashboard-nav-item"
         >

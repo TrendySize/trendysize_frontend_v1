@@ -21,6 +21,12 @@ import {
 
 import DashboardSidebar from "../components/DashboardSidebar";
 import drawerLogo from "../assets/images/nav.png";
+import {
+  getProfile,
+  getCustomers,
+  getMeasurements,
+  deleteCustomer as deleteCustomerRequest,
+} from "../services/api";
 
 const ITEMS_PER_PAGE = 5;
 
@@ -43,80 +49,31 @@ export default function Customers() {
 
   /*
   |--------------------------------------------------------------------------
-  | API URL
-  |--------------------------------------------------------------------------
-  */
-
-  const apiUrl = import.meta.env.VITE_API_URL;
-
-  /*
-  |--------------------------------------------------------------------------
   | LOAD DASHBOARD DATA
   |--------------------------------------------------------------------------
   */
 
   useEffect(() => {
     const loadCustomers = async () => {
-      if (!apiUrl) {
-        console.error("VITE_API_URL is not defined.");
-        setLoading(false);
-        return;
-      }
-
       try {
         setLoading(true);
 
-        const token =
-          localStorage.getItem("auth_token") ||
-          localStorage.getItem("trendySize_token");
+        // Real backend resources (guide §3.5, §4.2, §5.1).
+        const [profile, customers, measurements] = await Promise.all([
+          getProfile().catch(() => null),
+          getCustomers(),
+          getMeasurements(),
+        ]);
 
-        const response = await fetch(`${apiUrl}/dashboard`, {
-          method: "GET",
-
-          headers: {
-            Accept: "application/json",
-
-            ...(token
-              ? {
-                  Authorization: `Bearer ${token}`,
-                }
-              : {}),
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error(
-            `Dashboard request failed: ${response.status}`
-          );
+        if (profile) {
+          setUser(profile);
+          localStorage.setItem("trendySize_user", JSON.stringify(profile));
         }
 
-        const data = await response.json();
-
-        console.log("TRENDYSIZE DASHBOARD DATA:", data);
-
-        setUser(
-          data.user || {
-            name: "John Doe",
-          }
-        );
-
-        setCustomers(
-          Array.isArray(data.customers)
-            ? data.customers
-            : []
-        );
-
-        setMeasurements(
-          Array.isArray(data.measurements)
-            ? data.measurements
-            : []
-        );
+        setCustomers(Array.isArray(customers) ? customers : []);
+        setMeasurements(Array.isArray(measurements) ? measurements : []);
       } catch (error) {
-        console.error(
-          "Unable to load customers:",
-          error
-        );
-
+        console.error("Unable to load customers:", error);
         setCustomers([]);
         setMeasurements([]);
       } finally {
@@ -125,7 +82,7 @@ export default function Customers() {
     };
 
     loadCustomers();
-  }, [apiUrl]);
+  }, []);
 
   /*
   |--------------------------------------------------------------------------
@@ -648,30 +605,7 @@ export default function Customers() {
     }
 
     try {
-      const token =
-        localStorage.getItem("auth_token") ||
-        localStorage.getItem(
-          "trendySize_token"
-        );
-
-      /*
-      const response = await fetch(
-        `${apiUrl}/customers/${customer.id}`,
-        {
-          method: "DELETE",
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(
-          "Unable to delete customer"
-        );
-      }
-      */
+      await deleteCustomerRequest(customer.id);
 
       setCustomers((previous) =>
         previous.filter(
@@ -686,7 +620,7 @@ export default function Customers() {
       );
 
       alert(
-        "Unable to delete customer."
+        error?.message || "Unable to delete customer."
       );
     }
   };

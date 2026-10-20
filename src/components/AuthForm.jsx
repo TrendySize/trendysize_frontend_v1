@@ -2,7 +2,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { HiOutlineEye, HiOutlineEyeOff } from "react-icons/hi";
-import { signup, login, getProfile } from "../services/api";
+import { signup, login, googleSignIn, setToken, getProfile } from "../services/api";
+import { loadGoogleIdentity, promptGoogleCredential } from "../services/google";
 
 export default function AuthForm({
   isSignUp = false,
@@ -61,48 +62,27 @@ export default function AuthForm({
         setLoading(true);
 
         const data = await signup({
-          first_name: firstName.trim(),
-          last_name: lastName.trim(),
+          firstName: firstName.trim(),
+          lastName: lastName.trim(),
           username: username.trim(),
-          phone_number: phoneNumber.trim(),
+          phoneNumber: phoneNumber.trim(),
           email: email.trim(),
           password,
-          password_confirmation: confirmPassword,
         });
 
         console.log("Signup successful:", data);
 
-        // Save the email so the verification page knows
-        // which account is being verified.
-        localStorage.setItem(
-          "verification_email",
-          email.trim()
-        );
-
-        alert(
+        // Inform the user their account needs email confirmation, then send
+        // them to sign in. (The backend emails a confirmation link.)
+        setInfo(
           data.message ||
-            "Account created successfully. Please check your email for the verification code."
+            "Account created. Please check your email to confirm your account."
         );
 
-        // New user goes to email verification.
-        navigate("/verify-email");
+        setTimeout(() => navigate("/signin"), 1500);
       } catch (err) {
         console.error("Signup error:", err);
-
-        if (err.data?.errors) {
-          const firstError = Object.values(err.data.errors)[0]?.[0];
-
-          setError(
-            firstError ||
-              err.data.message ||
-              "Unable to create your account."
-          );
-        } else {
-          setError(
-            err.message ||
-              "Unable to connect to the server. Make sure Laravel is running."
-          );
-        }
+        setError(err.message || "Unable to create your account.");
       } finally {
         setLoading(false);
       }
@@ -121,55 +101,21 @@ export default function AuthForm({
     try {
       setLoading(true);
 
-      // Login through your existing Laravel API
-      const data = await login(
-        loginValue.trim(),
-        password
-      );
+      const data = await login(loginValue.trim(), password);
 
-      // Save Laravel Sanctum token
-      localStorage.setItem(
-        "auth_token",
-        data.token
-      );
+      // The .NET backend returns only { token }.
+      setToken(data.token);
 
-      // Save logged-in user
-      localStorage.setItem(
-        "auth_user",
-        JSON.stringify(data.user)
-      );
-
-      console.log("Login successful:", data);
-
-      // Test the authenticated /api/profile endpoint
+      // Hydrate the profile with the authenticated /api/auth/me endpoint.
       const profile = await getProfile();
+      localStorage.setItem("auth_user", JSON.stringify(profile));
 
-      console.log(
-        "Authenticated profile:",
-        profile
-      );
+      console.log("Login successful:", profile);
 
-      alert("Login successful!");
-
-      // Existing user goes directly to dashboard.
       navigate("/dashboard");
     } catch (err) {
       console.error("Login error:", err);
-
-      if (err.data?.errors) {
-        const firstError = Object.values(err.data.errors)[0]?.[0];
-
-        setError(
-          firstError ||
-            err.data.message ||
-            "Login failed."
-        );
-      } else {
-        setError(
-          err.message ||
-            "Unable to connect to the server. Make sure Laravel is running."
-        );
-      }
+      setError(err.message || "Login failed.");
     } finally {
       setLoading(false);
     }
@@ -189,12 +135,50 @@ export default function AuthForm({
 
   const handleForgotPassword = () => {
     setError("");
-    setInfo("Password reset is not available yet.");
+    setInfo("");
+    navigate("/forgot-password");
   };
 
-  const handleGoogleLogin = () => {
+  const handleGoogleLogin = async () => {
     setError("");
-    setInfo("Google login is not available yet.");
+    setInfo("");
+
+    const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+    if (!clientId) {
+      setError(
+        "Google sign-in is not configured. Set VITE_GOOGLE_CLIENT_ID in .env."
+      );
+      return;
+    }
+
+    let idToken;
+    try {
+      setLoading(true);
+      await loadGoogleIdentity();
+      idToken = await promptGoogleCredential(clientId);
+
+      // Returning users already have an account; new users need a handle.
+      // Send the username when the signup form supplied one.
+      const data = await googleSignIn({
+        idToken,
+        username: username.trim() || undefined,
+      });
+
+      setToken(data.token);
+      navigate("/dashboard");
+    } catch (err) {
+      console.error("Google sign-in error:", err);
+
+      // New Google account with no username -> backend asks for one.
+      if (err.status === 400 && /username is required/i.test(err.message || "")) {
+        navigate("/google-handle", { state: { idToken } });
+        return;
+      }
+
+      setError(err.message || "Unable to sign in with Google.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -315,15 +299,15 @@ export default function AuthForm({
         >
           {isSignUp
             ? "Email Address"
-            : "Email or Username"}
+            : "Email Address"}
         </label>
 
         <input
-          type={isSignUp ? "email" : "text"}
+          type={isSignUp ? "email" : "email"}
           placeholder={
             isSignUp
               ? "Enter your email"
-              : "Enter your email or username"
+              : "Enter your email"
           }
           value={isSignUp ? email : loginValue}
           onChange={(e) =>

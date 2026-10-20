@@ -57,12 +57,17 @@ function navigateTo(path, onClose) {
 function logout(onClose) {
   onClose();
 
-  localStorage.removeItem("auth_token");
-  localStorage.removeItem("trendySize_user");
-  localStorage.removeItem("auth_user");
-  localStorage.removeItem("user");
-
-  window.location.href = "/signin";
+  // Best-effort server call, then discard all local auth (guide §3.4).
+  import("../services/api").then(({ logout: apiLogout, clearToken }) => {
+    apiLogout()
+      .catch(() => {})
+      .finally(() => {
+        clearToken();
+        localStorage.removeItem("trendySize_user");
+        localStorage.removeItem("user");
+        window.location.href = "/signin";
+      });
+  });
 }
 
 export default function DashboardMobileMenu({ onClose }) {
