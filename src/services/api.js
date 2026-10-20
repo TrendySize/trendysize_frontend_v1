@@ -281,6 +281,13 @@ export function generateMeasurementLink(customerId, orderReference) {
   });
 }
 
+// GET /api/subscription — read-only subscription state for the authenticated
+// vendor. Used to pre-check whether link generation is allowed before POSTing
+// to /measurements/generate-link. Shape: { isActive, status, isSubscriptionActive, subscriptionExpiresAt }.
+export function getSubscription() {
+  return apiRequest("/subscription", { method: "GET" });
+}
+
 export function getMeasurements() {
   return apiRequest("/measurements", { method: "GET" });
 }
@@ -293,9 +300,91 @@ export function getMeasurement(id) {
 // PUBLIC  (guide §6) — no auth
 // ============================================================================
 
+// The vendor's PUBLIC profile page in OUR app. This is the link customers open
+// (store handle / shared link): it renders a friendly result page and forwards
+// active vendors to WhatsApp. Never share the raw backend URL — it dumps JSON.
 export function whatsappLinkFor(username) {
-  // Returns the redirect URL; navigate the browser to it.
+  const origin =
+    typeof window !== "undefined" ? window.location.origin : "";
+  return `${origin}/v/${encodeURIComponent(username)}`;
+}
+
+// The raw backend vanity endpoint (guide §6.1). Used internally to probe the
+// vendor's status and to forward active vendors to the server's 302 → wa.me.
+export function backendVanityUrl(username) {
   return `${API_BASE_URL}/public/v/${encodeURIComponent(username)}`;
+}
+
+// Alias kept for callers that explicitly want the in-app profile page.
+export function publicProfileLinkFor(username) {
+  return whatsappLinkFor(username);
+}
+
+// Mirror of PublicController.RedirectToWhatsApp (guide §6.1): build the wa.me
+// link directly from the vendor's raw WhatsApp number. wa.me expects digits
+// only (no leading "+") and a percent-encoded prefilled message.
+export function whatsappDirectLinkFor(whatsappNumber) {
+  const digits = String(whatsappNumber || "").replace(/\D/g, "");
+  if (!digits) return "";
+
+  const message = encodeURIComponent(
+    "Hi! I'd like to get my measurements taken for an order."
+  );
+
+  return `https://wa.me/${digits}?text=${message}`;
+}
+
+// Probe a vendor vanity link without following the 302 (guide §6.1).
+// Returns one of:
+//   { kind: "redirect" }                    — vendor active; navigate browser to link
+//   { kind: "inactive"|"notfound"|"error", message }  — show a result card
+export async function probeVendorVanity(username) {
+  const url = backendVanityUrl(username);
+
+  let response;
+  try {
+    response = await fetch(url, {
+      method: "GET",
+      redirect: "manual",
+      headers: { Accept: "application/json" },
+    });
+  } catch {
+    return {
+      kind: "error",
+      message:
+        "We couldn't reach the server. Check your connection and try again.",
+    };
+  }
+
+  // A 3xx (shown as an opaque redirect under CORS) means the vendor is active.
+  if (
+    response.type === "opaqueredirect" ||
+    (response.status >= 300 && response.status < 400)
+  ) {
+    return { kind: "redirect" };
+  }
+
+  let body = null;
+  const text = await response.text();
+  if (text) {
+    try {
+      body = JSON.parse(text);
+    } catch {
+      body = null;
+    }
+  }
+
+  const message = readErrorMessage(body, response.status);
+
+  if (response.status === 404) {
+    return { kind: "notfound", message };
+  }
+
+  if (/inactive/i.test(message)) {
+    return { kind: "inactive", message };
+  }
+
+  return { kind: "error", message };
 }
 
 // Submit measurement photos. Exactly one of heightCm / referencePhoto.

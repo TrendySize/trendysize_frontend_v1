@@ -21,7 +21,7 @@ export default function AuthPanel({ heroClassName = "" }) {
           />
 
           <h1
-            className="-ml-2 text-[22px] font-bold tracking-normal text-[#241065]"
+            className="-ml-2 text-[22px] font-bold tracking-normal text-white"
             style={{ fontFamily: "Agency FB, sans-serif" }}
           >
             TRENDY

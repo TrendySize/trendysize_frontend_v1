@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import {
-  ArrowLeft,
-  Ruler,
-} from "lucide-react";
+import { ArrowLeft, Link2, Ruler } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import DashboardSidebar from "../components/DashboardSidebar";
+import Toast from "../components/Toast";
+import GenerateLinkModal from "../components/GenerateLinkModal";
 import { getCustomers, getMeasurements } from "../services/api";
 
 export default function CustomerDetails() {
@@ -14,6 +13,13 @@ export default function CustomerDetails() {
   const [customer, setCustomer] = useState(null);
   const [measurement, setMeasurement] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  // Per-customer measurement link generation (guide §5). The shared
+  // GenerateLinkModal owns the order-reference field, loading, result and
+  // any backend error; the customer here is locked (no picker).
+  const [linkOpen, setLinkOpen] = useState(false);
+
+  const [toast, setToast] = useState(null); // { message, tone }
 
   /*
   |--------------------------------------------------------------------------
@@ -112,6 +118,20 @@ export default function CustomerDetails() {
 
   /*
   |--------------------------------------------------------------------------
+  | GENERATE MEASUREMENT LINK (guide §5)
+  |--------------------------------------------------------------------------
+  */
+
+  const openLinkModal = () => {
+    setLinkOpen(true);
+  };
+
+  const closeLinkModal = () => {
+    setLinkOpen(false);
+  };
+
+  /*
+  |--------------------------------------------------------------------------
   | MEASUREMENT VALUES
   |--------------------------------------------------------------------------
   */
@@ -165,7 +185,7 @@ export default function CustomerDetails() {
       <div className="min-h-screen bg-[#F4F3FF]">
         <DashboardSidebar activeLabel="Customers" />
 
-        <main className="flex min-h-screen items-center justify-center lg:ml-[220px]">
+        <main className="flex min-h-screen items-center justify-center lg:ml-[240px]">
           <div className="text-center">
 
             <div className="mx-auto h-7 w-7 animate-spin rounded-full border-2 border-[#D8D6FE] border-t-[#6133DA]" />
@@ -192,9 +212,9 @@ export default function CustomerDetails() {
 
         <DashboardSidebar activeLabel="Customers" />
 
-        <main className="min-h-screen lg:ml-[220px]">
+        <main className="min-h-screen lg:ml-[240px]">
 
-          <header className="flex h-[64px] items-center px-5 lg:px-8">
+          <header className="flex h-[88px] items-center px-4 sm:px-6 lg:h-[56px] lg:px-8">
 
             <button
               type="button"
@@ -208,7 +228,7 @@ export default function CustomerDetails() {
 
           </header>
 
-          <section className="flex min-h-[60vh] items-center justify-center px-5 pb-10 lg:px-8">
+          <section className="flex min-h-[60vh] items-center justify-center px-4 pb-[calc(88px+env(safe-area-inset-bottom))] sm:px-6 lg:px-7 lg:pb-14">
 
             <div className="text-center">
 
@@ -249,11 +269,11 @@ export default function CustomerDetails() {
 
       <DashboardSidebar activeLabel="Customers" />
 
-      <main className="min-h-screen lg:ml-[220px]">
+      <main className="min-h-screen lg:ml-[240px]">
 
         {/* BACK HEADER */}
 
-        <header className="flex h-[64px] items-center px-5 lg:px-8">
+        <header className="flex h-[88px] items-center justify-between px-4 sm:px-6 lg:h-[56px] lg:px-8">
 
           <button
             type="button"
@@ -265,11 +285,20 @@ export default function CustomerDetails() {
             Back
           </button>
 
+          <button
+            type="button"
+            onClick={openLinkModal}
+            className="flex items-center gap-2 rounded-md bg-[#6133DA] px-4 py-2 text-[12px] font-semibold text-white transition hover:bg-[#5128BC]"
+          >
+            <Link2 size={13} />
+            Generate link
+          </button>
+
         </header>
 
         {/* CONTENT */}
 
-        <section className="px-5 pb-10 lg:px-8">
+        <section className="mx-auto w-full max-w-[1180px] px-4 pb-[calc(88px+env(safe-area-inset-bottom))] pt-5 sm:px-6 sm:pt-6 lg:px-7 lg:pb-14 lg:pt-5">
 
           {/* TITLE */}
 
@@ -441,6 +470,22 @@ export default function CustomerDetails() {
         </section>
 
       </main>
+
+      <Toast
+        message={toast?.message}
+        tone={toast?.tone}
+        onDismiss={() => setToast(null)}
+      />
+
+      {/* =====================================================
+          GENERATE MEASUREMENT LINK MODAL (guide §5)
+      ===================================================== */}
+
+      <GenerateLinkModal
+        open={linkOpen}
+        onClose={closeLinkModal}
+        customer={customer}
+      />
 
     </div>
   );

@@ -1,5 +1,97 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  /* Brand palette — single source of truth for the design system. */
+  --color-brand-900: #241065;
+  --color-brand-700: #3F1E94;
+  --color-brand-600: #4C2BB0;
+  --color-brand-500: #6133DA;
+  --color-brand-400: #6D4CE0;
+  --color-brand-300: #9B8CF9;
+  --color-brand-100: #EBE9FE;
+  --color-brand-50: #F4F3FF;
+
+  --color-surface: #FFFFFF;
+  --color-surface-muted: #F8F7FF;
+  --color-ink: #4B5563;
+  --color-ink-muted: #6B7280;
+  --color-danger: #B91C1C;
+  --color-success: #16A34A;
+}
+
+/*
+ * ============================================================================
+ * THEME TOKENS
+ * ----------------------------------------------------------------------------
+ * A warm, brand-tinted dark theme (deep plum-charcoal, not #000 or neon) so
+ * it reads as a considered extension of the product rather than a generic
+ * inverted "AI" skin. Components read these via var(--tk-*).
+ * ============================================================================
+ */
+:root {
+  --color-primary: #6D4AFF;
+  --color-secondary: #8B5CF6;
+  --color-background: #F8F7FF;
+  --color-text: #0F172A;
+  --radius-card: 24px;
+
+  --tk-bg: #F4F3FF;
+  --tk-bg-elevated: #FFFFFF;
+  --tk-surface: #EBE9FE;
+  --tk-surface-muted: #F8F7FF;
+  --tk-border: #D1D5DB;
+  --tk-border-strong: #C7C2E8;
+  --tk-ink: #241065;
+  --tk-ink-soft: #5B5280;
+  --tk-ink-muted: #6B7280;
+  --tk-icon: #7A72A0;
+  --tk-icon-strong: #241065;
+  --tk-hover: #EBE9FE;
+  --tk-brand: #6133DA;
+  --tk-brand-ink: #FFFFFF;
+  --tk-toggle-track: #EBE9FE;
+  --tk-toggle-thumb: #FFFFFF;
+  --tk-toggle-thumb-ink: #6133DA;
+  --tk-shadow: 0 1px 2px rgba(36, 16, 101, 0.06),
+    0 8px 24px -12px rgba(36, 16, 101, 0.18);
+}
+
+.dark {
+  --color-background: #1A1622;
+  --color-text: #EDE9F7;
+
+  --tk-bg: #1A1622;
+  --tk-bg-elevated: #221D2E;
+  --tk-surface: #2A2438;
+  --tk-surface-muted: #221D2E;
+  --tk-border: #39324E;
+  --tk-border-strong: #4A4166;
+  --tk-ink: #EDE9F7;
+  --tk-ink-soft: #C4BCDD;
+  --tk-ink-muted: #A79FC0;
+  --tk-icon: #A79FC0;
+  --tk-icon-strong: #EDE9F7;
+  --tk-hover: #2F2840;
+  --tk-brand: #8B6FEA;
+  --tk-brand-ink: #17131F;
+  --tk-toggle-track: #2A2438;
+  --tk-toggle-thumb: #8B6FEA;
+  --tk-toggle-thumb-ink: #17131F;
+  --tk-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 12px 32px -16px rgba(0, 0, 0, 0.7);
+}
+
+/* Normalise any legacy inline family declarations to the app font stack. */
+[style*="SF Pro"],
+[style*="Nunito Sans"],
+[style*="Agency FB"] {
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif !important;
+}
+
 @keyframes mobile-drawer-drop {
   from {
     transform: translateY(-100%);
@@ -27,62 +119,288 @@ html {
 body {
   margin: 0;
   font-family: Inter, sans-serif;
-  background: #F7F6FF;
+  background: var(--tk-bg);
+  color: var(--tk-ink);
   overflow-x: hidden;
 }
 
-:root {
-  --color-primary: #6D4AFF;
-  --color-secondary: #8B5CF6;
-  --color-background: #F8F7FF;
-  --color-text: #0F172A;
-  --radius-card: 24px;
+/*
+ * Accessibility overrides.
+ * The legacy palette uses several muted greys/purples that fail WCAG AA
+ * contrast (< 4.5:1) when used as body text on light surfaces. These
+ * attribute selectors remap the failing arbitrary-value utilities to
+ * accessible equivalents without touching every call site.
+ *   #8179AD (3.63) -> #5B5280 (7.0 on white)
+ *   #958DBA (3.09) -> #5B5280
+ *   #9CA3AF (2.54) -> #6B7280 (4.83)  [placeholder text]
+ *   #AAA4C1 (2.39) -> #6B7280
+ *   #9B8CF9 / #9B8AFB on light -> #4C2BB0
+ */
+:root:not(.dark) [class~="text-[#8179AD]"],
+:root:not(.dark) [class~="text-[#958DBA]"] {
+  color: #5B5280 !important;
 }
 
-@media (prefers-color-scheme: dark) {
-  body {
-    background: #020617;
-    color: #F8FAFC;
-  }
-
-  :root {
-    --color-background: #0F172A;
-    --color-text: #F8FAFC;
-  }
+[class~="text-[#AAA4C1]"],
+[class~="placeholder:text-[#AAA4C1]"]::placeholder,
+[class~="placeholder:text-[#9CA3AF]"]::placeholder {
+  color: #6B7280 !important;
 }
 
-html.dark body {
-  background: #020617;
-  color: #F8FAFC;
+:root:not(.dark) [class~="text-[#9B8CF9]"],
+:root:not(.dark) [class~="text-[#9B8AFB]"] {
+  color: #4C2BB0 !important;
 }
 
-html.dark :root {
-  --color-background: #0F172A;
-  --color-text: #F8FAFC;
+/* ============================================================================
+ * DARK THEME REMAP
+ * ----------------------------------------------------------------------------
+ * The app was authored with hard-coded light hex utilities. Rather than edit
+ * every call site, we remap the recurring surface / text / border colours to
+ * the theme tokens when `.dark` is on the root. Values are matched as whole
+ * class tokens so unrelated utilities are never touched.
+ * ========================================================================== */
+.dark body {
+  background: var(--tk-bg);
+  color: var(--tk-ink);
 }
 
-html.dark .bg-white,
-html.dark .bg-\[\#F4F3FF\],
-html.dark .bg-\[\#F8F7FF\],
-html.dark .bg-\[\#D8D6FE\],
-html.dark .bg-\[\#EBE9FE\] {
-  background-color: #0F172A !important;
+/* Backgrounds --------------------------------------------------------------*/
+.dark [class~="bg-[#F4F3FF]"],
+.dark [class~="bg-[#F8F7FF]"],
+.dark [class~="bg-[#F7F6FF]"],
+.dark [class~="bg-[#FAF9FF]"],
+.dark [class~="bg-[#F0EDFF]"],
+.dark [class~="bg-[#f3f2f6]"] {
+  background-color: var(--tk-bg) !important;
 }
 
-html.dark .text-\[\#241065\],
-html.dark .text-\[\#423186\],
-html.dark .text-\[\#4B5563\],
-html.dark .text-\[\#6133DA\],
-html.dark .text-\[\#5B3DF5\],
-html.dark .text-slate-900,
-html.dark .text-slate-700 {
-  color: #F8FAFC !important;
+.dark [class~="bg-[#FFFFFF]"],
+.dark [class~="bg-white"] {
+  background-color: var(--tk-bg-elevated) !important;
 }
 
-html.dark .border-slate-100,
-html.dark .border-slate-200 {
-  border-color: #334155 !important;
+.dark [class~="bg-[#EBE9FE]"],
+.dark [class~="bg-[#EAE7FF]"],
+.dark [class~="bg-[#EAE7F3]"],
+.dark [class~="bg-[#D8D5F6]"],
+.dark [class~="bg-[#D8D6FE]"],
+.dark [class~="bg-[#DCD6FF]"],
+.dark [class~="bg-[#BCB5FD]"] {
+  background-color: var(--tk-surface) !important;
 }
+
+.dark [class~="bg-[#D1D5DB]"],
+.dark [class~="bg-[#9CA3AF]"],
+.dark [class~="bg-[#A9A6B5]"] {
+  background-color: var(--tk-border-strong) !important;
+}
+
+/* Text ---------------------------------------------------------------------*/
+.dark [class~="text-[#241065]"],
+.dark [class~="text-[#1B1642]"],
+.dark [class~="text-[#0F172A]"],
+.dark [class~="text-[#5E5782]"] {
+  color: var(--tk-ink) !important;
+}
+
+.dark [class~="text-[#4B5563]"],
+.dark [class~="text-[#6B7280]"],
+.dark [class~="text-[#A19ABA]"],
+.dark [class~="text-[#8179AD]"],
+.dark [class~="text-[#958DBA]"],
+.dark [class~="text-[#AAA4C1]"],
+.dark [class~="text-[#9CA3AF]"],
+.dark [class~="text-[#1F2937]"] {
+  color: var(--tk-ink-muted) !important;
+}
+
+.dark [class~="text-[#3F1E94]"],
+.dark [class~="text-[#4C2BB0]"],
+.dark [class~="text-[#6133DA]"],
+.dark [class~="text-[#6D4CE0]"],
+.dark [class~="text-[#4D26B5]"],
+.dark [class~="text-[#7A5DF5]"],
+.dark [class~="text-[#5B3DF5]"] {
+  color: var(--tk-brand) !important;
+}
+
+/* Borders ------------------------------------------------------------------*/
+.dark [class~="border-[#D1D5DB]"],
+.dark [class~="border-[#D8D6FE]"],
+.dark [class~="border-[#E5E7EB]"],
+.dark [class~="border-[#BCB5FD]"] {
+  border-color: var(--tk-border) !important;
+}
+
+/* Brand surface (active nav / primary chips) -------------------------------*/
+.dark [class~="bg-[#6133DA]"],
+.dark [class~="bg-[#6F4CFF]"] {
+  background-color: var(--tk-brand) !important;
+}
+
+.dark [class~="bg-[#4D26B5]"],
+.dark [class~="bg-[#4F28C7]"],
+.dark [class~="bg-[#5128BC]"],
+.dark [class~="bg-[#5128C7]"],
+.dark [class~="bg-[#4C26C2]"],
+.dark [class~="bg-[#4f27b8]"],
+.dark [class~="bg-[#542BC2]"],
+.dark [class~="bg-[#5E3EF5]"] {
+  background-color: #7C5FE6 !important;
+}
+
+.dark [class~="bg-[#241065]"] {
+  background-color: #2A2438 !important;
+}
+
+/* Soft status surfaces */
+.dark [class~="bg-red-50"],
+.dark [class~="bg-[#FFF7F7]"],
+.dark [class~="bg-[#FFF0F0]"],
+.dark [class~="bg-[#FEF2F2]"] {
+  background-color: rgba(220, 38, 38, 0.16) !important;
+}
+
+.dark [class~="bg-green-50"],
+.dark [class~="bg-sky-50"] {
+  background-color: rgba(22, 163, 74, 0.14) !important;
+}
+
+/* Status text tones: the darker light-mode greens/ambers/reds lose contrast on
+ * a dark surface, so lift them to readable equivalents. */
+.dark [class~="text-[#166534]"] {
+  color: #4ADE80 !important;
+}
+
+.dark [class~="text-[#16A34A]"] {
+  color: #4ADE80 !important;
+}
+
+.dark [class~="text-[#B45309]"] {
+  color: #FBBF24 !important;
+}
+
+.dark [class~="text-[#F59E0B]"] {
+  color: #FBBF24 !important;
+}
+
+.dark [class~="text-[#DC2626]"] {
+  color: #F87171 !important;
+}
+
+.dark [class~="text-[#374151]"] {
+  color: var(--tk-ink) !important;
+}
+
+/* Soft status chips: keep their tint but darken the fill so the lifted text
+ * tones above stay legible. */
+.dark [class~="bg-[#FDE8D7]"] {
+  background-color: rgba(245, 158, 11, 0.18) !important;
+}
+
+.dark [class~="bg-[#DCFCE7]"] {
+  background-color: rgba(22, 163, 74, 0.18) !important;
+}
+
+.dark [class~="bg-[#E5E7EB]"] {
+  background-color: rgba(148, 163, 184, 0.18) !important;
+}
+
+.dark [class~="bg-[#EFDBB9]"] {
+  background-color: rgba(245, 158, 11, 0.22) !important;
+}
+
+.dark [class~="bg-[#C6DACD]"] {
+  background-color: rgba(34, 197, 94, 0.22) !important;
+}
+
+.dark [class~="bg-[#Dedafb]"],
+.dark [class~="bg-[#DEDAFB]"],
+.dark [class~="bg-[#E5E1FF]"] {
+  background-color: rgba(124, 92, 250, 0.18) !important;
+}
+
+.dark [class~="bg-[#BCB5FD]"] {
+  background-color: rgba(124, 92, 250, 0.32) !important;
+}
+
+/* Tailwind palette utilities used on marketing / auth surfaces */
+.dark [class~="text-slate-900"],
+.dark [class~="text-slate-700"],
+.dark [class~="text-gray-700"] {
+  color: var(--tk-ink) !important;
+}
+
+.dark [class~="text-slate-600"],
+.dark [class~="text-gray-500"] {
+  color: var(--tk-ink-muted) !important;
+}
+
+.dark [class~="bg-gray-50"],
+.dark [class~="bg-gray-100"] {
+  background-color: var(--tk-surface-muted) !important;
+}
+
+.dark [class~="bg-gray-300"] {
+  background-color: var(--tk-border) !important;
+}
+
+.dark [class~="border-slate-200"],
+.dark [class~="border-gray-300"],
+.dark [class~="border-slate-100"] {
+  border-color: var(--tk-border) !important;
+}
+
+/* ============================================================================
+ * FIXED-BRAND SURFACES
+ * ----------------------------------------------------------------------------
+ * Some elements sit on an always-dark brand surface (e.g. the purple dashboard
+ * hero card). Those must keep their light-mode colours in dark mode too, or
+ * they turn into unreadable dark-on-dark chips. `.theme-fixed-brand` marks such
+ * a subtree and re-asserts the original light values with higher specificity
+ * than the `.dark` remap above.
+ * ========================================================================== */
+.dark .theme-fixed-brand [class~="bg-[#F4F3FF]"] {
+  background-color: #F4F3FF !important;
+}
+
+.dark .theme-fixed-brand [class~="bg-white"],
+.dark .theme-fixed-brand [class~="bg-[#FFFFFF]"] {
+  background-color: #FFFFFF !important;
+}
+
+.dark .theme-fixed-brand [class~="bg-white/60"] {
+  background-color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.dark .theme-fixed-brand [class~="text-[#7A5DF5]"],
+.dark .theme-fixed-brand [class~="text-[#7A5DF5]"] * {
+  color: #7A5DF5 !important;
+}
+
+.dark .theme-fixed-brand [class~="text-[#241065]"] {
+  color: #241065 !important;
+}
+
+.dark .theme-fixed-brand [class~="text-[#F4F3FF]"] {
+  color: #F4F3FF !important;
+}
+
+.dark .theme-fixed-brand [class~="text-[#1F2937]"] {
+  color: #1F2937 !important;
+}
+
+.dark .theme-fixed-brand [class~="border-[#E5E1FF]"] {
+  border-color: #E5E1FF !important;
+}
+
+.dark .theme-fixed-brand [class~="border-white/60"] {
+  border-color: rgba(255, 255, 255, 0.6) !important;
+}
+
+
+
 
 .dashboard-main {
   min-height: 100vh;
@@ -186,7 +504,7 @@ html.dark .border-slate-200 {
 }
 
 .dashboard-banner-heading {
-  font-family: "SF Pro", Inter, sans-serif;
+  font-family: Inter, sans-serif;
 }
 
 .dashboard-stats-grid {
@@ -228,7 +546,7 @@ html.dark .border-slate-200 {
 .customer-intro h1 {
   margin: 0;
   padding: 0 10px;
-  font-family: "SF Pro", Inter, sans-serif;
+  font-family: Inter, sans-serif;
   font-size: 32px;
   line-height: 38px;
   color: #241065;
@@ -237,7 +555,7 @@ html.dark .border-slate-200 {
 .customer-intro p {
   margin: 0;
   padding: 0 10px;
-  font-family: "SF Pro", Inter, sans-serif;
+  font-family: Inter, sans-serif;
   font-size: 16px;
   font-weight: 590;
   line-height: 19px;
@@ -284,7 +602,7 @@ html.dark .border-slate-200 {
 }
 
 .customer-summary-card h2 {
-  font-family: "SF Pro", Inter, sans-serif;
+  font-family: Inter, sans-serif;
   font-size: 16px;
   font-weight: 510;
   line-height: 19px;
@@ -293,7 +611,7 @@ html.dark .border-slate-200 {
 
 .customer-summary-card strong {
   margin-top: 16px;
-  font-family: "SF Pro", Inter, sans-serif;
+  font-family: Inter, sans-serif;
   font-size: 32px;
   line-height: 38px;
 }
@@ -368,7 +686,7 @@ html.dark .border-slate-200 {
 
 .customer-empty-state h2 {
   margin: 0 0 5px;
-  font-family: "SF Pro", Inter, sans-serif;
+  font-family: Inter, sans-serif;
   font-size: 24px;
   line-height: 29px;
 }
@@ -407,7 +725,7 @@ html.dark .border-slate-200 {
   justify-content: space-between;
   width: 1095px;
   margin: 15px 0 0 44px;
-  font-family: "Nunito Sans", Inter, sans-serif;
+  font-family: Inter, sans-serif;
   font-size: 14px;
   font-weight: 600;
 }

@@ -7,7 +7,7 @@ const CTA = () => {
 
   return (
     <section
-      className="relative min-h-[520px] w-full overflow-hidden bg-no-repeat bg-cover dark:bg-slate-950 sm:min-h-[640px]"
+      className="relative min-h-[520px] w-full overflow-hidden bg-no-repeat bg-cover sm:min-h-[640px]"
       style={{
         backgroundImage: `url(${ctaImage})`,
         backgroundPosition: '100% center',
@@ -39,7 +39,7 @@ const CTA = () => {
           <button
             type="button"
             onClick={() => navigate("/signup")}
-            className="mt-8 flex h-[50px] w-full max-w-[320px] items-center justify-center rounded-[8px] bg-[#F4F3FF] text-[16px] font-bold text-[#6133DA] transition-all duration-300 hover:-translate-y-1 hover:bg-white hover:shadow-xl dark:bg-slate-700 dark:text-white dark:hover:bg-slate-600 sm:mt-10 lg:mt-14 lg:h-[54px] lg:w-[518px] lg:text-[20px]"
+            className="mt-8 flex h-[50px] w-full max-w-[320px] items-center justify-center rounded-[8px] bg-[#F4F3FF] text-[16px] font-bold text-[#6133DA] transition-all duration-300 hover:-translate-y-1 hover:bg-white hover:shadow-xl sm:mt-10 lg:mt-14 lg:h-[54px] lg:w-[518px] lg:text-[20px]"
           >
             Create free account
           </button>

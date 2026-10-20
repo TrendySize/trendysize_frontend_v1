@@ -1,172 +1,208 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { lazy, Suspense } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
+import ProtectedRoute from "./components/ProtectedRoute";
+
+// Marketing / auth shell is eager so the first paint is fast.
 import Home from "./pages/Home";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
-import ConfirmEmail from "./pages/ConfirmEmail";
-import ForgotPassword from "./pages/ForgotPassword";
-import ResetPassword from "./pages/ResetPassword";
-import GoogleHandle from "./pages/GoogleHandle";
-import Dashboard from "./pages/Dashboard";
-import Subscription from "./pages/Subscription";
-import Customers from "./pages/Customers";
-import CustomerDetails from "./pages/CustomerDetails";
-import ProfileSettings from "./pages/ProfileSettings";
-import HelpCenter from "./pages/HelpCenter";
-import GettingStarted from "./pages/GettingStarted";
-import ManagingYourBusiness from "./pages/ManagingYourBusiness";
-import AccountAndBilling from "./pages/AccountAndBilling";
-import Troubleshooting from "./pages/Troubleshooting";
-import ContactSupport from "./pages/ContactSupport";
-import CustomerProfile from "./pages/CustomerProfile";
-import GetMeasured from "./pages/GetMeasured";
-import HowItWorks from "./pages/HowItWorks";
-import FrontPhoto from "./pages/FrontPhoto";
-import SidePhoto from "./pages/SidePhoto";
-import Processing from "./pages/Processing";
 
+// Everything else is code-split on demand.
+const ConfirmEmail = lazy(() => import("./pages/ConfirmEmail"));
+const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
+const ResetPassword = lazy(() => import("./pages/ResetPassword"));
+const GoogleHandle = lazy(() => import("./pages/GoogleHandle"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const Subscription = lazy(() => import("./pages/Subscription"));
+const Customers = lazy(() => import("./pages/Customers"));
+const CustomerDetails = lazy(() => import("./pages/CustomerDetails"));
+const Profile = lazy(() => import("./pages/Profile"));
+const Settings = lazy(() => import("./pages/Settings"));
+const HelpCenter = lazy(() => import("./pages/HelpCenter"));
+const GettingStarted = lazy(() => import("./pages/GettingStarted"));
+const ManagingYourBusiness = lazy(() => import("./pages/ManagingYourBusiness"));
+const AccountAndBilling = lazy(() => import("./pages/AccountAndBilling"));
+const Troubleshooting = lazy(() => import("./pages/Troubleshooting"));
+const ContactSupport = lazy(() => import("./pages/ContactSupport"));
+const CustomerProfile = lazy(() => import("./pages/CustomerProfile"));
+const GetMeasured = lazy(() => import("./pages/GetMeasured"));
+const VendorLanding = lazy(() => import("./pages/VendorLanding"));
+const HowItWorks = lazy(() => import("./pages/HowItWorks"));
+const FrontPhoto = lazy(() => import("./pages/FrontPhoto"));
+const SidePhoto = lazy(() => import("./pages/SidePhoto"));
+const Processing = lazy(() => import("./pages/Processing"));
 
-import ProtectedRoute from "./components/ProtectedRoute";
+function RouteFallback() {
+  return (
+    <div
+      className="flex min-h-screen items-center justify-center bg-[var(--tk-bg)]"
+      role="status"
+      aria-live="polite"
+    >
+      <div className="flex flex-col items-center gap-3">
+        <div className="h-9 w-9 animate-spin rounded-full border-4 border-[#6133DA]/30 border-t-[#6133DA]" />
+        <span className="text-sm font-medium text-[var(--tk-ink)]">Loading…</span>
+      </div>
+    </div>
+  );
+}
 
 export default function App() {
   return (
     <BrowserRouter>
-      <Routes>
+      <Suspense fallback={<RouteFallback />}>
+        <Routes>
 
-        {/* =========================
-            PUBLIC ROUTES
-        ========================== */}
-
-        <Route
-          path="/"
-          element={<Home />}
-        />
-
-        <Route
-          path="/signin"
-          element={<SignIn />}
-        />
-
-        <Route
-          path="/signup"
-          element={<SignUp />}
-        />
-
-        <Route
-          path="/confirm-email"
-          element={<ConfirmEmail />}
-        />
-
-        <Route
-          path="/forgot-password"
-          element={<ForgotPassword />}
-        />
-
-        <Route
-          path="/reset-password"
-          element={<ResetPassword />}
-        />
-
-        <Route
-          path="/google-handle"
-          element={<GoogleHandle />}
-        />
-
-        {/* =========================
-            PUBLIC — CUSTOMER MEASUREMENT FLOW
-            (reached from a shared link, no vendor auth)
-        ========================== */}
-
-        <Route path="/measure" element={<GetMeasured />} />
-
-        <Route path="/how-it-works" element={<HowItWorks />} />
-
-        <Route path="/front-photo" element={<FrontPhoto />} />
-
-        <Route path="/side-photo" element={<SidePhoto />} />
-
-        <Route path="/processing" element={<Processing />} />
-
-
-        {/* =========================
-            PROTECTED ROUTES
-        ========================== */}
-
-        <Route element={<ProtectedRoute />}>
-
-          {/* Dashboard */}
+          {/* =========================
+              PUBLIC ROUTES
+          ========================== */}
 
           <Route
-            path="/dashboard"
-            element={<Dashboard />}
+            path="/"
+            element={<Home />}
           />
 
           <Route
-  path="/subscription"
-  element={<Subscription />}
-/>
-
-          
-
-          {/* Customers */}
-
-          <Route
-            path="/customers"
-            element={<Customers />}
-          />
-
-          {/* Customer Details */}
-
-          <Route
-            path="/customers/:id"
-            element={<CustomerDetails />}
-          />
-
-          {/* Profile & Settings */}
-
-          <Route
-            path="/profile-settings"
-            element={<ProfileSettings />}
+            path="/signin"
+            element={<SignIn />}
           />
 
           <Route
-            path="/help-center"
-            element={<HelpCenter />}
+            path="/signup"
+            element={<SignUp />}
           />
 
           <Route
-            path="/help-center/getting-started"
-            element={<GettingStarted />}
+            path="/confirm-email"
+            element={<ConfirmEmail />}
           />
 
           <Route
-            path="/help-center/managing-your-business"
-            element={<ManagingYourBusiness />}
+            path="/forgot-password"
+            element={<ForgotPassword />}
           />
 
           <Route
-            path="/help-center/account-and-billing"
-            element={<AccountAndBilling />}
+            path="/reset-password"
+            element={<ResetPassword />}
           />
 
           <Route
-            path="/help-center/troubleshooting"
-            element={<Troubleshooting />}
+            path="/google-handle"
+            element={<GoogleHandle />}
           />
 
-          <Route
-            path="/contact-support"
-            element={<ContactSupport />}
-          />
+          {/* =========================
+              PUBLIC — CUSTOMER MEASUREMENT FLOW
+              (reached from a shared link, no vendor auth)
+          ========================== */}
 
-          <Route
-  path="/customer-profile"
-  element={<CustomerProfile />}
-/>
+          <Route path="/measure" element={<GetMeasured />} />
 
-        </Route>
+          <Route path="/how-it-works" element={<HowItWorks />} />
 
-      </Routes>
+          <Route path="/front-photo" element={<FrontPhoto />} />
+
+          <Route path="/side-photo" element={<SidePhoto />} />
+
+          <Route path="/processing" element={<Processing />} />
+
+          {/* Public vendor vanity link (guide §6.1) — shows a result page
+              for inactive / not-found vendors and forwards active ones. */}
+
+          <Route path="/v/:username" element={<VendorLanding />} />
+
+          {/* =========================
+              PROTECTED ROUTES
+          ========================== */}
+
+          <Route element={<ProtectedRoute />}>
+
+            {/* Dashboard */}
+
+            <Route
+              path="/dashboard"
+              element={<Dashboard />}
+            />
+
+            <Route
+              path="/subscription"
+              element={<Subscription />}
+            />
+
+            {/* Customers */}
+
+            <Route
+              path="/customers"
+              element={<Customers />}
+            />
+
+            {/* Customer Details */}
+
+            <Route
+              path="/customers/:id"
+              element={<CustomerDetails />}
+            />
+
+            {/* Profile & Settings */}
+
+            <Route
+              path="/profile"
+              element={<Profile />}
+            />
+
+            <Route
+              path="/settings"
+              element={<Settings />}
+            />
+
+            {/* Legacy combined route — keep old links working. */}
+
+            <Route
+              path="/profile-settings"
+              element={<Navigate to="/profile" replace />}
+            />
+
+            <Route
+              path="/help-center"
+              element={<HelpCenter />}
+            />
+
+            <Route
+              path="/help-center/getting-started"
+              element={<GettingStarted />}
+            />
+
+            <Route
+              path="/help-center/managing-your-business"
+              element={<ManagingYourBusiness />}
+            />
+
+            <Route
+              path="/help-center/account-and-billing"
+              element={<AccountAndBilling />}
+            />
+
+            <Route
+              path="/help-center/troubleshooting"
+              element={<Troubleshooting />}
+            />
+
+            <Route
+              path="/contact-support"
+              element={<ContactSupport />}
+            />
+
+            <Route
+              path="/customer-profile"
+              element={<CustomerProfile />}
+            />
+
+          </Route>
+
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   );
 }

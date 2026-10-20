@@ -1,5 +1,6 @@
 import "react";
 import logoSrc from "../assets/images/nav.png";
+import { Link } from "react-router-dom";
 import {
   FaFacebookF,
   FaInstagram,
@@ -8,23 +9,22 @@ import {
 } from "react-icons/fa";
 
 const productLinks = [
-  "Features",
-  "How it works",
-  "Benefits",
-  "Pricing",
+  { label: "Features", to: "/#features" },
+  { label: "How it works", to: "/#how-it-works" },
+  { label: "Benefits", to: "/#benefits" },
+  { label: "Pricing", to: "/#pricing" },
 ];
 
 const resourceLinks = [
-  "Help Center",
-  "Blog",
-  "FAQs",
-  "Contact us",
+  { label: "Help Center", to: "/help-center" },
+  { label: "FAQs", to: "/#faq" },
+  { label: "Contact us", to: "/contact-support" },
 ];
 
 const companyLinks = [
-  "About us",
-  "Our Mission",
-  "Terms of Service",
+  { label: "Sign in", to: "/signin" },
+  { label: "Get started", to: "/signup" },
+  { label: "How it works", to: "/#how-it-works" },
 ];
 
 const Footer = () => {
@@ -60,20 +60,20 @@ const Footer = () => {
           {/* Social Icons */}
           <div className="mt-5 flex items-center justify-center gap-3 lg:justify-start">
 
-            <a href="#" className="text-[#7A5DF5] transition hover:text-[#6133DA]">
-              <FaFacebookF size={22} />
+            <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Trendysize on Facebook" className="text-[#6D4CE0] transition hover:text-[#4C2BB0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40 rounded">
+              <FaFacebookF size={22} aria-hidden="true" />
             </a>
 
-            <a href="#" className="text-[#7A5DF5] transition hover:text-[#6133DA]">
-              <FaInstagram size={22} />
+            <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Trendysize on Instagram" className="text-[#6D4CE0] transition hover:text-[#4C2BB0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40 rounded">
+              <FaInstagram size={22} aria-hidden="true" />
             </a>
 
-            <a href="#" className="text-[#7A5DF5] transition hover:text-[#6133DA]">
-              <FaLinkedinIn size={22} />
+            <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="Trendysize on LinkedIn" className="text-[#6D4CE0] transition hover:text-[#4C2BB0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40 rounded">
+              <FaLinkedinIn size={22} aria-hidden="true" />
             </a>
 
-            <a href="#" className="text-[#7A5DF5] transition hover:text-[#6133DA]">
-              <FaTwitter size={22} />
+            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Trendysize on X (Twitter)" className="text-[#6D4CE0] transition hover:text-[#4C2BB0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40 rounded">
+              <FaTwitter size={22} aria-hidden="true" />
             </a>
 
           </div>
@@ -84,70 +84,52 @@ const Footer = () => {
 
           {/* Product */}
           <div className="flex flex-col gap-2 text-left">
-            <h4 className="text-[13px] font-semibold uppercase text-[#6133DA] sm:text-[14px]">
+            <h4 className="text-[13px] font-semibold uppercase text-[#4C2BB0] sm:text-[14px]">
               PRODUCT
             </h4>
 
-            {productLinks.map((item) => {
-            const hrefMap = {
-              Features: "/#features",
-              "How it works": "/#how-it-works",
-              Benefits: "/#benefits",
-              Pricing: "/#pricing",
-            };
-
-            return (
-              <a
-                key={item}
-                href={hrefMap[item] || "/#home"}
+            {productLinks.map((item) => (
+              <Link
+                key={item.label}
+                to={item.to}
                 className="text-[13px] font-medium text-[#4B5563] transition-colors duration-300 hover:text-[#6133DA] sm:text-[14px]"
               >
-                {item}
-              </a>
-            );
-          })}
+                {item.label}
+              </Link>
+            ))}
           </div>
 
           {/* Resources */}
           <div className="flex flex-col gap-2 text-left">
-            <h4 className="text-[13px] font-semibold uppercase text-[#6133DA] sm:text-[14px]">
+            <h4 className="text-[13px] font-semibold uppercase text-[#4C2BB0] sm:text-[14px]">
               RESOURCES
             </h4>
 
-            {resourceLinks.map((item) => {
-            const hrefMap = {
-              "Help Center": "/#faq",
-              Blog: "/signup",
-              FAQs: "/#faq",
-              "Contact us": "mailto:support@trendysize.com",
-            };
-
-            return (
-              <a
-                key={item}
-                href={hrefMap[item] || "/signup"}
+            {resourceLinks.map((item) => (
+              <Link
+                key={item.label}
+                to={item.to}
                 className="text-[13px] font-medium text-[#4B5563] transition-colors duration-300 hover:text-[#6133DA] sm:text-[14px]"
               >
-                {item}
-              </a>
-            );
-          })}
+                {item.label}
+              </Link>
+            ))}
           </div>
 
           {/* Company */}
           <div className="flex flex-col gap-2 text-left">
-            <h4 className="text-[13px] font-semibold uppercase text-[#6133DA] sm:text-[14px]">
+            <h4 className="text-[13px] font-semibold uppercase text-[#4C2BB0] sm:text-[14px]">
               COMPANY
             </h4>
 
             {companyLinks.map((item) => (
-              <a
-                key={item}
-                href="/signup"
+              <Link
+                key={item.label}
+                to={item.to}
                 className="text-[13px] font-medium text-[#4B5563] transition-colors duration-300 hover:text-[#6133DA] sm:text-[14px]"
               >
-                {item}
-              </a>
+                {item.label}
+              </Link>
             ))}
           </div>
 

@@ -1,7 +1,9 @@
 import { HiChevronLeft } from "react-icons/hi2";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import logoSrc from "../assets/images/nav.png";
 import AuthPanel from "./AuthPanel";
 import AuthForm from "./AuthForm";
+import ThemeToggle from "./ThemeToggle";
 
 export default function AuthPage({ hidePanelOnMobile = false, pageTitle = "Welcome Back", submitLabel = "Continue", isSignUp = false, heroClassName = "" }) {
   const navigate = useNavigate();
@@ -15,24 +17,42 @@ export default function AuthPage({ hidePanelOnMobile = false, pageTitle = "Welco
   };
 
   return (
-    <section className="h-screen overflow-x-hidden bg-[#F4F3FF]">
+    <section className="h-screen overflow-x-hidden bg-[var(--tk-bg)]">
       <div className="grid h-screen lg:grid-cols-[0.8fr_0.9fr]">
         <div className={hidePanelOnMobile ? "hidden lg:block h-full" : "block h-full"}>
           <AuthPanel heroClassName={heroClassName} />
         </div>
 
-        <div className="relative flex items-center justify-center bg-[#F4F3FF] px-4 py-8 sm:px-6 sm:py-10 lg:px-8 xl:px-12">
+        <div className="relative flex items-center justify-center bg-[var(--tk-bg)] px-4 py-8 sm:px-6 sm:py-10 lg:px-8 xl:px-12">
           <div className="w-full max-w-105">
+            <div className="mb-4 flex items-center justify-between">
+              <Link
+                to="/"
+                className="flex items-center gap-1.5 rounded-full bg-[var(--tk-surface)] py-1 pr-3.5 pl-2 text-[13px] font-semibold text-[var(--tk-ink)] transition-colors hover:bg-[var(--tk-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/50"
+              >
+                <img
+                  src={logoSrc}
+                  alt=""
+                  aria-hidden="true"
+                  className="h-6 w-6 object-contain"
+                />
+                Back to home
+              </Link>
+
+              <ThemeToggle variant="compact" />
+            </div>
+
             <div className="mb-6 flex items-center justify-between sm:mb-10">
               <button
                 type="button"
                 onClick={handleBack}
-                className="flex h-8 w-8 items-center justify-center rounded-full bg-[#EBE9FE] text-[#241065] transition-all duration-300 hover:bg-[#DCD6FF] hover:scale-105"
+                aria-label="Go back"
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--tk-surface)] text-[var(--tk-ink)] transition-all duration-300 hover:bg-[var(--tk-hover)] hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/50"
               >
                 <HiChevronLeft size={18} />
               </button>
 
-              <h2 className="flex-1 pr-8 text-center text-[28px] font-bold leading-9 text-[#241065] sm:text-[32px]" style={{ fontFamily: "SF Pro Display, sans-serif" }}>
+              <h2 className="flex-1 pr-8 text-center text-[28px] font-bold leading-9 text-[var(--tk-ink)] sm:text-[32px]" style={{ fontFamily: "SF Pro Display, sans-serif" }}>
                 {pageTitle}
               </h2>
             </div>

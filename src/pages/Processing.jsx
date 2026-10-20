@@ -135,7 +135,11 @@ export default function Processing() {
       });
   }, [token]);
 
-  const handleBack = () => navigate(-1);
+  // Returning to the side-photo step is always safe; navigating back in
+  // browser history could leave the app (the flow was entered from a shared
+  // link) and discard the captured photos.
+  const handleBack = () =>
+    navigate(`/side-photo${token ? `?token=${token}` : ""}`);
 
   const retryPhotos = () => {
     localStorage.removeItem("trendySize_front_photo");
@@ -145,9 +149,9 @@ export default function Processing() {
 
   return (
     <div className="min-h-screen bg-[#F4F3FF] text-[#241065]">
-      <div className="relative mx-auto min-h-screen w-full max-w-[1440px] px-[22px]">
+      <div className="relative mx-auto flex min-h-screen w-full max-w-[1440px] flex-col px-[22px] py-[20px]">
         {/* Top Progress Indicator */}
-        <div className="absolute left-[22px] right-[22px] top-[20px] flex h-[7px]">
+        <div className="flex h-[7px] w-full shrink-0">
           <div className="h-[7px] flex-1 bg-[#D1D5DB]" />
           <div className="h-[7px] flex-1 bg-[#D1D5DB]" />
           <div className="h-[7px] flex-1 bg-[#D1D5DB]" />
@@ -162,16 +166,17 @@ export default function Processing() {
         <button
           type="button"
           onClick={handleBack}
-          className="absolute left-[22px] top-[46px] flex h-[34px] w-[118px] items-center justify-center gap-[8px] rounded-[10px] border border-[#D1D5DB] bg-[#EBE9FE] px-[8px] text-[13px] font-semibold text-[#241065]"
+          className="mt-[26px] flex h-[34px] w-[118px] shrink-0 items-center justify-center gap-[8px] rounded-[10px] border border-[#D1D5DB] bg-[#EBE9FE] px-[8px] text-[13px] font-semibold text-[#241065] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40"
         >
           <span className="flex h-[24px] w-[24px] items-center justify-center rounded-full">
-            <ArrowLeft size={16} strokeWidth={1.5} />
+            <ArrowLeft size={16} strokeWidth={1.5} aria-hidden="true" />
           </span>
           <span>Back</span>
         </button>
 
         {/* Processing Card */}
-        <div className="absolute left-1/2 top-1/2 flex w-[440px] max-w-[92vw] -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center gap-[28px] rounded-[28px] border border-[#E5E7EB] bg-[#F4F3FF] p-[28px] shadow-sm">
+        <div className="flex flex-1 items-center justify-center py-8">
+          <div className="flex w-[440px] max-w-[92vw] flex-col items-center justify-center gap-[28px] rounded-[28px] border border-[#E5E7EB] bg-[#F4F3FF] p-[28px] shadow-sm">
           {state === "submitting" && (
             <>
               <div className="flex w-[300px] flex-col items-center gap-[8px] text-center">
@@ -301,12 +306,13 @@ export default function Processing() {
               <button
                 type="button"
                 onClick={() => window.location.reload()}
-                className="flex h-[44px] w-full max-w-[320px] items-center justify-center rounded-lg bg-[#6133DA] text-[12px] font-semibold text-white transition hover:bg-[#4D26B5]"
+                className="flex h-[44px] w-full max-w-[320px] items-center justify-center rounded-lg bg-[#6133DA] text-[12px] font-semibold text-white transition hover:bg-[#4D26B5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40 focus-visible:ring-offset-2"
               >
                 Try again
               </button>
             </>
           )}
+          </div>
         </div>
       </div>
     </div>

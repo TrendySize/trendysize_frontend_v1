@@ -50,18 +50,18 @@ export default function TemplatesPreview() {
   const navigate = useNavigate();
 
   return (
-    <section className="bg-[#F8F7FF] text-slate-900 dark:bg-slate-950 dark:text-slate-100 py-24">
+    <section className="bg-[#F8F7FF] text-slate-900 py-24">
       <div className="mx-auto max-w-7xl px-6">
 
         {/* Heading */}
 
         <div className="mx-auto max-w-3xl text-center">
 
-          <h2 className="text-5xl font-bold text-[#241065] dark:text-white">
+          <h2 className="text-5xl font-bold text-[#241065]">
             Professional Measurement Templates
           </h2>
 
-          <p className="mt-6 text-lg leading-8 text-[#6133DA] dark:text-slate-300">
+          <p className="mt-6 text-lg leading-8 text-[#6133DA]">
             Start with professionally designed templates for every clothing
             style or create your own custom measurement template in minutes.
           </p>
@@ -87,7 +87,6 @@ export default function TemplatesPreview() {
               hover:-translate-y-2
               hover:border-[#6133DA]
               hover:shadow-2xl
-              dark:bg-slate-800
             "
             >
 
@@ -98,6 +97,8 @@ export default function TemplatesPreview() {
                 <img
                   src={template.image}
                   alt={template.title}
+                  loading="lazy"
+                  decoding="async"
                   className="
                     h-72
                     w-full
@@ -114,11 +115,11 @@ export default function TemplatesPreview() {
 
               <div className="p-6">
 
-                <h3 className="text-2xl font-bold text-[#241065] dark:text-white">
+                <h3 className="text-2xl font-bold text-[#241065]">
                   {template.title}
                 </h3>
 
-                <p className="mt-2 text-[#6133DA] dark:text-slate-300">
+                <p className="mt-2 text-[#6133DA]">
                   {template.measurements}
                 </p>
 
@@ -137,9 +138,6 @@ export default function TemplatesPreview() {
                     transition
                     hover:bg-[#6133DA]
                     hover:text-white
-                    dark:border-slate-600
-                    dark:text-slate-200
-                    dark:hover:bg-slate-700
                   "
                 >
                   View Template →
@@ -182,9 +180,9 @@ export default function TemplatesPreview() {
 
         {/* CTA Box */}
 
-        <div className="mt-20 rounded-3xl bg-[#EBE9FE] p-12 text-center dark:bg-slate-800">
+        <div className="mt-20 rounded-3xl bg-[#EBE9FE] p-12 text-center">
 
-          <h3 className="text-3xl font-bold text-[#241065] dark:text-white">
+          <h3 className="text-3xl font-bold text-[#241065]">
             Need a Custom Template?
           </h3>
 

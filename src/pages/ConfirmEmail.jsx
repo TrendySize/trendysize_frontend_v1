@@ -32,7 +32,6 @@ const ConfirmEmail = () => {
         if (!active) return;
         setState("success");
         setMessage(data.message || "Email confirmed successfully.");
-        setTimeout(() => navigate("/signin"), 1800);
       })
       .catch((err) => {
         if (!active) return;
@@ -94,9 +93,18 @@ const ConfirmEmail = () => {
               )}
 
               {state === "success" && (
-                <div className="rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-center text-sm font-medium text-green-700">
-                  {message}
-                </div>
+                <>
+                  <div className="rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-center text-sm font-medium text-green-700">
+                    {message}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => navigate("/signin")}
+                    className="mt-5 flex h-14 w-full items-center justify-center rounded-xl bg-[#6133DA] text-lg font-bold text-white shadow-lg shadow-[#6133DA]/20 transition-all hover:bg-[#542BC2] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40 focus-visible:ring-offset-2 active:scale-[0.99]"
+                  >
+                    Continue to sign in
+                  </button>
+                </>
               )}
 
               {state === "error" && (
@@ -107,7 +115,7 @@ const ConfirmEmail = () => {
                   <button
                     type="button"
                     onClick={() => navigate("/signin")}
-                    className="flex h-14 w-full items-center justify-center rounded-xl bg-[#6133DA] text-lg font-bold text-white shadow-lg shadow-[#6133DA]/20 transition-all hover:bg-[#542BC2] active:scale-[0.99]"
+                    className="flex h-14 w-full items-center justify-center rounded-xl bg-[#6133DA] text-lg font-bold text-white shadow-lg shadow-[#6133DA]/20 transition-all hover:bg-[#542BC2] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40 focus-visible:ring-offset-2 active:scale-[0.99]"
                   >
                     Back to sign in
                   </button>

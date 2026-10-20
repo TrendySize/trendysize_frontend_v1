@@ -78,16 +78,16 @@ const brands = [
 
 const BrandMarquee = () => {
   return (
-    <section className="overflow-x-hidden bg-white py-12 text-slate-900 dark:bg-slate-950 dark:text-slate-100 sm:py-16">
+    <section className="overflow-x-hidden bg-white py-12 text-slate-900 sm:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 xl:px-12">
 
         {/* Heading */}
         <div className="mx-auto max-w-3xl text-center">
-          <h2 className="text-[24px] font-bold text-[#241065] dark:text-white sm:text-[28px]">
+          <h2 className="text-[24px] font-bold text-[#241065] sm:text-[28px]">
             Designed for Fashion. Built for Fit.
           </h2>
 
-          <p className="mt-3 text-sm font-medium text-[#6B7280] dark:text-slate-300 sm:text-base">
+          <p className="mt-3 text-sm font-medium text-[#6B7280] sm:text-base">
             From independent tailors to growing fashion brands, TrendySize
             makes measurements simple, digital, and effortless.
           </p>
@@ -111,6 +111,8 @@ const BrandMarquee = () => {
                 <img
                   src={brand.logo}
                   alt={brand.name}
+                  loading="lazy"
+                  decoding="async"
                   className="h-24 w-auto max-w-[190px] object-contain transition duration-300 hover:scale-110 grayscale hover:grayscale-0"
                 />
               </div>

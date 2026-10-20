@@ -4,7 +4,6 @@ import {
   Bell,
   CircleHelp,
   CreditCard,
-  Menu,
   Search,
   Settings2,
   UsersRound,
@@ -26,7 +25,7 @@ const helpCategories = [
         title: "Set up your business profile",
         description:
           "Add your business name and contact information in Profile & Settings.",
-        path: "/profile-settings",
+        path: "/profile",
         action: "Open Profile & Settings",
       },
       {
@@ -69,7 +68,7 @@ const helpCategories = [
         title: "Update your business details",
         description:
           "Edit your business information and statistics in Profile & Settings.",
-        path: "/profile-settings",
+        path: "/profile",
         action: "Open Profile & Settings",
       },
     ],
@@ -84,7 +83,7 @@ const helpCategories = [
         title: "Manage your profile",
         description:
           "Update your business profile and contact details from Profile & Settings.",
-        path: "/profile-settings",
+        path: "/profile",
         action: "Open Profile & Settings",
       },
       {
@@ -130,7 +129,6 @@ const helpCategories = [
 export default function HelpCenter() {
   const navigate = useNavigate();
 
-  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [activeCategory, setActiveCategory] = useState(null);
 
@@ -187,8 +185,6 @@ export default function HelpCenter() {
     <div className="min-h-screen bg-[#F4F3FF] text-[#241065]">
       <DashboardSidebar
         activeLabel="Help Center"
-        mobileOpen={mobileSidebarOpen}
-        onClose={() => setMobileSidebarOpen(false)}
       />
 
       <main className="min-h-screen lg:ml-[240px]">
@@ -233,21 +229,13 @@ export default function HelpCenter() {
               Help Center
             </span>
 
-            <button
-              type="button"
-              aria-label="Open menu"
-              onClick={() => setMobileSidebarOpen(true)}
-              className="flex h-10 w-10 items-center justify-center rounded-[10px] bg-[#EAE7FF] text-[#241065] lg:hidden"
-            >
-              <Menu size={21} strokeWidth={2} />
-            </button>
           </div>
         </header>
 
         {/* =========================================================
             MAIN CONTENT
         ========================================================= */}
-        <section className="px-4 pb-10 pt-5 sm:px-6 sm:pb-14 sm:pt-6 lg:px-7 lg:pt-5">
+        <section className="px-4 pb-[calc(88px+env(safe-area-inset-bottom))] pt-5 sm:px-6 sm:pt-6 lg:px-7 lg:pt-5 lg:pb-14">
           <div className="w-full max-w-[1180px]">
             {/* =====================================================
                 PAGE INTRO
@@ -283,7 +271,7 @@ export default function HelpCenter() {
                   }}
                   placeholder="Search for help..."
                   aria-label="Search Help Center"
-                  className="h-full w-full bg-transparent text-[13px] text-[#241065] outline-none placeholder:text-[#9CA3AF]"
+                  className="h-full w-full bg-transparent text-[13px] text-[#241065] outline-none placeholder:text-[#9CA3AF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40"
                 />
 
                 {searchTerm && (

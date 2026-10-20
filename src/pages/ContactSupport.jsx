@@ -5,26 +5,30 @@ import {
   Bell,
   Headphones,
   Mail,
-  Menu,
 } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 import DashboardSidebar from "../components/DashboardSidebar";
+import Toast from "../components/Toast";
 import drawerLogo from "../assets/images/nav.png";
 
 const supportEmail = "support@trendysize.com";
 
 export default function ContactSupport() {
   const navigate = useNavigate();
-  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
+  const [toast, setToast] = useState(null);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const mailtoUrl = `mailto:${supportEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
     window.location.href = mailtoUrl;
+    setToast({
+      message: "Opening your email app… send the message to reach our team.",
+      tone: "success",
+    });
   };
 
   const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(
@@ -35,8 +39,6 @@ export default function ContactSupport() {
     <div className="min-h-screen bg-[#F4F3FF] text-[#241065]">
       <DashboardSidebar
         activeLabel="Contact Support"
-        mobileOpen={mobileSidebarOpen}
-        onClose={() => setMobileSidebarOpen(false)}
       />
 
       <main className="min-h-screen lg:ml-[240px]">
@@ -69,18 +71,10 @@ export default function ContactSupport() {
             <span className="hidden text-[14px] font-medium text-[#241065] sm:inline">
               Contact Support
             </span>
-            <button
-              type="button"
-              aria-label="Open menu"
-              onClick={() => setMobileSidebarOpen(true)}
-              className="flex h-10 w-10 items-center justify-center rounded-[10px] bg-[#EAE7FF] text-[#241065] lg:hidden"
-            >
-              <Menu size={21} strokeWidth={2} />
-            </button>
           </div>
         </header>
 
-        <section className="px-4 pb-8 pt-4 sm:px-6 sm:pb-10 sm:pt-5 lg:px-11 lg:pt-6">
+        <section className="px-4 pb-[calc(88px+env(safe-area-inset-bottom))] pt-4 sm:px-6 sm:pt-5 lg:px-11 lg:pt-6 lg:pb-10">
           <div className="w-full max-w-[1120px]">
             <button
               type="button"
@@ -220,6 +214,12 @@ export default function ContactSupport() {
           </div>
         </section>
       </main>
+
+      <Toast
+        message={toast?.message}
+        tone={toast?.tone}
+        onDismiss={() => setToast(null)}
+      />
     </div>
   );
 }

@@ -20,6 +20,7 @@ export default function FrontPhoto() {
 
   const [photo, setPhoto] = useState("");
   const [cameraActive, setCameraActive] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     return () => {
@@ -32,12 +33,14 @@ export default function FrontPhoto() {
   }, []);
 
   const startCamera = async () => {
+    setError("");
+
     try {
       if (
         !navigator.mediaDevices ||
         !navigator.mediaDevices.getUserMedia
       ) {
-        alert("Camera access is not supported by this browser.");
+        setError("Camera access is not supported by this browser.");
         return;
       }
 
@@ -81,11 +84,11 @@ export default function FrontPhoto() {
       console.error(error);
 
       if (error.name === "NotAllowedError") {
-        alert(
+        setError(
           "Camera permission was denied. Please allow camera access and try again."
         );
       } else {
-        alert("Unable to access the camera.");
+        setError("Unable to access the camera.");
       }
     }
   };
@@ -97,7 +100,7 @@ export default function FrontPhoto() {
     if (!video || !canvas) return;
 
     if (!video.videoWidth || !video.videoHeight) {
-      alert("Camera is not ready yet. Please wait.");
+      setError("Camera is not ready yet. Please wait.");
       return;
     }
 
@@ -184,9 +187,11 @@ export default function FrontPhoto() {
     if (!file) return;
 
     if (!file.type.startsWith("image/")) {
-      alert("Please select an image.");
+      setError("Please select an image file.");
       return;
     }
+
+    setError("");
 
     const reader = new FileReader();
 
@@ -221,16 +226,17 @@ export default function FrontPhoto() {
 
   const handleContinue = () => {
     if (!photo) {
-      alert("Please capture or select a front photo first.");
+      setError("Please capture or select a front photo first.");
       return;
     }
 
+    setError("");
     navigate("/side-photo");
   };
 
   return (
-    <div className="min-h-screen overflow-hidden bg-[#F4F3FF] px-8 py-5 text-[#241065]">
-      <div className="mx-auto flex h-[calc(100vh-40px)] max-h-screen w-full max-w-[1440px] flex-col overflow-hidden">
+    <div className="min-h-screen bg-[#F4F3FF] px-4 py-5 text-[#241065] sm:px-8">
+      <div className="mx-auto flex min-h-[calc(100vh-40px)] w-full max-w-[1440px] flex-col">
 
         <div className="h-[6px] w-full overflow-hidden bg-[#A9A6B5]">
           <div className="h-full w-[38%] bg-[#6133DA]" />
@@ -239,10 +245,10 @@ export default function FrontPhoto() {
         <div className="mt-5">
           <button
             type="button"
-            onClick={() => navigate(-1)}
-            className="flex h-[38px] w-[106px] items-center justify-center gap-2 rounded-lg border border-[#D8D6FE] bg-[#EBE9FE] text-[12px] font-medium text-[#241065] transition hover:bg-[#D8D6FE]"
+            onClick={() => navigate("/how-it-works")}
+            className="flex h-[38px] w-[106px] items-center justify-center gap-2 rounded-lg border border-[#D8D6FE] bg-[#EBE9FE] text-[12px] font-medium text-[#241065] transition hover:bg-[#D8D6FE] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40"
           >
-            <ArrowLeft size={14} />
+            <ArrowLeft size={14} aria-hidden="true" />
             Back
           </button>
         </div>
@@ -252,12 +258,21 @@ export default function FrontPhoto() {
             Take a Front Photo
           </h1>
 
-          <p className="mt-1 text-[12px] text-[#6133DA]">
+          <p className="mt-1 text-[12px] text-[#4C2BB0]">
             Stand straight facing the camera
           </p>
         </div>
 
-        <div className="mx-auto mt-6 flex w-full max-w-[720px] items-center justify-center gap-8">
+        {error && (
+          <p
+            role="alert"
+            className="mx-auto mt-4 w-full max-w-[720px] rounded-lg border border-[#FECACA] bg-[#FFF7F7] px-4 py-2 text-center text-[12px] font-medium text-[#B91C1C]"
+          >
+            {error}
+          </p>
+        )}
+
+        <div className="mx-auto mt-6 flex w-full max-w-[720px] flex-col items-center justify-center gap-8 sm:flex-row">
 
           {/* CAMERA FRAME */}
 
@@ -321,7 +336,7 @@ export default function FrontPhoto() {
 
           {/* PHOTO TIPS */}
 
-          <div className="w-[260px] rounded-lg border border-[#D8D6FE] bg-[#EBE9FE] p-5">
+          <div className="w-full max-w-[340px] rounded-lg border border-[#D8D6FE] bg-[#EBE9FE] p-5 sm:w-[260px]">
 
             <h2 className="text-[13px] font-semibold text-[#241065]">
               Photo tips
@@ -422,9 +437,9 @@ export default function FrontPhoto() {
           <button
             type="button"
             onClick={handleCaptureClick}
-            className="flex h-[38px] w-[165px] items-center justify-center gap-2 rounded-lg border border-[#6133DA] bg-white text-[11px] font-semibold text-[#6133DA] transition hover:bg-[#EBE9FE]"
+            className="flex h-[38px] w-[165px] items-center justify-center gap-2 rounded-lg border border-[#6133DA] bg-white text-[11px] font-semibold text-[#4C2BB0] transition hover:bg-[#EBE9FE] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40"
           >
-            <Camera size={16} />
+            <Camera size={16} aria-hidden="true" />
 
             {cameraActive ? "Take Photo" : "Capture Photo"}
           </button>
@@ -432,9 +447,9 @@ export default function FrontPhoto() {
           <button
             type="button"
             onClick={handleExistingPhoto}
-            className="flex h-[38px] w-[165px] items-center justify-center gap-2 rounded-lg border border-[#6133DA] bg-white text-[11px] font-semibold text-[#6133DA] transition hover:bg-[#EBE9FE]"
+            className="flex h-[38px] w-[165px] items-center justify-center gap-2 rounded-lg border border-[#6133DA] bg-white text-[11px] font-semibold text-[#4C2BB0] transition hover:bg-[#EBE9FE] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40"
           >
-            <Image size={16} />
+            <Image size={16} aria-hidden="true" />
             Using Existing Photo
           </button>
 
@@ -446,7 +461,7 @@ export default function FrontPhoto() {
           <button
             type="button"
             onClick={handleContinue}
-            className="mx-auto flex h-[44px] w-full max-w-[420px] items-center justify-center rounded-lg bg-[#6133DA] text-[12px] font-semibold text-white transition hover:bg-[#4D26B5]"
+            className="mx-auto flex h-[44px] w-full max-w-[420px] items-center justify-center rounded-lg bg-[#6133DA] text-[12px] font-semibold text-white transition hover:bg-[#4D26B5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40 focus-visible:ring-offset-2"
           >
             Continue to Next Step
           </button>
@@ -455,11 +470,11 @@ export default function FrontPhoto() {
         {/* SECURITY MESSAGE */}
 
         <div className="mt-3 flex items-center justify-center gap-1">
-          <span className="text-[9px] text-[#241065]">
+          <span aria-hidden="true" className="text-[11px] text-[#6D4CE0]">
             ♥
           </span>
 
-          <p className="text-[9px] text-[#241065]">
+          <p className="text-[11px] text-[#241065]">
             Your photos are encrypted and secure
           </p>
         </div>

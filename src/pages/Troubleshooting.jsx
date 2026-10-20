@@ -4,7 +4,6 @@ import {
   ArrowRight,
   Bell,
   ChevronDown,
-  Menu,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -44,15 +43,12 @@ const faqs = [
 
 export default function Troubleshooting() {
   const navigate = useNavigate();
-  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [openFaq, setOpenFaq] = useState(null);
 
   return (
     <div className="min-h-screen bg-[#F4F3FF] text-[#241065]">
       <DashboardSidebar
         activeLabel="Help Center"
-        mobileOpen={mobileSidebarOpen}
-        onClose={() => setMobileSidebarOpen(false)}
       />
 
       <main className="min-h-screen lg:ml-[240px]">
@@ -85,18 +81,10 @@ export default function Troubleshooting() {
             <span className="hidden text-[14px] font-medium text-[#241065] sm:inline">
               Help Center
             </span>
-            <button
-              type="button"
-              aria-label="Open menu"
-              onClick={() => setMobileSidebarOpen(true)}
-              className="flex h-10 w-10 items-center justify-center rounded-[10px] bg-[#EAE7FF] text-[#241065] lg:hidden"
-            >
-              <Menu size={21} strokeWidth={2} />
-            </button>
           </div>
         </header>
 
-        <section className="px-4 pb-10 pt-5 sm:px-6 sm:pb-14 sm:pt-6 lg:px-11 lg:pt-6">
+        <section className="px-4 pb-[calc(88px+env(safe-area-inset-bottom))] pt-5 sm:px-6 sm:pt-6 lg:px-11 lg:pt-6 lg:pb-14">
           <div className="w-full max-w-[1120px]">
             <button
               type="button"

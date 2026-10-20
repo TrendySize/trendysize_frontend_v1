@@ -11,6 +11,8 @@ import {
 import { useNavigate } from "react-router-dom";
 
 import { getProfile, whatsappLinkFor } from "../services/api";
+import Toast from "../components/Toast";
+import ConfirmDialog from "../components/ConfirmDialog";
 
 const SUBSCRIPTION_PLANS = [
   {
@@ -129,6 +131,8 @@ export default function Subscription() {
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [generatedLink, setGeneratedLink] = useState(null);
   const [copied, setCopied] = useState(false);
+  const [toast, setToast] = useState(null);
+  const [confirmCancel, setConfirmCancel] = useState(false);
 
   /*
    * ============================================================
@@ -215,13 +219,11 @@ export default function Subscription() {
    * ============================================================
    */
   const handleCancelSubscription = () => {
-    const confirmed = window.confirm(
-      "Are you sure you want to cancel your subscription?"
-    );
+    setConfirmCancel(true);
+  };
 
-    if (!confirmed) {
-      return;
-    }
+  const confirmCancelSubscription = () => {
+    setConfirmCancel(false);
 
     localStorage.removeItem(SUBSCRIPTION_STORAGE_KEY);
     localStorage.removeItem(MEASUREMENT_LINK_KEY);
@@ -229,6 +231,7 @@ export default function Subscription() {
     setSubscription(null);
     setSelectedPlan(null);
     setGeneratedLink(null);
+    setToast({ message: "Your subscription was cancelled.", tone: "success" });
   };
 
 
@@ -255,9 +258,10 @@ export default function Subscription() {
     }
 
     if (!username) {
-      alert(
-        "We could not find your public link. Please try again later."
-      );
+      setToast({
+        message: "We could not find your public link. Please try again later.",
+        tone: "error",
+      });
       return;
     }
 
@@ -289,12 +293,14 @@ export default function Subscription() {
       );
 
       setCopied(true);
+      setToast({ message: "Link copied to clipboard.", tone: "success" });
 
       setTimeout(() => {
         setCopied(false);
       }, 2000);
     } catch (error) {
       console.error("Unable to copy link:", error);
+      setToast({ message: "Couldn't copy the link. Please copy it manually.", tone: "error" });
     }
   };
 
@@ -333,6 +339,7 @@ export default function Subscription() {
           "Unable to share measurement link:",
           error
         );
+        setToast({ message: "Couldn't share the link. Please try again.", tone: "error" });
       }
     }
   };
@@ -348,11 +355,18 @@ export default function Subscription() {
       return;
     }
 
-    window.open(
+    const opened = window.open(
       generatedLink.link,
       "_blank",
       "noopener,noreferrer"
     );
+
+    if (!opened) {
+      setToast({
+        message: "Your browser blocked the pop-up. Please allow pop-ups and try again.",
+        tone: "error",
+      });
+    }
   };
 
 
@@ -767,6 +781,23 @@ export default function Subscription() {
         )}
 
       </div>
+
+      <Toast
+        message={toast?.message}
+        tone={toast?.tone}
+        onDismiss={() => setToast(null)}
+      />
+
+      <ConfirmDialog
+        open={confirmCancel}
+        title="Cancel subscription"
+        description="Are you sure you want to cancel your subscription? You can resubscribe at any time."
+        confirmLabel="Cancel subscription"
+        cancelLabel="Keep it"
+        tone="danger"
+        onConfirm={confirmCancelSubscription}
+        onCancel={() => setConfirmCancel(false)}
+      />
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 
 import {
   Bell,
@@ -7,12 +7,12 @@ import {
   ChevronLeft,
   ChevronRight,
   ClipboardList,
-  Copy,
   Eye,
   Filter,
-  Menu,
+  Link2,
   Pencil,
   PlayCircle,
+  Plus,
   Ruler,
   Search,
   Trash2,
@@ -20,6 +20,10 @@ import {
 } from "lucide-react";
 
 import DashboardSidebar from "../components/DashboardSidebar";
+import Toast from "../components/Toast";
+import ConfirmDialog from "../components/ConfirmDialog";
+import GenerateLinkModal from "../components/GenerateLinkModal";
+import AddCustomerModal from "../components/AddCustomerModal";
 import drawerLogo from "../assets/images/nav.png";
 import {
   getProfile,
@@ -37,7 +41,8 @@ export default function Customers() {
   const [measurements, setMeasurements] = useState([]);
 
   const [user, setUser] = useState(null);
-  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+
+  const [avatarFailed, setAvatarFailed] = useState(false);
 
   const [loading, setLoading] = useState(true);
 
@@ -46,6 +51,18 @@ export default function Customers() {
   const [sortBy, setSortBy] = useState("newest");
 
   const [currentPage, setCurrentPage] = useState(1);
+
+  const [toast, setToast] = useState(null); // { message, tone }
+  const [pendingDelete, setPendingDelete] = useState(null);
+
+  // Per-customer measurement link generation (guide §5). The shared
+  // GenerateLinkModal owns the order-reference field, loading, result and any
+  // backend error (subscription inactive/expired, daily cap, unknown customer).
+  const [linkTarget, setLinkTarget] = useState(null);
+  const [linkModalOpen, setLinkModalOpen] = useState(false);
+
+  // Add customer (POST /api/customers — upsert by phone number).
+  const [addModalOpen, setAddModalOpen] = useState(false);
 
   /*
   |--------------------------------------------------------------------------
@@ -149,6 +166,12 @@ export default function Customers() {
 
   const userInitial =
     userName.trim().charAt(0).toUpperCase() || "";
+
+  const profileImage =
+    user?.profileImageUrl ||
+    user?.profileImage ||
+    user?.avatarUrl ||
+    "";
 
   /*
   |--------------------------------------------------------------------------
@@ -504,39 +527,6 @@ export default function Customers() {
 
   /*
   |--------------------------------------------------------------------------
-  | MEASUREMENT LINK
-  |--------------------------------------------------------------------------
-  */
-
-  const measurementLink =
-    user?.measurement_link ||
-    `${window.location.origin}/measurements/demo`;
-
-  /*
-  |--------------------------------------------------------------------------
-  | COPY MEASUREMENT LINK
-  |--------------------------------------------------------------------------
-  */
-
-  const copyMeasurementLink = async () => {
-    try {
-      await navigator.clipboard.writeText(
-        measurementLink
-      );
-
-      alert(
-        "Measurement link copied successfully."
-      );
-    } catch (error) {
-      console.error(
-        "Unable to copy measurement link:",
-        error
-      );
-    }
-  };
-
-  /*
-  |--------------------------------------------------------------------------
   | VIEW CUSTOMER
   |--------------------------------------------------------------------------
   */
@@ -578,21 +568,22 @@ export default function Customers() {
   |--------------------------------------------------------------------------
   */
 
-  const deleteCustomer = async (customer) => {
+  const deleteCustomer = (customer) => {
     if (!customer?.id) {
       return;
     }
 
-    const customerName =
-      getCustomerName(customer);
+    setPendingDelete(customer);
+  };
 
-    const confirmed = window.confirm(
-      `Are you sure you want to delete ${customerName}?`
-    );
+  const confirmDeleteCustomer = async () => {
+    const customer = pendingDelete;
 
-    if (!confirmed) {
+    if (!customer?.id) {
       return;
     }
+
+    setPendingDelete(null);
 
     try {
       await deleteCustomerRequest(customer.id);
@@ -603,16 +594,58 @@ export default function Customers() {
             item.id !== customer.id
         )
       );
+      setToast({ message: `${getCustomerName(customer)} was deleted.`, tone: "success" });
     } catch (error) {
       console.error(
         "Delete customer error:",
         error
       );
 
-      alert(
-        error?.message || "Unable to delete customer."
-      );
+      setToast({
+        message: error?.message || "Unable to delete customer.",
+        tone: "error",
+      });
     }
+  };
+
+  /*
+  |--------------------------------------------------------------------------
+  | ADD CUSTOMER (upsert by phone number)
+  |--------------------------------------------------------------------------
+  */
+
+  const handleCustomerCreated = (customer) => {
+    if (!customer?.id) return;
+
+    // upsert returns the existing record for a known phone number, so dedupe.
+    setCustomers((previous) => {
+      const exists = previous.some((item) => item.id === customer.id);
+      return exists ? previous : [customer, ...previous];
+    });
+  };
+
+  /*
+  |--------------------------------------------------------------------------
+  | GENERATE MEASUREMENT LINK (per customer)
+  |--------------------------------------------------------------------------
+  |
+  | Calls POST /api/measurements/generate-link for one customer via the shared
+  | GenerateLinkModal. The result is a single-use, 24h token/link the vendor
+  | sends to that customer (guide §5). This is distinct from the vendor's
+  | permanent WhatsApp business link.
+  |
+  */
+
+  const openLinkModal = (customer) => {
+    if (!customer?.id) return;
+
+    setLinkTarget(customer);
+    setLinkModalOpen(true);
+  };
+
+  const closeLinkModal = () => {
+    setLinkModalOpen(false);
+    setLinkTarget(null);
   };
 
   /*
@@ -626,23 +659,17 @@ export default function Customers() {
 
       {/* SIDEBAR */}
 
-      <DashboardSidebar
-        activeLabel="Customers"
-        mobileOpen={mobileSidebarOpen}
-        onClose={() =>
-          setMobileSidebarOpen(false)
-        }
-      />
+      <DashboardSidebar activeLabel="Customers" />
 
       {/* MAIN */}
 
-      <main className="min-h-screen lg:ml-[220px]">
+      <main className="min-h-screen lg:ml-[240px]">
 
         {/* =====================================================
             HEADER
         ===================================================== */}
 
-        <header className="flex h-[70px] items-center justify-between px-4 lg:justify-end lg:px-8">
+        <header className="flex h-[88px] items-center justify-between px-4 sm:px-6 lg:h-[56px] lg:justify-end lg:px-8">
 
           <button
             type="button"
@@ -680,15 +707,35 @@ export default function Customers() {
             </button>
 
             {userName ? (
-              <>
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#241065] text-[13px] font-bold text-[#9B8CF9]">
-                  {userInitial}
+              <RouterLink
+                to="/profile"
+                aria-label="Open profile and settings"
+                title="Profile & Settings"
+                className="flex items-center gap-3 rounded-full pr-1 transition-colors hover:bg-[#EBE9FE] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/50 max-lg:gap-1 max-lg:pr-0"
+              >
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#241065] text-[13px] font-bold text-[#9B8CF9]">
+                  {profileImage && !avatarFailed ? (
+                    <img
+                      src={profileImage}
+                      alt=""
+                      aria-hidden="true"
+                      className="h-full w-full object-cover"
+                      onError={() => setAvatarFailed(true)}
+                    />
+                  ) : (
+                    userInitial
+                  )}
                 </div>
 
                 <span className="max-w-[120px] truncate text-[13px] font-medium text-[#241065] max-lg:hidden">
                   {userName}
                 </span>
-              </>
+
+                <ChevronDown
+                  size={15}
+                  className="text-[#8179AD] max-lg:hidden"
+                />
+              </RouterLink>
             ) : (
               <button
                 type="button"
@@ -702,46 +749,42 @@ export default function Customers() {
               </button>
             )}
 
-            <ChevronDown
-              size={15}
-              className="text-[#8179AD] max-lg:hidden"
-            />
 
-            <button
-              type="button"
-              aria-label="Open menu"
-              onClick={() =>
-                setMobileSidebarOpen(true)
-              }
-              className="hidden h-10 w-10 items-center justify-center rounded-[10px] bg-[#EAE7FF] text-[#241065] max-lg:flex"
-            >
-              <Menu
-                size={21}
-                strokeWidth={2}
-              />
-            </button>
 
           </div>
         </header>
 
         {/* CONTENT */}
 
-        <section className="px-5 pb-10 lg:px-8">
+        <section className="px-4 pb-[calc(88px+env(safe-area-inset-bottom))] pt-5 sm:px-6 sm:pt-6 lg:px-7 lg:pb-14 lg:pt-5">
+          <div className="mx-auto w-full max-w-[1180px]">
 
           {/* =====================================================
               TITLE
           ===================================================== */}
 
-          <div className="mb-6">
+          <div className="mb-6 flex items-start justify-between gap-3">
 
-            <h1 className="text-[22px] font-bold text-[#241065]">
-              Customers
-            </h1>
+            <div>
+              <h1 className="text-[22px] font-bold text-[#241065]">
+                Customers
+              </h1>
 
-            <p className="mt-1 text-[12px] text-[#8179AD]">
-              Manage your customer measurement
-              records.
-            </p>
+              <p className="mt-1 text-[12px] text-[#8179AD]">
+                Manage your customer measurement
+                records.
+              </p>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setAddModalOpen(true)}
+              className="flex h-10 shrink-0 items-center gap-1.5 rounded-[9px] bg-[#6133DA] px-3.5 text-[12px] font-semibold text-white transition hover:bg-[#5227c2] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/50 sm:px-4"
+            >
+              <Plus size={15} />
+              <span className="max-[380px]:hidden">Add customer</span>
+              <span className="hidden max-[380px]:inline">Add</span>
+            </button>
 
           </div>
 
@@ -945,7 +988,7 @@ export default function Customers() {
                   setCurrentPage(1);
                 }}
                 placeholder="Search by name or phone number..."
-                className="w-full bg-transparent text-[12px] text-[#241065] outline-none placeholder:text-[#AAA4C1]"
+                className="w-full bg-transparent text-[12px] text-[#241065] outline-none placeholder:text-[#AAA4C1] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40"
               />
 
             </div>
@@ -962,7 +1005,7 @@ export default function Customers() {
                   );
                   setCurrentPage(1);
                 }}
-                className="h-10 min-w-[130px] appearance-none rounded-[9px] border border-[#E0DCF5] bg-white pl-9 pr-8 text-[12px] font-medium text-[#5E5782] outline-none"
+                className="h-10 min-w-[130px] appearance-none rounded-[9px] border border-[#E0DCF5] bg-white pl-9 pr-8 text-[12px] font-medium text-[#5E5782] outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40"
               >
                 <option value="newest">
                   Newest first
@@ -1021,7 +1064,7 @@ export default function Customers() {
                   setCurrentPage(1);
                 }}
                 placeholder="Search customers..."
-                className="w-full bg-transparent text-[12px] text-[#241065] outline-none placeholder:text-[#AAA4C1]"
+                className="w-full bg-transparent text-[12px] text-[#241065] outline-none placeholder:text-[#AAA4C1] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40"
               />
 
             </div>
@@ -1050,7 +1093,7 @@ export default function Customers() {
                     );
                     setCurrentPage(1);
                   }}
-                  className="h-[34px] min-w-[125px] appearance-none rounded-[9px] border border-[#E0DCF5] bg-white pl-8 pr-8 text-[10px] font-semibold text-[#5E5782] outline-none"
+                  className="h-[34px] min-w-[125px] appearance-none rounded-[9px] border border-[#E0DCF5] bg-white pl-8 pr-8 text-[10px] font-semibold text-[#5E5782] outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40"
                 >
                   <option value="newest">
                     Newest first
@@ -1219,6 +1262,19 @@ export default function Customers() {
 
                           <button
                             type="button"
+                            title="Generate measurement link"
+                            onClick={() =>
+                              openLinkModal(
+                                customer
+                              )
+                            }
+                            className="flex h-7 w-7 items-center justify-center rounded-full text-[#6133DA] transition hover:bg-[#EBE9FE]"
+                          >
+                            <Link2 size={13} />
+                          </button>
+
+                          <button
+                            type="button"
                             title="View customer"
                             onClick={() =>
                               viewCustomer(
@@ -1281,22 +1337,12 @@ export default function Customers() {
                 </h2>
 
                 <p className="mt-2 max-w-[400px] text-[11px] leading-5 text-[#8179AD]">
-                  When customers complete a
-                  measurement using your
-                  measurement link, they will
-                  automatically appear here.
+                  Customers you add will appear
+                  here. Add a customer, then use
+                  the link icon to generate a
+                  personal measurement link for
+                  them.
                 </p>
-
-                <button
-                  type="button"
-                  onClick={
-                    copyMeasurementLink
-                  }
-                  className="mt-4 flex items-center gap-2 rounded-[7px] bg-[#6133DA] px-4 py-2 text-[11px] font-semibold text-white transition hover:bg-[#5128BC]"
-                >
-                  <Copy size={13} />
-                  Copy Measurement Link
-                </button>
 
                 <button
                   type="button"
@@ -1441,7 +1487,22 @@ export default function Customers() {
 
                         {/* ACTIONS */}
 
-                        <div className="mt-3 flex items-center border-t border-[#F0EDF8] px-4 py-2.5">
+                        <div className="mt-3 flex items-center border-t border-[#F0EDF8] px-2 py-2.5">
+
+                          <button
+                            type="button"
+                            onClick={() =>
+                              openLinkModal(
+                                customer
+                              )
+                            }
+                            className="flex flex-1 items-center justify-center gap-1.5 rounded-[8px] py-1.5 text-[10px] font-semibold text-[#6133DA] transition hover:bg-[#EBE9FE]"
+                          >
+                            <Link2 size={13} />
+                            Link
+                          </button>
+
+                          <div className="h-5 w-px bg-[#EAE7F3]" />
 
                           <button
                             type="button"
@@ -1513,22 +1574,11 @@ export default function Customers() {
                 </h2>
 
                 <p className="mx-auto mt-2 max-w-[280px] text-[10px] leading-5 text-[#8179AD]">
-                  Customers who complete a
-                  measurement using your
-                  measurement link will appear
-                  here.
+                  Customers you add will appear
+                  here. Add a customer, then tap
+                  the link icon to generate their
+                  measurement link.
                 </p>
-
-                <button
-                  type="button"
-                  onClick={
-                    copyMeasurementLink
-                  }
-                  className="mx-auto mt-4 flex items-center gap-2 rounded-[8px] bg-[#6133DA] px-4 py-2.5 text-[10px] font-semibold text-white transition hover:bg-[#5128BC]"
-                >
-                  <Copy size={13} />
-                  Copy Measurement Link
-                </button>
 
                 <button
                   type="button"
@@ -1720,9 +1770,49 @@ export default function Customers() {
 
           )}
 
+          </div>
         </section>
 
       </main>
+
+      <Toast
+        message={toast?.message}
+        tone={toast?.tone}
+        onDismiss={() => setToast(null)}
+      />
+
+      {/* =====================================================
+          GENERATE MEASUREMENT LINK MODAL (guide §5)
+      ===================================================== */}
+
+      <GenerateLinkModal
+        open={linkModalOpen}
+        onClose={closeLinkModal}
+        customer={linkTarget}
+      />
+
+      <AddCustomerModal
+        open={addModalOpen}
+        onClose={() => setAddModalOpen(false)}
+        onCreated={handleCustomerCreated}
+      />
+
+
+      <ConfirmDialog
+        open={Boolean(pendingDelete)}
+        title="Delete customer"
+        description={
+          pendingDelete
+            ? `Are you sure you want to delete ${getCustomerName(
+                pendingDelete
+              )}? This cannot be undone.`
+            : ""
+        }
+        confirmLabel="Delete"
+        tone="danger"
+        onConfirm={confirmDeleteCustomer}
+        onCancel={() => setPendingDelete(null)}
+      />
 
     </div>
   );

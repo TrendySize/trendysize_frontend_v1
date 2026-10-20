@@ -349,7 +349,7 @@ export default function AuthForm({
                 ? "new-password"
                 : "current-password"
             }
-            className="w-full bg-transparent text-[14px] font-medium text-[#241065] outline-none placeholder:text-[#6B7280]"
+            className="w-full bg-transparent text-[14px] font-medium text-[#241065] outline-none placeholder:text-[#6B7280] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40"
           />
 
           <button
@@ -400,7 +400,7 @@ export default function AuthForm({
                   setConfirmPassword(e.target.value)
                 }
                 autoComplete="new-password"
-                className="w-full bg-transparent text-[14px] font-medium text-[#241065] outline-none placeholder:text-[#6B7280]"
+                className="w-full bg-transparent text-[14px] font-medium text-[#241065] outline-none placeholder:text-[#6B7280] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40"
               />
 
               <button

@@ -68,7 +68,7 @@ const PricingCard = ({ plan, onSignup }) => {
       ${
         plan.featured
           ? "bg-[#6133DA] text-white"
-          : "bg-[#D8D6FE] text-[#241065] dark:bg-slate-800 dark:text-slate-100"
+          : "bg-[#D8D6FE] text-[#241065]"
       }`}
     >
       {/* Badge */}
@@ -77,8 +77,8 @@ const PricingCard = ({ plan, onSignup }) => {
         className={`inline-flex rounded-lg px-4 py-2 text-[10px] font-medium tracking-widest
         ${
           plan.featured
-            ? "bg-white text-[#6133DA] dark:bg-slate-700 dark:text-white"
-            : "bg-[#BCB5FD] text-[#6133DA] dark:bg-slate-700 dark:text-white"
+            ? "bg-white text-[#6133DA]"
+            : "bg-[#BCB5FD] text-[#6133DA]"
         }`}
       >
         {plan.badge}
@@ -138,7 +138,7 @@ const PricingCard = ({ plan, onSignup }) => {
         className={`mt-10 w-full rounded-lg py-4 font-semibold transition
         ${
           plan.featured
-            ? "bg-white text-[#6133DA] hover:bg-gray-100 dark:bg-slate-700 dark:text-white dark:hover:bg-slate-600"
+            ? "bg-white text-[#6133DA] hover:bg-gray-100"
             : "bg-[#6133DA] text-white hover:bg-[#4E28C6]"
         }`}
       >
@@ -154,7 +154,7 @@ const Pricing = () => {
   const [selected, setSelected] = useState(null);
 
   return (
-    <section id="pricing" className="overflow-x-hidden bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100 py-16 sm:py-20 lg:py-24">
+    <section id="pricing" className="overflow-x-hidden bg-white text-slate-900 py-16 sm:py-20 lg:py-24">
       <div className="mx-auto max-w-[1376px] px-4 sm:px-6 lg:px-8 xl:px-12">
 
         {/* Heading */}
@@ -170,7 +170,7 @@ const Pricing = () => {
             <span className="text-[#6133DA]">Transparent Pricing</span>
           </h2>
 
-          <p className="mt-6 text-[15px] text-[#4B5563] dark:text-slate-300 sm:mt-8 sm:text-[16px]">
+          <p className="mt-6 text-[15px] text-[#4B5563] sm:mt-8 sm:text-[16px]">
             Start free and enjoy all the tools you need to manage customer measurements.
           </p>
 
@@ -208,6 +208,8 @@ const Pricing = () => {
           <img
             src={comingSoonBanner}
             alt="Premium and Pro plans coming soon"
+            loading="lazy"
+            decoding="async"
             className="h-[50px] w-full max-w-[524px] object-contain"
           />
         </div>
