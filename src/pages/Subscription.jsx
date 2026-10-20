@@ -85,6 +85,20 @@ function getSubscription() {
   }
 }
 
+function buildSubscription(plan) {
+  const now = Date.now();
+
+  return {
+    id: `${plan.id}-${now}`,
+    planId: plan.id,
+    planName: plan.name,
+    amount: plan.amount,
+    startedAt: now,
+    expiresAt: now + plan.duration * 24 * 60 * 60 * 1000,
+    active: true,
+  };
+}
+
 function createMeasurementLink() {
   const token =
     typeof crypto !== "undefined" && crypto.randomUUID
@@ -180,20 +194,7 @@ export default function Subscription() {
    * ============================================================
    */
   const handleSubscribe = (plan) => {
-    const now = Date.now();
-
-    const expiresAt =
-      now + plan.duration * 24 * 60 * 60 * 1000;
-
-    const newSubscription = {
-      id: `${plan.id}-${now}`,
-      planId: plan.id,
-      planName: plan.name,
-      amount: plan.amount,
-      startedAt: now,
-      expiresAt,
-      active: true,
-    };
+    const newSubscription = buildSubscription(plan);
 
     localStorage.setItem(
       SUBSCRIPTION_STORAGE_KEY,

@@ -26,11 +26,9 @@ export default function SidePhoto() {
       Do NOT load the previous photo from localStorage.
 
       When the user comes back to this page,
-      the camera/guide should be shown again.
+      the camera/guide should be shown again. The photo/camera state is
+      already initialised to empty above, so only the cleanup is needed here.
     */
-
-    setPhoto("");
-    setCameraActive(false);
 
     return () => {
       if (streamRef.current) {

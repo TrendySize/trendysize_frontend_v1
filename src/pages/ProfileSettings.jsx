@@ -22,6 +22,11 @@ import { FaWhatsapp } from "react-icons/fa";
 import DashboardSidebar from "../components/DashboardSidebar";
 import drawerLogo from "../assets/images/nav.png";
 import {
+  getProfile,
+  updateProfile,
+  uploadProfileImage,
+} from "../services/api";
+import {
   deleteProfileMedia,
   dataUrlToBlob,
   getStoredProducts,
@@ -126,6 +131,39 @@ export default function ProfileSettings() {
         }
       }
 
+      // Hydrate the vendor-identity fields from the backend (guide §3.5).
+      // Fields the backend does not model (business name, tagline, stats,
+      // products) stay local-only.
+      try {
+        const remote = await getProfile();
+        if (remote) {
+          const fullName = [remote.firstName, remote.lastName]
+            .filter(Boolean)
+            .join(" ");
+
+          updatedProfile = {
+            ...updatedProfile,
+            businessName:
+              updatedProfile.businessName || fullName || "",
+            whatsappNumber:
+              remote.whatsappNumber ||
+              updatedProfile.whatsappNumber ||
+              "",
+            email: remote.email || updatedProfile.email || "",
+            profileImage:
+              remote.profileImageUrl ||
+              updatedProfile.profileImage ||
+              "",
+            coverImage:
+              remote.bannerImageUrl ||
+              updatedProfile.coverImage ||
+              "",
+          };
+        }
+      } catch (error) {
+        console.error("Could not load profile from API:", error);
+      }
+
       try {
         let migrated = false;
 
@@ -136,6 +174,18 @@ export default function ProfileSettings() {
               dataUrlToBlob(updatedProfile[field])
             );
             migrated = true;
+          }
+
+          // A backend URL wins over any locally cached blob.
+          if (
+            (field === "profileImage" &&
+              updatedProfile.profileImage &&
+              !updatedProfile.profileImage.startsWith("blob:")) ||
+            (field === "coverImage" &&
+              updatedProfile.coverImage &&
+              !updatedProfile.coverImage.startsWith("blob:"))
+          ) {
+            continue;
           }
 
           const storedImage = await loadProfileMedia(field);
@@ -350,13 +400,28 @@ export default function ProfileSettings() {
 
   const handleSave = async () => {
     try {
+      // Upload any newly selected images to the backend first (guide §3.7).
       for (const field of PROFILE_IMAGE_FIELDS) {
         const selectedImage = selectedProfileMedia[field];
         if (selectedImage) {
-          await saveProfileMedia(field, selectedImage);
+          const type = field === "coverImage" ? "Banner" : "Profile";
+          const result = await uploadProfileImage(selectedImage, type);
+          const url = result?.url || result?.imageUrl;
+          if (url) {
+            setForm((previous) => ({ ...previous, [field]: url }));
+          }
         }
       }
 
+      // Persist the vendor-identity fields the backend models (guide §3.6).
+      const [firstName, ...rest] = (form.businessName || "").trim().split(/\s+/);
+      await updateProfile({
+        FirstName: firstName || undefined,
+        LastName: rest.join(" ") || undefined,
+        WhatsappNumber: form.whatsappNumber || undefined,
+      });
+
+      // The fields the backend does not model stay in local storage.
       const storedProfile = { ...form };
       PROFILE_IMAGE_FIELDS.forEach((field) => {
         storedProfile[field] = "";
@@ -370,8 +435,11 @@ export default function ProfileSettings() {
       setSelectedProfileMedia({});
       setEditing(false);
     } catch (error) {
-      console.error("Could not save profile images:", error);
-      alert("Could not save the image. Please check available browser storage and try again.");
+      console.error("Could not save profile:", error);
+      alert(
+        error?.message ||
+          "Could not save your profile. Please try again."
+      );
     }
   };
 

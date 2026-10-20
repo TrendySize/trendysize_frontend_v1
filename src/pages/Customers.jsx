@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -187,7 +187,7 @@ export default function Customers() {
   |--------------------------------------------------------------------------
   */
 
-  const getCustomerMeasurements = (customer) => {
+  const getCustomerMeasurements = useCallback((customer) => {
     const nestedMeasurements = Array.isArray(
       customer?.measurements
     )
@@ -213,7 +213,7 @@ export default function Customers() {
       ...nestedMeasurements,
       ...externalMeasurements,
     ];
-  };
+  }, [measurements]);
 
   /*
   |--------------------------------------------------------------------------
@@ -221,7 +221,7 @@ export default function Customers() {
   |--------------------------------------------------------------------------
   */
 
-  const getLatestMeasurement = (customer) => {
+  const getLatestMeasurement = useCallback((customer) => {
     const customerMeasurements =
       getCustomerMeasurements(customer);
 
@@ -252,7 +252,7 @@ export default function Customers() {
     );
 
     return sorted[0];
-  };
+  }, [getCustomerMeasurements]);
 
   /*
   |--------------------------------------------------------------------------
@@ -284,7 +284,7 @@ export default function Customers() {
           null,
       };
     });
-  }, [customers, measurements]);
+  }, [customers, getCustomerMeasurements, getLatestMeasurement]);
 
   /*
   |--------------------------------------------------------------------------
@@ -421,16 +421,6 @@ export default function Customers() {
     searchTerm,
     sortBy,
   ]);
-
-  /*
-  |--------------------------------------------------------------------------
-  | RESET PAGE
-  |--------------------------------------------------------------------------
-  */
-
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [searchTerm, sortBy]);
 
   /*
   |--------------------------------------------------------------------------
@@ -948,11 +938,12 @@ export default function Customers() {
               <input
                 type="text"
                 value={searchTerm}
-                onChange={(event) =>
+                onChange={(event) => {
                   setSearchTerm(
                     event.target.value
-                  )
-                }
+                  );
+                  setCurrentPage(1);
+                }}
                 placeholder="Search by name or phone number..."
                 className="w-full bg-transparent text-[12px] text-[#241065] outline-none placeholder:text-[#AAA4C1]"
               />
@@ -965,11 +956,12 @@ export default function Customers() {
 
               <select
                 value={sortBy}
-                onChange={(event) =>
+                onChange={(event) => {
                   setSortBy(
                     event.target.value
-                  )
-                }
+                  );
+                  setCurrentPage(1);
+                }}
                 className="h-10 min-w-[130px] appearance-none rounded-[9px] border border-[#E0DCF5] bg-white pl-9 pr-8 text-[12px] font-medium text-[#5E5782] outline-none"
               >
                 <option value="newest">
@@ -1022,11 +1014,12 @@ export default function Customers() {
               <input
                 type="text"
                 value={searchTerm}
-                onChange={(event) =>
+                onChange={(event) => {
                   setSearchTerm(
                     event.target.value
-                  )
-                }
+                  );
+                  setCurrentPage(1);
+                }}
                 placeholder="Search customers..."
                 className="w-full bg-transparent text-[12px] text-[#241065] outline-none placeholder:text-[#AAA4C1]"
               />
@@ -1051,11 +1044,12 @@ export default function Customers() {
 
                 <select
                   value={sortBy}
-                  onChange={(event) =>
+                  onChange={(event) => {
                     setSortBy(
                       event.target.value
-                    )
-                  }
+                    );
+                    setCurrentPage(1);
+                  }}
                   className="h-[34px] min-w-[125px] appearance-none rounded-[9px] border border-[#E0DCF5] bg-white pl-8 pr-8 text-[10px] font-semibold text-[#5E5782] outline-none"
                 >
                   <option value="newest">
