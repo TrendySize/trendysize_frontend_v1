@@ -6,6 +6,7 @@ import {
   Link2,
   Search,
   Share2,
+  UserPlus,
   UserRound,
   X,
 } from "lucide-react";
@@ -14,6 +15,7 @@ import { FaWhatsapp } from "react-icons/fa";
 import Toast from "./Toast";
 import {
   generateMeasurementLink,
+  generateMeasurementLinkForNewCustomer,
   getCustomers,
   getSubscription,
 } from "../services/api";
@@ -42,8 +44,10 @@ import {
 */
 
 const EMPTY_STATE = {
+  mode: "existing", // "existing" (pick a customer) | "new" (create via link)
   selected: null,
   searchTerm: "",
+  newCustomer: { firstName: "", lastName: "", phoneNumber: "" },
   orderReference: "",
   result: null,
   error: "",
@@ -157,7 +161,8 @@ export default function GenerateLinkModal({
 
   if (!open) return null;
 
-  const { selected, searchTerm, orderReference, result, error, loading } = state;
+  const { mode, selected, searchTerm, newCustomer, orderReference, result, error, loading } =
+    state;
 
   const subscriptionBlocked = state.subscription != null && !state.subscription.isActive;
 
@@ -166,16 +171,31 @@ export default function GenerateLinkModal({
       ? "Your subscription has expired. Please renew to generate measurement links."
       : "Your subscription is inactive. Please renew to generate measurement links.";
 
+  // In "new" mode the vendor only needs a name; the customer completes the rest
+  // on the public form.
+  const hasNewCustomerName =
+    Boolean(newCustomer.firstName.trim()) || Boolean(newCustomer.lastName.trim());
+
+  const canSubmit = mode === "new" ? hasNewCustomerName : Boolean(selected?.id);
+
   const submit = async () => {
-    if (!selected?.id || loading || subscriptionBlocked) return;
+    if (loading || subscriptionBlocked || !canSubmit) return;
 
     setState((previous) => ({ ...previous, loading: true, error: "", result: null }));
 
     try {
-      const data = await generateMeasurementLink(
-        selected.id,
-        orderReference.trim() || undefined
-      );
+      const data =
+        mode === "new"
+          ? await generateMeasurementLinkForNewCustomer({
+              firstName: newCustomer.firstName.trim() || undefined,
+              lastName: newCustomer.lastName.trim() || undefined,
+              phoneNumber: newCustomer.phoneNumber.trim() || undefined,
+              orderReference: orderReference.trim() || undefined,
+            })
+          : await generateMeasurementLink(
+              selected.id,
+              orderReference.trim() || undefined
+            );
 
       const token = data?.token || "";
       const origin =
@@ -188,8 +208,13 @@ export default function GenerateLinkModal({
         token,
         link: usableLink,
         rawLink: data?.link || "",
-        customerId: selected.id,
-        customerName: customerDisplayName(selected),
+        customerId: selected?.id ?? null,
+        customerName:
+          mode === "new"
+            ? [newCustomer.firstName.trim(), newCustomer.lastName.trim()]
+                .filter(Boolean)
+                .join(" ")
+            : customerDisplayName(selected),
         orderReference: orderReference.trim() || "",
         createdAt: Date.now(),
         used: false,
@@ -270,7 +295,14 @@ export default function GenerateLinkModal({
     }
   };
 
-  const showPicker = !customer && !selected && !result && !subscriptionBlocked;
+  const showPicker =
+    !customer && !selected && !result && !subscriptionBlocked && mode === "existing";
+
+  const showNewCustomerForm =
+    !customer && !selected && !result && !subscriptionBlocked && mode === "new";
+
+  const showModeToggle =
+    !customer && !selected && !result && !subscriptionBlocked;
 
   return (
     <div
@@ -284,7 +316,7 @@ export default function GenerateLinkModal({
         ref={dialogRef}
         tabIndex={-1}
         onClick={(event) => event.stopPropagation()}
-        className="flex max-h-[92vh] w-full max-w-[440px] flex-col rounded-t-2xl bg-[var(--tk-bg-elevated)] shadow-2xl sm:rounded-2xl"
+        className="flex max-h-[92dvh] w-full max-w-[440px] flex-col overflow-hidden rounded-t-2xl bg-[var(--tk-bg-elevated)] shadow-2xl sm:max-h-[90vh] sm:rounded-2xl"
       >
         {/* HEADER */}
         <div className="flex items-start justify-between gap-3 border-b border-[var(--tk-border)] px-5 py-4">
@@ -300,6 +332,8 @@ export default function GenerateLinkModal({
                 ? "Renew your subscription to create measurement links."
                 : selected
                 ? "Generate a personal, single-use link. It expires in 24 hours and works once."
+                : mode === "new"
+                ? "Enter the customer's name. They'll complete the rest on the form."
                 : "Pick a customer to create their personal measurement link."}
             </p>
           </div>
@@ -323,6 +357,152 @@ export default function GenerateLinkModal({
               <div>
                 <p className="font-semibold">Link generation is paused</p>
                 <p className="mt-0.5">{subscriptionMessage}</p>
+              </div>
+            </div>
+          )}
+
+          {/* LINK TYPE TOGGLE */}
+          {showModeToggle && (
+            <div className="mb-4 grid grid-cols-2 gap-1 rounded-[10px] bg-[var(--tk-surface-muted)] p-1">
+              <button
+                type="button"
+                onClick={() =>
+                  setState((previous) => ({ ...previous, mode: "existing", error: "" }))
+                }
+                aria-pressed={mode === "existing"}
+                className={`flex items-center justify-center gap-1.5 rounded-[8px] px-3 py-2 text-[11px] font-semibold transition ${
+                  mode === "existing"
+                    ? "bg-[var(--tk-bg-elevated)] text-[var(--tk-ink)] shadow-sm"
+                    : "text-[var(--tk-ink-muted)] hover:text-[var(--tk-ink)]"
+                }`}
+              >
+                <UserRound size={13} />
+                Existing customer
+              </button>
+
+              <button
+                type="button"
+                onClick={() =>
+                  setState((previous) => ({ ...previous, mode: "new", error: "" }))
+                }
+                aria-pressed={mode === "new"}
+                className={`flex items-center justify-center gap-1.5 rounded-[8px] px-3 py-2 text-[11px] font-semibold transition ${
+                  mode === "new"
+                    ? "bg-[var(--tk-bg-elevated)] text-[var(--tk-ink)] shadow-sm"
+                    : "text-[var(--tk-ink-muted)] hover:text-[var(--tk-ink)]"
+                }`}
+              >
+                <UserPlus size={13} />
+                New customer
+              </button>
+            </div>
+          )}
+
+          {/* NEW CUSTOMER FORM */}
+          {showNewCustomerForm && (
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label
+                  htmlFor="new-customer-first"
+                  className="block text-[10px] font-semibold uppercase tracking-wide text-[var(--tk-ink-muted)]"
+                >
+                  First name
+                </label>
+                <input
+                  id="new-customer-first"
+                  type="text"
+                  value={newCustomer.firstName}
+                  onChange={(event) =>
+                    setState((previous) => ({
+                      ...previous,
+                      newCustomer: {
+                        ...previous.newCustomer,
+                        firstName: event.target.value,
+                      },
+                    }))
+                  }
+                  placeholder="e.g. Chukwuma"
+                  maxLength={60}
+                  className="mt-1.5 w-full rounded-[9px] border border-[var(--tk-border)] bg-[var(--tk-surface-muted)] px-3 py-2.5 text-[12px] text-[var(--tk-ink)] outline-none placeholder:text-[var(--tk-ink-muted)] focus:border-[var(--tk-brand)]"
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="new-customer-last"
+                  className="block text-[10px] font-semibold uppercase tracking-wide text-[var(--tk-ink-muted)]"
+                >
+                  Last name
+                </label>
+                <input
+                  id="new-customer-last"
+                  type="text"
+                  value={newCustomer.lastName}
+                  onChange={(event) =>
+                    setState((previous) => ({
+                      ...previous,
+                      newCustomer: {
+                        ...previous.newCustomer,
+                        lastName: event.target.value,
+                      },
+                    }))
+                  }
+                  placeholder="e.g. Johnson"
+                  maxLength={60}
+                  className="mt-1.5 w-full rounded-[9px] border border-[var(--tk-border)] bg-[var(--tk-surface-muted)] px-3 py-2.5 text-[12px] text-[var(--tk-ink)] outline-none placeholder:text-[var(--tk-ink-muted)] focus:border-[var(--tk-brand)]"
+                />
+              </div>
+
+              <div className="col-span-2">
+                <label
+                  htmlFor="new-customer-phone"
+                  className="block text-[10px] font-semibold uppercase tracking-wide text-[var(--tk-ink-muted)]"
+                >
+                  Phone number (optional)
+                </label>
+                <input
+                  id="new-customer-phone"
+                  type="tel"
+                  value={newCustomer.phoneNumber}
+                  onChange={(event) =>
+                    setState((previous) => ({
+                      ...previous,
+                      newCustomer: {
+                        ...previous.newCustomer,
+                        phoneNumber: event.target.value,
+                      },
+                    }))
+                  }
+                  placeholder="e.g. +2348012345678"
+                  maxLength={20}
+                  className="mt-1.5 w-full rounded-[9px] border border-[var(--tk-border)] bg-[var(--tk-surface-muted)] px-3 py-2.5 text-[12px] text-[var(--tk-ink)] outline-none placeholder:text-[var(--tk-ink-muted)] focus:border-[var(--tk-brand)]"
+                />
+              </div>
+
+              <p className="col-span-2 -mt-1 text-[10px] leading-4 text-[var(--tk-ink-muted)]">
+                The customer fills in their phone and gender when they open the link.
+              </p>
+
+              <div className="col-span-2">
+                <label
+                  htmlFor="new-customer-order-reference"
+                  className="block text-[10px] font-semibold uppercase tracking-wide text-[var(--tk-ink-muted)]"
+                >
+                  Order reference (optional)
+                </label>
+                <input
+                  id="new-customer-order-reference"
+                  type="text"
+                  value={orderReference}
+                  onChange={(event) =>
+                    setState((previous) => ({
+                      ...previous,
+                      orderReference: event.target.value,
+                    }))
+                  }
+                  placeholder="e.g. ORD-002"
+                  className="mt-1.5 w-full rounded-[9px] border border-[var(--tk-border)] bg-[var(--tk-surface-muted)] px-3 py-2.5 text-[12px] text-[var(--tk-ink)] outline-none placeholder:text-[var(--tk-ink-muted)] focus:border-[var(--tk-brand)]"
+                />
               </div>
             </div>
           )}
@@ -406,8 +586,7 @@ export default function GenerateLinkModal({
           )}
 
           {/* ORDER REFERENCE + CONFIRM */}
-          {selected && !result && !error && !subscriptionBlocked && (
-            <div>
+          {selected && !result && !error && !subscriptionBlocked && (            <div>
               <div className="mb-4 flex items-center gap-3 rounded-[10px] bg-[var(--tk-surface-muted)] px-3 py-2.5">
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--tk-brand)] text-[12px] font-bold text-[var(--tk-brand-ink)]">
                   {customerDisplayName(selected).charAt(0).toUpperCase()}
@@ -506,7 +685,7 @@ export default function GenerateLinkModal({
         </div>
 
         {/* FOOTER */}
-        <div className="flex items-center justify-end gap-2 border-t border-[var(--tk-border)] px-5 py-3.5">
+        <div className="flex shrink-0 items-center justify-end gap-2 border-t border-[var(--tk-border)] px-5 py-3.5 pb-[calc(0.875rem+env(safe-area-inset-bottom))] sm:pb-3.5">
           <button
             type="button"
             onClick={onClose}
@@ -515,11 +694,11 @@ export default function GenerateLinkModal({
             {result ? "Done" : "Cancel"}
           </button>
 
-          {selected && !result && !subscriptionBlocked && (
+          {!result && !subscriptionBlocked && (canSubmit || showNewCustomerForm) && (
             <button
               type="button"
               onClick={submit}
-              disabled={loading}
+              disabled={loading || !canSubmit}
               className="flex items-center justify-center gap-1.5 rounded-[9px] bg-[var(--tk-brand)] px-4 py-2 text-[12px] font-semibold text-[var(--tk-brand-ink)] transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
             >
               {loading ? (

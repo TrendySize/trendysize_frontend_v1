@@ -7,6 +7,10 @@ export default function GetMeasured() {
   const navigate = useNavigate();
   const [params] = useSearchParams();
 
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [gender, setGender] = useState("1"); // 1 = Female, 0 = Male
   const [height, setHeight] = useState("");
   const [heightUnit, setHeightUnit] = useState("cm");
   const [error, setError] = useState("");
@@ -25,6 +29,16 @@ export default function GetMeasured() {
 
     const value = Number(height);
 
+    if (!firstName.trim() && !lastName.trim()) {
+      setError("Please enter your name so the vendor knows who this is for.");
+      return;
+    }
+
+    if (!phoneNumber.trim()) {
+      setError("Please enter your phone number so the vendor can reach you.");
+      return;
+    }
+
     if (!height.trim() || !Number.isFinite(value) || value <= 0) {
       setError("Please enter your height so we can calibrate your measurements.");
       return;
@@ -42,11 +56,19 @@ export default function GetMeasured() {
 
     setError("");
 
-    // The backend submit contract only accepts photos plus an optional height,
-    // so only the height is carried forward into the capture flow.
+    // The backend submit contract accepts photos, an optional height, and the
+    // customer's details (used to fill in the placeholder customer created at
+    // link-generation time).
     localStorage.setItem(
       "trendySize_customer_details",
-      JSON.stringify({ height: height.trim(), heightUnit })
+      JSON.stringify({
+        firstName: firstName.trim(),
+        lastName: lastName.trim(),
+        phoneNumber: phoneNumber.trim(),
+        gender: Number(gender),
+        height: height.trim(),
+        heightUnit,
+      })
     );
 
     navigate("/how-it-works");
@@ -85,12 +107,12 @@ export default function GetMeasured() {
 
         <div className="mt-5 text-center">
           <h1 className="text-[26px] font-bold text-[#241065]">
-            Let’s get your height
+            Let’s get your details
           </h1>
 
           <p className="mx-auto mt-1 max-w-[500px] text-[12px] leading-5 text-[#6B7280]">
-            Your height lets our AI scale your photos accurately. We’ll keep
-            your measurements private and share them only with the vendor.
+            Tell us who you are and your height, then capture your photos.
+            We’ll keep your measurements private and share them only with the vendor.
           </p>
         </div>
 
@@ -103,6 +125,89 @@ export default function GetMeasured() {
           className="mx-auto mt-5 w-full max-w-[720px]"
         >
           <div className="rounded-xl border border-[#D8D6FE] bg-white p-6 shadow-sm">
+
+            {/* ==================================================
+                CUSTOMER DETAILS - REQUIRED
+            ================================================== */}
+
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+
+              <div>
+                <label
+                  htmlFor="firstName"
+                  className="mb-2 block text-[13px] font-semibold text-[#241065]"
+                >
+                  First name
+                </label>
+                <input
+                  id="firstName"
+                  type="text"
+                  value={firstName}
+                  onChange={(event) => setFirstName(event.target.value)}
+                  placeholder="e.g. Chukwuma"
+                  maxLength={60}
+                  className="h-[46px] w-full rounded-lg border border-[#D8D6FE] bg-[#F8F7FF] px-4 text-[13px] text-[#241065] outline-none transition placeholder:text-[#6B7280] focus:border-[#6133DA] focus:ring-2 focus:ring-[#6133DA]/30"
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="lastName"
+                  className="mb-2 block text-[13px] font-semibold text-[#241065]"
+                >
+                  Last name
+                </label>
+                <input
+                  id="lastName"
+                  type="text"
+                  value={lastName}
+                  onChange={(event) => setLastName(event.target.value)}
+                  placeholder="e.g. Johnson"
+                  maxLength={60}
+                  className="h-[46px] w-full rounded-lg border border-[#D8D6FE] bg-[#F8F7FF] px-4 text-[13px] text-[#241065] outline-none transition placeholder:text-[#6B7280] focus:border-[#6133DA] focus:ring-2 focus:ring-[#6133DA]/30"
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="phoneNumber"
+                  className="mb-2 block text-[13px] font-semibold text-[#241065]"
+                >
+                  Phone number
+                  <span className="ml-1 font-normal text-[#6B7280]">(required)</span>
+                </label>
+                <input
+                  id="phoneNumber"
+                  type="tel"
+                  value={phoneNumber}
+                  onChange={(event) => setPhoneNumber(event.target.value)}
+                  placeholder="e.g. +2348012345678"
+                  maxLength={20}
+                  className="h-[46px] w-full rounded-lg border border-[#D8D6FE] bg-[#F8F7FF] px-4 text-[13px] text-[#241065] outline-none transition placeholder:text-[#6B7280] focus:border-[#6133DA] focus:ring-2 focus:ring-[#6133DA]/30"
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="gender"
+                  className="mb-2 block text-[13px] font-semibold text-[#241065]"
+                >
+                  Gender
+                </label>
+                <select
+                  id="gender"
+                  value={gender}
+                  onChange={(event) => setGender(event.target.value)}
+                  className="h-[46px] w-full rounded-lg border border-[#D8D6FE] bg-[#F8F7FF] px-4 text-[13px] text-[#241065] outline-none transition focus:border-[#6133DA] focus:ring-2 focus:ring-[#6133DA]/30"
+                >
+                  <option value="1">Female</option>
+                  <option value="0">Male</option>
+                </select>
+              </div>
+
+            </div>
+
+            <div className="mt-6 border-t border-[#EEF0F6] pt-5">
 
             {/* ==================================================
                 HEIGHT - REQUIRED
@@ -179,6 +284,8 @@ export default function GetMeasured() {
               >
                 {error}
               </p>
+            </div>
+
             </div>
 
             {/* ==================================================

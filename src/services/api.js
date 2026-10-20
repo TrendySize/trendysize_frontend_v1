@@ -281,6 +281,25 @@ export function generateMeasurementLink(customerId, orderReference) {
   });
 }
 
+// Generates a link for a brand-new customer: the backend creates a placeholder
+// customer from the supplied name/phone, and the public form fills in the rest.
+export function generateMeasurementLinkForNewCustomer({
+  firstName,
+  lastName,
+  phoneNumber,
+  orderReference,
+}) {
+  return apiRequest("/measurements/generate-link", {
+    method: "POST",
+    body: JSON.stringify({
+      ...(firstName ? { FirstName: firstName } : {}),
+      ...(lastName ? { LastName: lastName } : {}),
+      ...(phoneNumber ? { PhoneNumber: phoneNumber } : {}),
+      ...(orderReference ? { OrderReference: orderReference } : {}),
+    }),
+  });
+}
+
 // GET /api/subscription — read-only subscription state for the authenticated
 // vendor. Used to pre-check whether link generation is allowed before POSTing
 // to /measurements/generate-link. Shape: { isActive, status, isSubscriptionActive, subscriptionExpiresAt }.
@@ -300,9 +319,18 @@ export function getMeasurement(id) {
 // PUBLIC  (guide §6) — no auth
 // ============================================================================
 
-// The vendor's PUBLIC profile page in OUR app. This is the link customers open
-// (store handle / shared link): it renders a friendly result page and forwards
-// active vendors to WhatsApp. Never share the raw backend URL — it dumps JSON.
+// The vendor's PUBLIC profile page in OUR app (/vendor/{username}). This is the
+// canonical store-handle link customers open: it renders the vendor's business
+// profile with a WhatsApp button. Never share the raw backend URL — it dumps
+// JSON.
+export function publicProfileLinkFor(username) {
+  const origin =
+    typeof window !== "undefined" ? window.location.origin : "";
+  return `${origin}/vendor/${encodeURIComponent(username)}`;
+}
+
+// Legacy in-app vanity link (/v/{username}): renders a result card and forwards
+// active vendors straight to WhatsApp (guide §6.1). Kept for older shared links.
 export function whatsappLinkFor(username) {
   const origin =
     typeof window !== "undefined" ? window.location.origin : "";
@@ -313,11 +341,6 @@ export function whatsappLinkFor(username) {
 // vendor's status and to forward active vendors to the server's 302 → wa.me.
 export function backendVanityUrl(username) {
   return `${API_BASE_URL}/public/v/${encodeURIComponent(username)}`;
-}
-
-// Alias kept for callers that explicitly want the in-app profile page.
-export function publicProfileLinkFor(username) {
-  return whatsappLinkFor(username);
 }
 
 // Mirror of PublicController.RedirectToWhatsApp (guide §6.1): build the wa.me
@@ -387,8 +410,22 @@ export async function probeVendorVanity(username) {
   return { kind: "error", message };
 }
 
+// Fetch the vendor's public business profile for the customer-facing profile
+// page (guide §6.3). Public — no auth. Returns the raw vendor object, or throws
+// ApiError with the backend message (404 "Vendor not found." / 400 inactive).
+export function getPublicVendorProfile(username) {
+  return apiRequest(`/public/v/${encodeURIComponent(username)}/profile`, {
+    method: "GET",
+  });
+}
+
 // Submit measurement photos. Exactly one of heightCm / referencePhoto.
-export function submitPublicMeasurement(token, { frontPhoto, sidePhoto, heightCm, referencePhoto }) {
+// The optional customer details fill in the placeholder customer created at
+// link-generation time (ignored for existing customers by the backend).
+export function submitPublicMeasurement(
+  token,
+  { frontPhoto, sidePhoto, heightCm, referencePhoto, firstName, lastName, phoneNumber, gender }
+) {
   const form = new FormData();
   form.append("FrontPhoto", frontPhoto);
   form.append("SidePhoto", sidePhoto);
@@ -398,6 +435,11 @@ export function submitPublicMeasurement(token, { frontPhoto, sidePhoto, heightCm
   } else if (referencePhoto) {
     form.append("ReferencePhoto", referencePhoto);
   }
+
+  if (firstName) form.append("FirstName", firstName);
+  if (lastName) form.append("LastName", lastName);
+  if (phoneNumber) form.append("PhoneNumber", phoneNumber);
+  if (gender != null) form.append("Gender", String(gender));
 
   return apiRequest(`/public/measure/${token}`, {
     method: "POST",

@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-import { getProfile, whatsappLinkFor } from "../services/api";
+import { getProfile, publicProfileLinkFor } from "../services/api";
 import Toast from "../components/Toast";
 import ConfirmDialog from "../components/ConfirmDialog";
 
@@ -107,7 +107,7 @@ function createMeasurementLink(username) {
   // The backend only exposes a public WhatsApp redirect for a vendor
   // (GET /api/public/v/{username} — guide §6). Measurement links that carry a
   // submission token are generated per customer from the Customers page.
-  const link = whatsappLinkFor(username);
+  const link = publicProfileLinkFor(username);
 
   const measurementLink = {
     token: username,

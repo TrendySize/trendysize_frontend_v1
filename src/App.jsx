@@ -28,6 +28,7 @@ const ContactSupport = lazy(() => import("./pages/ContactSupport"));
 const CustomerProfile = lazy(() => import("./pages/CustomerProfile"));
 const GetMeasured = lazy(() => import("./pages/GetMeasured"));
 const VendorLanding = lazy(() => import("./pages/VendorLanding"));
+const PublicVendorProfile = lazy(() => import("./pages/PublicVendorProfile"));
 const HowItWorks = lazy(() => import("./pages/HowItWorks"));
 const FrontPhoto = lazy(() => import("./pages/FrontPhoto"));
 const SidePhoto = lazy(() => import("./pages/SidePhoto"));
@@ -112,6 +113,9 @@ export default function App() {
               for inactive / not-found vendors and forwards active ones. */}
 
           <Route path="/v/:username" element={<VendorLanding />} />
+
+          {/* Public vendor business profile shown to visiting customers. */}
+          <Route path="/vendor/:username" element={<PublicVendorProfile />} />
 
           {/* =========================
               PROTECTED ROUTES

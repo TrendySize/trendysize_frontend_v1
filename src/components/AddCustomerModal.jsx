@@ -117,7 +117,7 @@ export default function AddCustomerModal({ open, onClose, onCreated }) {
         tabIndex={-1}
         onSubmit={submit}
         onClick={(event) => event.stopPropagation()}
-        className="flex max-h-[92vh] w-full max-w-[440px] flex-col rounded-t-2xl bg-[var(--tk-bg-elevated)] shadow-2xl sm:rounded-2xl"
+        className="flex max-h-[92dvh] w-full max-w-[440px] flex-col overflow-hidden rounded-t-2xl bg-[var(--tk-bg-elevated)] shadow-2xl sm:max-h-[90vh] sm:rounded-2xl"
       >
         {/* HEADER */}
         <div className="flex items-start justify-between gap-3 border-b border-[var(--tk-border)] px-5 py-4">
@@ -206,7 +206,7 @@ export default function AddCustomerModal({ open, onClose, onCreated }) {
         </div>
 
         {/* FOOTER */}
-        <div className="flex items-center justify-end gap-2 border-t border-[var(--tk-border)] px-5 py-3.5">
+        <div className="flex shrink-0 items-center justify-end gap-2 border-t border-[var(--tk-border)] px-5 py-3.5 pb-[calc(0.875rem+env(safe-area-inset-bottom))] sm:pb-3.5">
           <button
             type="button"
             onClick={onClose}

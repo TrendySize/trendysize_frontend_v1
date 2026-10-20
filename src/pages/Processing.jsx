@@ -66,8 +66,15 @@ export default function Processing() {
         }
 
         let heightCm = null;
+        let customerDetails = {};
         try {
           const details = detailsRaw ? JSON.parse(detailsRaw) : {};
+          customerDetails = {
+            firstName: details.firstName || undefined,
+            lastName: details.lastName || undefined,
+            phoneNumber: details.phoneNumber || undefined,
+            gender: details.gender,
+          };
           if (details.height) {
             const value = Number(details.height);
             if (Number.isFinite(value) && value > 0) {
@@ -88,6 +95,7 @@ export default function Processing() {
             type: "image/jpeg",
           }),
           heightCm,
+          ...customerDetails,
         });
       })
       .then((data) => {

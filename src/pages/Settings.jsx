@@ -220,6 +220,12 @@ export default function Settings() {
         FirstName: firstName || undefined,
         LastName: rest.join(" ") || undefined,
         WhatsappNumber: form.whatsappNumber || undefined,
+        BusinessName: form.businessName || undefined,
+        Tagline: form.tagline || undefined,
+        Description: form.description || undefined,
+        City: form.city || undefined,
+        Region: form.region || undefined,
+        Specialization: form.specialization || undefined,
       });
 
       persistProfile(nextForm);

@@ -220,7 +220,14 @@ export async function loadVendorData() {
 
       updatedProfile = {
         ...updatedProfile,
-        businessName: updatedProfile.businessName || fullName || "",
+        businessName:
+          remote.businessName || updatedProfile.businessName || fullName || "",
+        tagline: remote.tagline || updatedProfile.tagline || "",
+        description: remote.description || updatedProfile.description || "",
+        city: remote.city || updatedProfile.city || "",
+        region: remote.region || updatedProfile.region || "",
+        specialization:
+          remote.specialization || updatedProfile.specialization || "",
         whatsappNumber:
           remote.whatsappNumber || updatedProfile.whatsappNumber || "",
         email: remote.email || updatedProfile.email || "",
