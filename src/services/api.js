@@ -11,6 +11,10 @@ const API_BASE_URL = (
 
 const TOKEN_KEY = "auth_token";
 
+// Abort requests that hang. Long enough to tolerate a Render cold start, but
+// short enough that a dead backend surfaces an error instead of freezing the UI.
+const REQUEST_TIMEOUT_MS = 40000;
+
 // ============================================================================
 // TOKEN STORAGE
 // ============================================================================
@@ -94,17 +98,24 @@ export async function apiRequest(endpoint, options = {}) {
   }
 
   let response;
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
   try {
     response = await fetch(`${API_BASE_URL}${endpoint}`, {
       ...options,
       headers,
+      signal: controller.signal,
     });
-  } catch {
+  } catch (error) {
     throw new ApiError(
-      "Unable to reach the server. Check your connection and try again.",
-      0,
+      error?.name === "AbortError"
+        ? "The server took too long to respond. Please try again."
+        : "Unable to reach the server. Check your connection and try again.",
+      error?.name === "AbortError" ? 408 : 0,
       null
     );
+  } finally {
+    clearTimeout(timeout);
   }
 
   let body = null;
