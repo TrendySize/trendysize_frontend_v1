@@ -1,30 +1,37 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
-  ArrowLeft,
   Ban,
   MapPin,
   MessageCircle,
+  Ruler,
   SearchX,
+  ShieldCheck,
   Sparkles,
   Store,
   WifiOff,
 } from "lucide-react";
+import { FaWhatsapp } from "react-icons/fa";
 
 import { getPublicVendorProfile, backendVanityUrl } from "../services/api";
 
 /*
 |--------------------------------------------------------------------------
-| PUBLIC VENDOR PROFILE (customer-facing)
+| PUBLIC VENDOR PROFILE (customer-facing storefront)
 |--------------------------------------------------------------------------
 |
 | The page a visiting customer sees at {origin}/vendor/{username}. It reads
-| the vendor's public business profile (guide §6.3) and shows their banner,
-| avatar, business info and a WhatsApp button.
+| the vendor's public business profile (guide §6.3) and presents their
+| storefront: banner, avatar, business identity, location, specialization,
+| tagline, an About section, and a prominent "Chat on WhatsApp" action.
 |
 | The WhatsApp button links to the backend vanity endpoint
 | GET /api/public/v/{username} (guide §6.1), which 302s to wa.me — we never
 | expose the raw phone number to the page.
+|
+| Visitors only ever see public business information. Every field the vendor
+| has not filled in is omitted rather than shown as an empty placeholder; if
+| the vendor has added no store details at all, a friendly note explains it.
 |
 */
 
@@ -34,21 +41,18 @@ const COPY = {
     body:
       "This vendor's account is currently inactive. Please try again later or reach out to them another way.",
     icon: Ban,
-    tone: "error",
   },
   notfound: {
     title: "Vendor not found",
     body:
       "We couldn't find a vendor with this link. Double-check the link you were given and try again.",
     icon: SearchX,
-    tone: "error",
   },
   error: {
     title: "Something went wrong",
     body:
       "We couldn't open this vendor right now. Please check your connection and try again.",
     icon: WifiOff,
-    tone: "error",
   },
 };
 
@@ -126,10 +130,7 @@ export default function PublicVendorProfile() {
 
     return (
       <Shell>
-        <span
-          className="mx-auto flex h-[52px] w-[52px] items-center justify-center rounded-full"
-          style={{ backgroundColor: "rgba(220, 38, 38, 0.12)" }}
-        >
+        <span className="mx-auto flex h-[52px] w-[52px] items-center justify-center rounded-full bg-[#DC2626]/10">
           <Icon size={24} className="text-[#DC2626]" aria-hidden="true" />
         </span>
 
@@ -144,7 +145,7 @@ export default function PublicVendorProfile() {
         <button
           type="button"
           onClick={recheck}
-          className="mt-6 inline-flex items-center gap-2 rounded-[9px] bg-[var(--tk-brand)] px-5 py-2.5 text-[12px] font-semibold text-[var(--tk-brand-ink)] transition hover:opacity-90"
+          className="mt-6 inline-flex items-center gap-2 rounded-[9px] bg-[var(--tk-brand)] px-5 py-2.5 text-[12px] font-semibold text-[var(--tk-brand-ink)] transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tk-brand)]/50"
         >
           <MessageCircle size={14} aria-hidden="true" />
           Try again
@@ -159,11 +160,19 @@ export default function PublicVendorProfile() {
     .join(" ");
   const displayName = vendor.businessName || personalName || "Vendor";
   const location = [vendor.city, vendor.region].filter(Boolean).join(", ");
-  const canWhatsApp = vendor.hasWhatsapp !== false;
+  const hasWhatsApp = vendor.hasWhatsapp !== false;
+
+  const hasDetails = Boolean(
+    vendor.tagline ||
+      vendor.description ||
+      location ||
+      vendor.specialization ||
+      vendor.businessName
+  );
 
   return (
-    <div className="min-h-screen bg-[var(--tk-bg)]">
-      <div className="mx-auto w-full max-w-[880px] px-4 pb-12 sm:px-6">
+    <div className="relative min-h-screen bg-transparent text-[var(--tk-ink)]">
+      <main className="relative z-10 mx-auto w-full max-w-[720px] px-4 pb-16 sm:px-6">
         {/* BANNER */}
         <div className="relative mt-4 h-[150px] overflow-hidden rounded-2xl bg-[var(--tk-brand)] sm:h-[190px]">
           {vendor.bannerImageUrl && !bannerFailed ? (
@@ -173,10 +182,18 @@ export default function PublicVendorProfile() {
               className="h-full w-full object-cover"
               onError={() => setBannerFailed(true)}
             />
-          ) : null}
+          ) : (
+            <div
+              className="h-full w-full"
+              style={{
+                background:
+                  "linear-gradient(135deg, var(--tk-brand) 0%, var(--tk-brand) 55%, rgba(255,255,255,0.18) 100%)",
+              }}
+            />
+          )}
         </div>
 
-        {/* AVATAR + NAME */}
+        {/* IDENTITY */}
         <div className="relative px-1">
           <div className="-mt-12 flex items-end gap-4">
             <div className="flex h-[96px] w-[96px] shrink-0 items-center justify-center overflow-hidden rounded-2xl border-4 border-[var(--tk-bg)] bg-[#241065] text-[28px] font-bold text-[#9B8CF9] shadow-md">
@@ -198,22 +215,28 @@ export default function PublicVendorProfile() {
               {displayName}
             </h1>
 
-            {location && (
-              <p className="mt-1 flex items-center gap-1.5 text-[13px] text-[var(--tk-ink-muted)]">
-                <MapPin size={14} className="shrink-0" aria-hidden="true" />
-                {location}
-              </p>
-            )}
+            <p className="mt-1 text-[12px] font-medium text-[var(--tk-ink-muted)]">
+              @{vendor.username || username}
+            </p>
 
-            {vendor.specialization && (
-              <p className="mt-1.5 flex items-center gap-1.5 text-[13px] font-medium text-[var(--tk-brand)]">
-                <Sparkles size={14} className="shrink-0" aria-hidden="true" />
-                {vendor.specialization}
-              </p>
-            )}
+            <div className="mt-2 flex flex-wrap items-center gap-2">
+              {location && (
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--tk-border)] bg-[var(--tk-surface-muted)] px-3 py-1 text-[12px] text-[var(--tk-ink-soft)]">
+                  <MapPin size={13} className="shrink-0" aria-hidden="true" />
+                  {location}
+                </span>
+              )}
+
+              {vendor.specialization && (
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--tk-brand)]/30 bg-[var(--tk-brand)]/10 px-3 py-1 text-[12px] font-medium text-[var(--tk-brand)]">
+                  <Sparkles size={13} className="shrink-0" aria-hidden="true" />
+                  {vendor.specialization}
+                </span>
+              )}
+            </div>
 
             {vendor.tagline && (
-              <p className="mt-3 text-[14px] font-medium italic text-[var(--tk-ink-soft)]">
+              <p className="mt-4 text-[14px] font-medium italic text-[var(--tk-ink-soft)]">
                 “{vendor.tagline}”
               </p>
             )}
@@ -222,7 +245,7 @@ export default function PublicVendorProfile() {
 
         {/* ABOUT */}
         {vendor.description && (
-          <section className="mt-6 rounded-2xl border border-[var(--tk-border)] bg-[var(--tk-bg-elevated)] p-5">
+          <section className="mt-6 rounded-2xl border border-[var(--tk-border)] bg-[var(--tk-bg-elevated)] p-5 shadow-sm">
             <h2 className="flex items-center gap-2 text-[13px] font-bold text-[var(--tk-ink)]">
               <Store size={15} aria-hidden="true" />
               About
@@ -233,14 +256,22 @@ export default function PublicVendorProfile() {
           </section>
         )}
 
+        {/* EMPTY-DETAILS NOTE — only when the vendor has added nothing yet. */}
+        {!hasDetails && (
+          <p className="mt-6 rounded-2xl border border-[var(--tk-border)] bg-[var(--tk-surface-muted)] px-4 py-4 text-center text-[12px] leading-6 text-[var(--tk-ink-muted)]">
+            This vendor hasn't added their store details yet. You can still
+            reach them on WhatsApp.
+          </p>
+        )}
+
         {/* WHATSAPP CTA */}
         <div className="mt-6">
-          {canWhatsApp ? (
+          {hasWhatsApp ? (
             <a
               href={backendVanityUrl(username)}
-              className="flex h-[50px] w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] text-[14px] font-semibold text-white transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366]/50"
+              className="flex h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] text-[15px] font-semibold text-white shadow-sm transition hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366]/50 focus-visible:ring-offset-2"
             >
-              <MessageCircle size={18} aria-hidden="true" />
+              <FaWhatsapp size={20} aria-hidden="true" />
               Chat on WhatsApp
             </a>
           ) : (
@@ -248,20 +279,45 @@ export default function PublicVendorProfile() {
               This vendor hasn't added a WhatsApp number yet.
             </p>
           )}
-
-          <p className="mt-4 flex items-center justify-center gap-1.5 text-[11px] text-[var(--tk-ink-muted)]">
-            <ArrowLeft size={12} aria-hidden="true" />
-            Measurements are taken in a private, secure flow.
-          </p>
         </div>
-      </div>
+
+        {/* TRUST STRIP */}
+        <div className="mt-6 grid grid-cols-1 gap-2 sm:grid-cols-2">
+          <div className="flex items-start gap-3 rounded-xl border border-[var(--tk-border)] bg-[var(--tk-bg-elevated)] px-4 py-3">
+            <ShieldCheck
+              size={18}
+              className="mt-0.5 shrink-0 text-[var(--tk-brand)]"
+              aria-hidden="true"
+            />
+            <p className="text-[12px] leading-5 text-[var(--tk-ink-soft)]">
+              Your measurements are taken in a private, secure flow and shared
+              only with this vendor.
+            </p>
+          </div>
+
+          <div className="flex items-start gap-3 rounded-xl border border-[var(--tk-border)] bg-[var(--tk-bg-elevated)] px-4 py-3">
+            <Ruler
+              size={18}
+              className="mt-0.5 shrink-0 text-[var(--tk-brand)]"
+              aria-hidden="true"
+            />
+            <p className="text-[12px] leading-5 text-[var(--tk-ink-soft)]">
+              Get accurate measurements in minutes — no tape measure needed.
+            </p>
+          </div>
+        </div>
+
+        <p className="mt-6 text-center text-[11px] text-[var(--tk-ink-muted)]">
+          Powered by TrendySize
+        </p>
+      </main>
     </div>
   );
 }
 
 function Shell({ children }) {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[var(--tk-bg)] px-5 text-center">
+    <div className="relative z-10 flex min-h-screen items-center justify-center bg-transparent px-5 text-center text-[var(--tk-ink)]">
       <div className="w-full max-w-[380px]">{children}</div>
     </div>
   );
