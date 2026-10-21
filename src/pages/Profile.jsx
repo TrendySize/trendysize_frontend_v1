@@ -216,7 +216,7 @@ export default function Profile() {
             </div>
 
             {/* IDENTITY */}
-            <div className="mt-[84px] text-center sm:mt-[88px] lg:mt-[96px] lg:px-[190px] lg:text-left">
+            <div className="mt-[84px] text-center sm:mt-[88px] lg:mt-[96px] lg:pl-[300px] lg:pr-4 lg:text-left">
               <div className="flex items-center justify-center gap-1.5 sm:gap-2 lg:justify-start">
                 <h1
                   className={`max-w-[80%] truncate text-[19px] font-bold sm:text-[21px] lg:max-w-none lg:text-[24px] ${
