@@ -198,7 +198,7 @@ export default function Profile() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/25 to-transparent" />
               </div>
 
-              <div className="absolute bottom-0 left-1/2 z-10 -translate-x-1/2 translate-y-1/2 lg:left-[120px] lg:translate-x-0">
+              <div className="absolute bottom-0 left-1/2 z-10 -translate-x-1/2 translate-y-1/2">
                 <div className="h-[132px] w-[132px] overflow-hidden rounded-full border-[5px] border-[var(--tk-bg)] bg-[var(--tk-surface)] shadow-[0_12px_30px_rgba(36,16,101,0.18)] sm:h-[140px] sm:w-[140px] lg:h-[150px] lg:w-[150px] lg:border-[6px]">
                   {profile.profileImage ? (
                     <img
@@ -216,8 +216,8 @@ export default function Profile() {
             </div>
 
             {/* IDENTITY */}
-            <div className="mt-[84px] text-center sm:mt-[88px] lg:mt-[96px] lg:pl-[300px] lg:pr-4 lg:text-left">
-              <div className="flex items-center justify-center gap-1.5 sm:gap-2 lg:justify-start">
+            <div className="mt-[84px] text-center sm:mt-[88px] lg:mt-[96px]">
+              <div className="flex items-center justify-center gap-1.5 sm:gap-2">
                 <h1
                   className={`max-w-[80%] truncate text-[19px] font-bold sm:text-[21px] lg:max-w-none lg:text-[24px] ${
                     profile.businessName
@@ -239,7 +239,7 @@ export default function Profile() {
                 )}
               </div>
 
-              <div className="mt-1.5 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[12px] font-medium text-[var(--tk-ink-soft)] sm:text-[13px] lg:justify-start lg:text-[14px]">
+              <div className="mt-1.5 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[12px] font-medium text-[var(--tk-ink-soft)] sm:text-[13px] lg:text-[14px]">
                 {locationLine && (
                   <span className="flex items-center gap-1">
                     <MapPin size={13} aria-hidden="true" />
@@ -264,7 +264,7 @@ export default function Profile() {
           </section>
 
           {/* DESKTOP HEADER ACTIONS */}
-          <div className="mt-4 hidden justify-end gap-2 lg:flex">
+          <div className="mt-4 hidden justify-center gap-2 lg:flex">
             {measurementLink && (
               <button
                 type="button"

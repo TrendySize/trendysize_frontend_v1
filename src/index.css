@@ -297,17 +297,20 @@
   }
 }
 
-/* Toast entrance preserves its horizontal centering (translate-x), so it gets
- * its own keyframe instead of reusing tk-page-enter. */
+/* Toast entrance animates opacity and vertical offset only. Horizontal
+ * centering is done with auto margins (inset-x-0 + mx-auto) on the toast box
+ * so the animation never has to encode a -50% X translate — combining it with
+ * Tailwind's translate utilities double-applied the offset and pushed the
+ * toast off-screen. */
 @keyframes tk-toast-in {
   from {
     opacity: 0;
-    transform: translate(-50%, 12px);
+    transform: translateY(12px);
   }
 
   to {
     opacity: 1;
-    transform: translate(-50%, 0);
+    transform: translateY(0);
   }
 }
 

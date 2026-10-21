@@ -20,29 +20,33 @@ export default function Toast({ message, tone = "success", onDismiss, duration =
     <div
       role={isError ? "alert" : "status"}
       aria-live={isError ? "assertive" : "polite"}
-      className="tk-toast-enter tk-glass tk-glass-line fixed bottom-[calc(84px+env(safe-area-inset-bottom))] left-1/2 z-[1002] flex w-[min(92vw,380px)] -translate-x-1/2 items-start gap-3 rounded-xl border px-4 py-3 shadow-[0_12px_40px_rgba(36,16,101,0.18)] lg:bottom-5"
-      style={{ borderColor: isError ? "#FECACA" : "rgba(216, 214, 254, 0.6)" }}
+      className="tk-toast-enter pointer-events-none fixed inset-x-0 bottom-[calc(84px+env(safe-area-inset-bottom))] z-[1002] flex justify-center px-4 lg:bottom-5"
     >
-      <Icon
-        size={18}
-        aria-hidden="true"
-        className={`mt-0.5 shrink-0 ${
-          isError ? "text-[#B91C1C]" : "text-[#16A34A]"
-        }`}
-      />
-      <p className="flex-1 text-[13px] font-medium leading-5 text-[#241065]">
-        {message}
-      </p>
-      {onDismiss && (
-        <button
-          type="button"
-          onClick={onDismiss}
-          aria-label="Dismiss notification"
-          className="shrink-0 rounded-md text-[#6B7280] transition hover:text-[#241065] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40"
-        >
-          <X size={16} aria-hidden="true" />
-        </button>
-      )}
+      <div
+        className="pointer-events-auto flex w-[min(92vw,380px)] items-start gap-3 rounded-xl border bg-[var(--tk-bg-elevated)] px-4 py-3 shadow-[0_12px_40px_rgba(36,16,101,0.28)]"
+        style={{ borderColor: isError ? "#FCA5A5" : "var(--tk-border-strong)" }}
+      >
+        <Icon
+          size={18}
+          aria-hidden="true"
+          className={`mt-0.5 shrink-0 ${
+            isError ? "text-[#B91C1C]" : "text-[#16A34A]"
+          }`}
+        />
+        <p className="flex-1 text-[13px] font-semibold leading-5 text-[var(--tk-ink)]">
+          {message}
+        </p>
+        {onDismiss && (
+          <button
+            type="button"
+            onClick={onDismiss}
+            aria-label="Dismiss notification"
+            className="shrink-0 rounded-md text-[var(--tk-ink-muted)] transition hover:text-[var(--tk-ink)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tk-brand)]/40"
+          >
+            <X size={16} aria-hidden="true" />
+          </button>
+        )}
+      </div>
     </div>
   );
 }
