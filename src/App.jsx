@@ -209,6 +209,10 @@ export default function App() {
 
           </Route>
 
+          {/* Catch-all: an unknown path (e.g. a bare /{username} link) would
+              otherwise match nothing and render a blank page. Send it home. */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+
         </Routes>
         </PageTransition>
       </Suspense>
