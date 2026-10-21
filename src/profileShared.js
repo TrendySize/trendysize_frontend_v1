@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-import { getProfile } from "./services/api";
+import { getProfile, getVendorProjects } from "./services/api";
 import {
   dataUrlToBlob,
   getStoredProducts,
@@ -228,6 +228,20 @@ export async function loadVendorData() {
         region: remote.region || updatedProfile.region || "",
         specialization:
           remote.specialization || updatedProfile.specialization || "",
+        whatsappName: remote.whatsappName || updatedProfile.whatsappName || "",
+        portfolioUrl: remote.portfolioUrl || updatedProfile.portfolioUrl || "",
+        craftTags:
+          Array.isArray(remote.craftTags) && remote.craftTags.length > 0
+            ? remote.craftTags
+            : updatedProfile.craftTags || [],
+        outfitsMade:
+          remote.outfitsMade != null
+            ? String(remote.outfitsMade)
+            : updatedProfile.outfitsMade || "",
+        yearsExperience:
+          remote.yearsExperience != null
+            ? String(remote.yearsExperience)
+            : updatedProfile.yearsExperience || "",
         whatsappNumber:
           remote.whatsappNumber || updatedProfile.whatsappNumber || "",
         email: remote.email || updatedProfile.email || "",
@@ -280,26 +294,46 @@ export async function loadVendorData() {
 
   let products = [];
 
-  const savedProducts = localStorage.getItem(PRODUCTS_STORAGE_KEY);
-  if (savedProducts) {
-    try {
-      const parsedProducts = JSON.parse(savedProducts);
-      if (!Array.isArray(parsedProducts)) {
-        throw new Error("Saved products must be an array.");
-      }
-      const { products: loadedProducts, migrated } =
-        await hydrateProductImages(parsedProducts);
+  // Featured Work now lives on the backend (VendorProjects). Fetch it and map
+  // to the UI's { id, name, image } shape; fall back to any legacy
+  // localStorage copy if the request fails.
+  try {
+    const remoteProjects = await getVendorProjects();
+    if (Array.isArray(remoteProjects)) {
+      products = remoteProjects
+        .map((project) => ({
+          id: project.id ?? project.Id,
+          name: project.name ?? project.Name ?? "",
+          image: project.imageUrl ?? project.ImageUrl ?? "",
+        }))
+        .filter((project) => project.id && project.image);
+    }
+  } catch (error) {
+    console.error("Could not load featured work from API:", error);
+  }
 
-      if (migrated) {
-        localStorage.setItem(
-          PRODUCTS_STORAGE_KEY,
-          JSON.stringify(getStoredProducts(loadedProducts))
-        );
-      }
+  if (products.length === 0) {
+    const savedProducts = localStorage.getItem(PRODUCTS_STORAGE_KEY);
+    if (savedProducts) {
+      try {
+        const parsedProducts = JSON.parse(savedProducts);
+        if (!Array.isArray(parsedProducts)) {
+          throw new Error("Saved products must be an array.");
+        }
+        const { products: loadedProducts, migrated } =
+          await hydrateProductImages(parsedProducts);
 
-      products = loadedProducts;
-    } catch (error) {
-      console.error("Could not load products:", error);
+        if (migrated) {
+          localStorage.setItem(
+            PRODUCTS_STORAGE_KEY,
+            JSON.stringify(getStoredProducts(loadedProducts))
+          );
+        }
+
+        products = loadedProducts;
+      } catch (error) {
+        console.error("Could not load products:", error);
+      }
     }
   }
 

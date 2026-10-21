@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
   Ban,
+  ExternalLink,
+  Images,
   MapPin,
   MessageCircle,
   Ruler,
@@ -162,12 +164,32 @@ export default function PublicVendorProfile() {
   const location = [vendor.city, vendor.region].filter(Boolean).join(", ");
   const hasWhatsApp = vendor.hasWhatsapp !== false;
 
+  const craftTags = Array.isArray(vendor.craftTags)
+    ? vendor.craftTags.filter((tag) => String(tag).trim())
+    : [];
+  const featuredWork = Array.isArray(vendor.featuredWork)
+    ? vendor.featuredWork.filter((item) => item?.imageUrl)
+    : [];
+  const stats = [];
+  if (vendor.yearsExperience != null) {
+    stats.push({
+      label: vendor.yearsExperience === 1 ? "Year of craft" : "Years of craft",
+      value: vendor.yearsExperience,
+    });
+  }
+  if (vendor.outfitsMade != null) {
+    stats.push({ label: "Outfits made", value: vendor.outfitsMade });
+  }
+
   const hasDetails = Boolean(
     vendor.tagline ||
       vendor.description ||
       location ||
       vendor.specialization ||
-      vendor.businessName
+      vendor.businessName ||
+      craftTags.length > 0 ||
+      stats.length > 0 ||
+      featuredWork.length > 0
   );
 
   return (
@@ -240,6 +262,37 @@ export default function PublicVendorProfile() {
                 “{vendor.tagline}”
               </p>
             )}
+
+            {craftTags.length > 0 && (
+              <div className="mt-3 flex flex-wrap gap-2">
+                {craftTags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="inline-flex items-center rounded-full border border-[var(--tk-border)] bg-[var(--tk-surface-muted)] px-2.5 py-1 text-[11px] font-medium text-[var(--tk-ink-soft)]"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
+
+            {stats.length > 0 && (
+              <div className="mt-4 flex flex-wrap gap-3">
+                {stats.map((stat) => (
+                  <div
+                    key={stat.label}
+                    className="rounded-xl border border-[var(--tk-border)] bg-[var(--tk-bg-elevated)] px-4 py-2.5"
+                  >
+                    <p className="text-[18px] font-bold leading-none text-[var(--tk-ink)]">
+                      {stat.value}
+                    </p>
+                    <p className="mt-1 text-[11px] font-medium text-[var(--tk-ink-muted)]">
+                      {stat.label}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
@@ -254,6 +307,50 @@ export default function PublicVendorProfile() {
               {vendor.description}
             </p>
           </section>
+        )}
+
+        {/* FEATURED WORK */}
+        {featuredWork.length > 0 && (
+          <section className="mt-6 rounded-2xl border border-[var(--tk-border)] bg-[var(--tk-bg-elevated)] p-5 shadow-sm">
+            <h2 className="flex items-center gap-2 text-[13px] font-bold text-[var(--tk-ink)]">
+              <Images size={15} aria-hidden="true" />
+              Featured Work
+            </h2>
+
+            <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">
+              {featuredWork.map((item) => (
+                <figure
+                  key={item.id}
+                  className="overflow-hidden rounded-xl border border-[var(--tk-border)] bg-[var(--tk-surface-muted)]"
+                >
+                  <img
+                    src={item.imageUrl}
+                    alt={item.name || "Featured work"}
+                    loading="lazy"
+                    className="aspect-square w-full object-cover"
+                  />
+                  {item.name && (
+                    <figcaption className="px-2.5 py-2 text-[11px] font-medium text-[var(--tk-ink-soft)]">
+                      {item.name}
+                    </figcaption>
+                  )}
+                </figure>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* PORTFOLIO LINK */}
+        {vendor.portfolioUrl && (
+          <a
+            href={vendor.portfolioUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-4 flex items-center justify-center gap-2 rounded-xl border border-[var(--tk-border)] bg-[var(--tk-bg-elevated)] px-4 py-3 text-[13px] font-semibold text-[var(--tk-ink)] transition hover:border-[var(--tk-brand)]/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tk-brand)]/40"
+          >
+            <ExternalLink size={15} aria-hidden="true" />
+            View full portfolio
+          </a>
         )}
 
         {/* EMPTY-DETAILS NOTE — only when the vendor has added nothing yet. */}

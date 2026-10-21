@@ -27,7 +27,6 @@ import {
   CRAFT_TAG_SUGGESTIONS,
   DEFAULT_PROFILE,
   MAX_PROFILE_IMAGE_SIZE,
-  PRODUCTS_STORAGE_KEY,
   PROFILE_IMAGE_FIELDS,
   deriveSpecialtyLine,
   loadVendorData,
@@ -36,11 +35,10 @@ import {
 } from "../profileShared";
 import { updateProfile, uploadProfileImage } from "../services/api";
 import {
-  dataUrlToBlob,
-  deleteProfileMedia,
-  getStoredProducts,
-  saveProfileMedia,
-} from "../profileMediaStorage";
+  createVendorProject,
+  deleteVendorProject,
+} from "../services/api";
+import { dataUrlToBlob } from "../profileMediaStorage";
 
 function SectionCard({ title, description, children }) {
   return (
@@ -213,12 +211,12 @@ export default function Settings() {
         }
       }
 
-      const [firstName, ...rest] = (form.businessName || "")
+      const [firstName] = (form.whatsappName || form.businessName || "")
         .trim()
         .split(/\s+/);
+
       await updateProfile({
         FirstName: firstName || undefined,
-        LastName: rest.join(" ") || undefined,
         WhatsappNumber: form.whatsappNumber || undefined,
         BusinessName: form.businessName || undefined,
         Tagline: form.tagline || undefined,
@@ -226,6 +224,12 @@ export default function Settings() {
         City: form.city || undefined,
         Region: form.region || undefined,
         Specialization: form.specialization || undefined,
+        WhatsappName: form.whatsappName || undefined,
+        PortfolioUrl: portfolioUrl || undefined,
+        CraftTags: Array.isArray(form.craftTags) ? form.craftTags : undefined,
+        OutfitsMade: form.outfitsMade === "" ? undefined : Number(form.outfitsMade),
+        YearsExperience:
+          form.yearsExperience === "" ? undefined : Number(form.yearsExperience),
       });
 
       persistProfile(nextForm);
@@ -385,38 +389,31 @@ export default function Settings() {
       return;
     }
 
-    const id =
-      typeof crypto !== "undefined" && crypto.randomUUID
-        ? crypto.randomUUID()
-        : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
-    const imageKey = `product:${id}`;
-
     try {
-      await saveProfileMedia(
-        imageKey,
-        selectedProductImage || dataUrlToBlob(productImage)
-      );
+      const file =
+        selectedProductImage || dataUrlToBlob(productImage) || undefined;
+
+      const created = await createVendorProject({
+        name: productName.trim(),
+        file,
+      });
 
       const newProduct = {
-        id,
-        imageKey,
-        name: productName.trim(),
-        image: productImage,
+        id: created?.id ?? created?.Id,
+        name: created?.name ?? created?.Name ?? productName.trim(),
+        image: created?.imageUrl ?? created?.ImageUrl ?? productImage,
       };
       const updatedProducts = [...products, newProduct];
 
-      localStorage.setItem(
-        PRODUCTS_STORAGE_KEY,
-        JSON.stringify(getStoredProducts(updatedProducts))
-      );
       setProducts(updatedProducts);
       closeProductModal();
       setToast({ message: "Look added to Featured Work.", tone: "success" });
     } catch (error) {
-      console.error("Could not save product image:", error);
+      console.error("Could not save featured look:", error);
       setToast({
         message:
-          "Could not save the look image. Please check available browser storage and try again.",
+          error?.message ||
+          "Could not save the look. Please try again.",
         tone: "error",
       });
     }
@@ -430,27 +427,18 @@ export default function Settings() {
 
     if (!productId) return;
 
-    const productToDelete = products.find(
-      (product) => product.id === productId
-    );
     const updatedProducts = products.filter(
       (product) => product.id !== productId
     );
 
     try {
-      if (productToDelete?.imageKey) {
-        await deleteProfileMedia(productToDelete.imageKey);
-      }
-      localStorage.setItem(
-        PRODUCTS_STORAGE_KEY,
-        JSON.stringify(getStoredProducts(updatedProducts))
-      );
+      await deleteVendorProject(productId);
       setProducts(updatedProducts);
       setToast({ message: "Look removed.", tone: "success" });
     } catch (error) {
-      console.error("Could not delete product image:", error);
+      console.error("Could not delete featured look:", error);
       setToast({
-        message: "Could not remove this look. Please try again.",
+        message: error?.message || "Could not remove this look. Please try again.",
         tone: "error",
       });
     }

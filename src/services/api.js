@@ -220,6 +220,35 @@ export function uploadProfileImage(file, type) {
   return apiRequest("/auth/me/image", { method: "POST", body: form });
 }
 
+// ============================================================================
+// FEATURED WORK  (vendor portfolio — guide §6.3)
+// ============================================================================
+
+export function getVendorProjects() {
+  return apiRequest("/vendor/projects", { method: "GET" });
+}
+
+// Create a featured item. Provide either a File (uploaded to Cloudinary) or a
+// pasted imageUrl.
+export function createVendorProject({ name, file, imageUrl }) {
+  const form = new FormData();
+  form.append("Name", name);
+  if (file) form.append("Image", file);
+  if (imageUrl) form.append("ImageUrl", imageUrl);
+  return apiRequest("/vendor/projects", { method: "POST", body: form });
+}
+
+export function updateVendorProject(id, fields) {
+  return apiRequest(`/vendor/projects/${id}`, {
+    method: "PUT",
+    body: JSON.stringify(fields), // PascalCase: Name, SortOrder
+  });
+}
+
+export function deleteVendorProject(id) {
+  return apiRequest(`/vendor/projects/${id}`, { method: "DELETE" });
+}
+
 // 3.8 Deactivate account (destructive, irreversible).
 export function deactivateAccount() {
   return apiRequest("/auth/me", { method: "DELETE" });
