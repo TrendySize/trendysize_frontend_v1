@@ -787,18 +787,7 @@ export default function Settings() {
               title="Business Statistics"
               description="Highlights shown on your profile."
             >
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-                <InputField
-                  label="Happy Clients"
-                  name="happyClients"
-                  value={form.happyClients}
-                  onChange={handleChange}
-                  placeholder="Add Number"
-                  type="number"
-                  inputMode="numeric"
-                  min="0"
-                />
-
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <InputField
                   label="Outfits Made"
                   name="outfitsMade"

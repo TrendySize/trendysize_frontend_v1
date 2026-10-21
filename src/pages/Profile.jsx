@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import {
-  Award,
   Check,
   Clock3,
   ExternalLink,
@@ -389,12 +388,7 @@ export default function Profile() {
 
           {/* STATS */}
           <section className="mt-4 sm:mt-5">
-            <div className="tk-tile grid grid-cols-3 divide-x divide-[var(--tk-border-strong)] overflow-hidden rounded-xl">
-              <StatCard
-                icon={<Award size={19} />}
-                value={profile.happyClients}
-                label="Happy Clients"
-              />
+            <div className="tk-tile grid grid-cols-2 divide-x divide-[var(--tk-border-strong)] overflow-hidden rounded-xl">
               <StatCard
                 icon={<Shirt size={19} />}
                 value={profile.outfitsMade}

@@ -33,7 +33,6 @@ export const DEFAULT_PROFILE = {
   portfolioUrl: "",
   profileImage: "",
   coverImage: "",
-  happyClients: "",
   outfitsMade: "",
   yearsExperience: "",
 };
