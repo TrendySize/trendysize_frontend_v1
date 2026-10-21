@@ -19,6 +19,7 @@ export const MAX_PROFILE_IMAGE_SIZE = 20 * 1024 * 1024;
 
 export const DEFAULT_PROFILE = {
   businessName: "",
+  username: "",
   tagline: "",
   description: "",
   city: "",
@@ -221,6 +222,7 @@ export async function loadVendorData() {
         ...updatedProfile,
         businessName:
           remote.businessName || updatedProfile.businessName || fullName || "",
+        username: remote.username || updatedProfile.username || "",
         tagline: remote.tagline || updatedProfile.tagline || "",
         description: remote.description || updatedProfile.description || "",
         city: remote.city || updatedProfile.city || "",
