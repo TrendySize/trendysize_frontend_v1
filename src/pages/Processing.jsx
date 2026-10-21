@@ -156,8 +156,8 @@ export default function Processing() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F4F3FF] text-[#241065]">
-      <div className="relative mx-auto flex min-h-screen w-full max-w-[1440px] flex-col px-[22px] py-[20px]">
+    <div className="relative min-h-screen bg-transparent text-[var(--tk-ink)]">
+      <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-[1440px] flex-col px-[22px] py-[20px]">
         {/* Top Progress Indicator */}
         <div className="flex h-[7px] w-full shrink-0">
           <div className="h-[7px] flex-1 bg-[#D1D5DB]" />

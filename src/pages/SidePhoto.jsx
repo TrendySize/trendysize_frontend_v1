@@ -238,8 +238,8 @@ export default function SidePhoto() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F4F3FF] px-4 py-5 text-[#241065] sm:px-8">
-      <div className="mx-auto flex min-h-[calc(100vh-40px)] w-full max-w-[1440px] flex-col">
+    <div className="relative min-h-screen bg-transparent px-4 py-5 text-[var(--tk-ink)] sm:px-8">
+      <div className="relative z-10 mx-auto flex min-h-[calc(100vh-40px)] w-full max-w-[1440px] flex-col">
 
         {/* PROGRESS */}
 

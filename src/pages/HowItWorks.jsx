@@ -11,8 +11,8 @@ export default function HowItWorks() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-[#F4F3FF] px-8 py-6 text-[#241065]">
-      <div className="mx-auto flex min-h-[calc(100vh-48px)] w-full max-w-[1440px] flex-col">
+    <div className="relative min-h-screen bg-transparent px-8 py-6 text-[var(--tk-ink)]">
+      <div className="relative z-10 mx-auto flex min-h-[calc(100vh-48px)] w-full max-w-[1440px] flex-col">
 
         {/* ==================================================
             PROGRESS

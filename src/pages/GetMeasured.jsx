@@ -75,8 +75,8 @@ export default function GetMeasured() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F4F3FF] px-4 py-3 text-[#241065]">
-      <div className="mx-auto flex min-h-[calc(100vh-24px)] w-full max-w-[1180px] flex-col">
+    <div className="relative min-h-screen bg-transparent px-4 py-3 text-[var(--tk-ink)]">
+      <div className="relative z-10 mx-auto flex min-h-[calc(100vh-24px)] w-full max-w-[1180px] flex-col">
 
         {/* ==================================================
             PROGRESS
