@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: trendysize-frontend
+    name: trendysize-frontend-v1
     runtime: static
     branch: frontend-integration
     buildCommand: npm install && npm run build
