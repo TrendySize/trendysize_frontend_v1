@@ -36,12 +36,12 @@ export default function ContactSupport() {
   )}`;
 
   return (
-    <div className="min-h-screen bg-[#F4F3FF] text-[#241065]">
+    <div className="relative min-h-screen bg-transparent text-[var(--tk-ink)]">
       <DashboardSidebar
         activeLabel="Contact Support"
       />
 
-      <main className="min-h-screen lg:ml-[240px]">
+      <main className="relative z-10 min-h-screen lg:ml-[240px]">
         <header className="flex h-[88px] items-center justify-between px-4 sm:px-6 lg:h-[56px] lg:justify-end lg:px-8">
           <button
             type="button"

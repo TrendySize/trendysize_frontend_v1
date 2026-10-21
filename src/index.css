@@ -333,6 +333,15 @@ body {
   overflow-x: hidden;
 }
 
+/* Keep all app content above the fixed .tk-ambient backdrop layer. Without a
+ * positioned, z-indexed root, static page content paints BELOW the ambient's
+ * z-index:0 fixed layer and the page appears blank. This is the single global
+ * guard so no page can be hidden by the backdrop. */
+#root {
+  position: relative;
+  z-index: 1;
+}
+
 /*
  * Accessibility overrides.
  * The legacy palette uses several muted greys/purples that fail WCAG AA
