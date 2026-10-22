@@ -437,7 +437,8 @@ export default function Subscription() {
 
           <p className="mt-2 max-w-[620px] text-[12px] leading-5 text-[#6B7280] sm:text-[13px]">
             Choose a plan that fits your fashion business and manage
-            your measurement links from one place.
+            your measurement links from one place. Every new account
+            starts with 10 free measurement links.
           </p>
 
         </div>
@@ -623,7 +624,7 @@ export default function Subscription() {
             <p className="mt-1.5 text-[10px] text-[#6B7280] sm:text-[11px]">
               {subscription
                 ? "Switch to another plan whenever you need."
-                : "Select a subscription to start generating links."}
+                : "New accounts get 10 free measurement links. Choose a plan for unlimited links."}
             </p>
 
           </div>

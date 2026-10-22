@@ -164,12 +164,21 @@ export default function GenerateLinkModal({
   const { mode, selected, searchTerm, newCustomer, orderReference, result, error, loading } =
     state;
 
-  const subscriptionBlocked = state.subscription != null && !state.subscription.isActive;
+  // canGenerateLinks is computed by the backend from the paid subscription OR the
+  // remaining one-time free links, so the modal mirrors the server exactly.
+  const subscriptionBlocked =
+    state.subscription != null && state.subscription.canGenerateLinks === false;
+
+  const freeLinksRemaining = state.subscription?.freeLinksRemaining ?? 0;
+  const onFreeTrial =
+    state.subscription != null &&
+    state.subscription.canGenerateLinks === true &&
+    state.subscription.isActive === false;
 
   const subscriptionMessage =
-    state.subscription?.status === "expired"
+    state.subscription?.status === "expired" && freeLinksRemaining <= 0
       ? "Your subscription has expired. Please renew to generate measurement links."
-      : "Your subscription is inactive. Please renew to generate measurement links.";
+      : "You've used all 10 free measurement links. Subscribe to keep generating measurement links.";
 
   // In "new" mode the vendor only needs a name; the customer completes the rest
   // on the public form.
@@ -350,6 +359,15 @@ export default function GenerateLinkModal({
 
         {/* BODY */}
         <div className="min-h-0 flex-1 overflow-y-auto px-5 py-4">
+          {/* FREE TRIAL */}
+          {onFreeTrial && !result && (
+            <div className="mb-4 rounded-[10px] border border-[var(--tk-border)] bg-[var(--tk-surface-muted)] px-3 py-2.5 text-[11px] leading-5 text-[var(--tk-ink-muted)]">
+              <span className="font-semibold text-[var(--tk-ink)]">Free plan</span>{" "}
+              — {freeLinksRemaining} of {state.subscription.freeLinksLimit} free
+              measurement {freeLinksRemaining === 1 ? "link" : "links"} left.
+            </div>
+          )}
+
           {/* SUBSCRIPTION BLOCKED */}
           {subscriptionBlocked && (
             <div className="flex gap-2.5 rounded-[10px] border border-[#FCA5A5] bg-[#FEF2F2] px-3 py-3 text-[11px] leading-5 text-[#B91C1C]">

@@ -394,7 +394,10 @@ export function generateMeasurementLinkForNewCustomer({
 
 // GET /api/subscription — read-only subscription state for the authenticated
 // vendor. Used to pre-check whether link generation is allowed before POSTing
-// to /measurements/generate-link. Shape: { isActive, status, isSubscriptionActive, subscriptionExpiresAt }.
+// to /measurements/generate-link. Shape: { isActive, status, isSubscriptionActive,
+// subscriptionExpiresAt, canGenerateLinks, freeLinksRemaining, freeLinksLimit, freeLinksUsed }.
+// canGenerateLinks already folds in the one-time free allowance, so the client should
+// gate on that rather than on isActive.
 export function getSubscription() {
   return apiRequest("/subscription", { method: "GET" });
 }
