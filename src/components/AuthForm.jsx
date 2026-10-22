@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { HiOutlineEye, HiOutlineEyeOff } from "react-icons/hi";
 import { HiOutlineCheckCircle, HiOutlineEnvelope } from "react-icons/hi2";
@@ -8,6 +8,7 @@ import {
   login,
   googleSignIn,
   resendConfirmation,
+  getEmailStatus,
   setToken,
   getProfile,
 } from "../services/api";
@@ -109,6 +110,32 @@ export default function AuthForm({
   // confirmed).
   const [canResend, setCanResend] = useState(false);
 
+  // What the server says about its ability to send mail: { enabled, healthy }. Null means "not
+  // known yet", which is treated as "mail works" so a temporary failure to reach the status
+  // endpoint never hides anything.
+  const [emailStatus, setEmailStatus] = useState(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    getEmailStatus()
+      .then((status) => {
+        if (!cancelled) setEmailStatus(status);
+      })
+      .catch(() => {
+        // The status endpoint is optional. If it cannot be reached the UI keeps showing the
+        // mail actions, because the API itself reports a clear error if it cannot send.
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  // Mail can be switched off entirely, in which case there is no link to send and no point
+  // offering a button that cannot do anything.
+  const mailAvailable = emailStatus?.enabled !== false;
+
   const resetFeedback = () => {
     setError("");
     setInfo("");
@@ -166,6 +193,9 @@ export default function AuthForm({
             data.message ||
             "Account created. Check your email for a confirmation link.",
           emailSent: data.emailSent !== false,
+          // The server has no mail transport, so there is nothing to confirm and the account is
+          // ready to use as it is.
+          verificationSkipped: data.verificationSkipped === true,
         });
       } catch (err) {
         console.error("Signup error:", err);
@@ -177,8 +207,10 @@ export default function AuthForm({
             messageForError(err, "That account details are already in use.")
           );
           // An account that was never confirmed still needs its confirmation link, so the form
-          // offers to send a new one.
-          setCanResend(err.code === "email_taken_unconfirmed");
+          // offers to send a new one - but only when the server is able to send mail.
+          setCanResend(
+            err.code === "email_taken_unconfirmed" && mailAvailable
+          );
           return;
         }
 
@@ -268,6 +300,13 @@ export default function AuthForm({
     const targetEmail = (email || loginValue).trim();
     if (!targetEmail) {
       setError("Enter the email address you signed up with.");
+      return;
+    }
+
+    if (!mailAvailable) {
+      setError(
+        "We can't send confirmation emails at the moment. You can still sign in with this account."
+      );
       return;
     }
 
@@ -371,7 +410,21 @@ export default function AuthForm({
           </p>
         </div>
 
-        {success.emailSent ? (
+        {success.verificationSkipped ? (
+          /* The server has no mail transport, so there is nothing to confirm and no email to
+             wait for. Saying so is the honest version of this screen. */
+          <div className="flex items-start gap-3 rounded-xl border border-[#BAE6CD] bg-[#EFFCF3] px-4 py-3">
+            <HiOutlineCheckCircle
+              size={18}
+              aria-hidden="true"
+              className="mt-0.5 shrink-0 text-[#1FAF38]"
+            />
+            <p className="text-[13px] leading-5 text-[#14532D]">
+              Your account is ready to use. Sign in below to get started - there is
+              nothing to confirm.
+            </p>
+          </div>
+        ) : success.emailSent ? (
           <div className="flex items-start gap-3 rounded-xl border border-[#D1D5DB] bg-[#F4F3FF] px-4 py-3">
             <HiOutlineEnvelope
               size={18}
@@ -414,15 +467,17 @@ export default function AuthForm({
             Go to sign in
           </button>
 
-          <button
-            type="button"
-            onClick={handleResendConfirmation}
-            disabled={resending}
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-xl border border-[#D1D5DB] bg-white text-[15px] font-semibold text-[#241065] transition hover:bg-[#F4F3FF] disabled:cursor-not-allowed disabled:opacity-60"
-            style={{ fontFamily: "SF Pro Display, sans-serif" }}
-          >
-            {resending ? "Sending…" : "Resend confirmation email"}
-          </button>
+          {mailAvailable && !success.verificationSkipped && (
+            <button
+              type="button"
+              onClick={handleResendConfirmation}
+              disabled={resending}
+              className="flex h-12 w-full items-center justify-center gap-2 rounded-xl border border-[#D1D5DB] bg-white text-[15px] font-semibold text-[#241065] transition hover:bg-[#F4F3FF] disabled:cursor-not-allowed disabled:opacity-60"
+              style={{ fontFamily: "SF Pro Display, sans-serif" }}
+            >
+              {resending ? "Sending…" : "Resend confirmation email"}
+            </button>
+          )}
         </div>
       </div>
     );
@@ -718,7 +773,7 @@ export default function AuthForm({
 
       {/* The account already exists but was never confirmed, so the confirmation link is still
           needed. This is the action the message above points at. */}
-      {canResend && (
+      {canResend && mailAvailable && (
         <div className="mb-5 rounded-xl border border-[#D1D5DB] bg-[#F4F3FF] px-4 py-3">
           <p className="text-[13px] leading-5 text-[#4B5563]">
             Still waiting for your confirmation link?

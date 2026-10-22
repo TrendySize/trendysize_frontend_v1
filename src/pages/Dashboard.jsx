@@ -27,7 +27,7 @@ import drawerLogo from "../assets/images/nav.png";
 import DashboardSidebar from "../components/DashboardSidebar";
 import Toast from "../components/Toast";
 import GenerateLinkModal from "../components/GenerateLinkModal";
-import { getProfile, getCustomers, getMeasurements, publicProfileLinkFor, whatsappDirectLinkFor, resendConfirmation } from "../services/api";
+import { getProfile, getCustomers, getMeasurements, publicProfileLinkFor, whatsappDirectLinkFor, resendConfirmation, getEmailStatus } from "../services/api";
 
 const bannerImageLayers = Array.from({ length: 10 });
 
@@ -187,6 +187,30 @@ export default function Dashboard() {
   // The unconfirmed-email notice can be dismissed for the session.
   const [emailNoticeDismissed, setEmailNoticeDismissed] = useState(false);
   const [resendingConfirmation, setResendingConfirmation] = useState(false);
+
+  // What the server says about its ability to send mail: { enabled, healthy }. Null means "not
+  // known yet", which is treated as "mail works".
+  const [emailStatus, setEmailStatus] = useState(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    getEmailStatus()
+      .then((status) => {
+        if (!cancelled) setEmailStatus(status);
+      })
+      .catch(() => {
+        // Optional endpoint; the API reports its own error if it cannot send.
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  // With no mail transport there is no confirmation link to send, so the notice would be telling
+  // the user to do something impossible. It is hidden instead.
+  const mailAvailable = emailStatus?.enabled !== false;
 
   // Re-sends the confirmation link for an account that was created while email delivery was
   // failing, so the owner can finally confirm their address.
@@ -579,6 +603,7 @@ export default function Dashboard() {
             was never confirmed, so the owner never received their link.
         ===================================================== */}
         {user?.emailConfirmed === false &&
+          mailAvailable &&
           !emailNoticeDismissed && (
             <div className="mx-[16px] mt-[12px] flex items-start gap-3 rounded-xl border border-[#FDE68A] bg-[#FEF9C3] px-4 py-3 lg:mx-[28px]">
               <MailCheck

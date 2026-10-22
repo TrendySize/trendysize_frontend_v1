@@ -214,6 +214,13 @@ export function resendConfirmation(email) {
   });
 }
 
+// Reports whether the API can send mail right now. The UI uses this to decide whether to offer a
+// "resend the link" button or to tell the user that mail is unavailable, instead of promising a
+// message that is never going to be sent.
+export function getEmailStatus() {
+  return apiRequest("/auth/email-status", { method: "GET" });
+}
+
 // 3.3 Login — email + password only.
 export function login(email, password) {
   return apiRequest("/auth/login", {
