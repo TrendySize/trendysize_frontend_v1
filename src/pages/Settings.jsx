@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import {
   Camera,
   Check,
+  Compass,
   ExternalLink,
   Image as ImageIcon,
   Mail,
@@ -39,6 +40,7 @@ import {
   deleteVendorProject,
 } from "../services/api";
 import { dataUrlToBlob } from "../profileMediaStorage";
+import { startGuidedTour } from "../onboarding";
 
 function SectionCard({ title, description, children }) {
   return (
@@ -874,6 +876,28 @@ export default function Settings() {
                   </button>
                 </div>
               )}
+            </SectionCard>
+
+            <SectionCard
+              title="Guided tour"
+              description="A refresher on where every feature lives."
+            >
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <p className="max-w-[430px] text-[11px] leading-5 text-[var(--tk-ink-muted)] sm:text-[12px]">
+                  Walk through the dashboard, customers, measurement links,
+                  storefront, subscription and support. You can skip it at any
+                  time and restart it later from here.
+                </p>
+
+                <button
+                  type="button"
+                  onClick={startGuidedTour}
+                  className="inline-flex h-10 shrink-0 items-center justify-center gap-1.5 rounded-lg bg-[var(--tk-brand)] px-4 text-[11px] font-semibold text-[var(--tk-brand-ink)] transition hover:opacity-90 sm:text-[12px]"
+                >
+                  <Compass size={15} />
+                  Retake tour
+                </button>
+              </div>
             </SectionCard>
           </div>
 

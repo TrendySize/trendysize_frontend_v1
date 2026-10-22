@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { getToken, getProfile, clearToken, setUnauthorizedHandler } from "../services/api";
 import BrandLoader from "./BrandLoader";
+import OnboardingGate from "./OnboardingGate";
 
 // A cached profile makes the app usable instantly. The .NET backend can be
 // cold (Render free tier: 15–60s), so we must NOT block the whole UI on a
@@ -28,6 +29,16 @@ export default function ProtectedRoute() {
     // "Checking your session…" screen while the backend wakes up.
     return readCachedUser() ? "authed" : "checking";
   });
+  const [profile, setProfile] = useState(readCachedUser);
+
+  const handleProfileChange = useCallback((next) => {
+    setProfile(next);
+    try {
+      localStorage.setItem("auth_user", JSON.stringify(next));
+    } catch (storageError) {
+      console.error("Could not cache profile:", storageError);
+    }
+  }, []);
 
   // Any 401 from any request clears the token globally.
   useEffect(() => {
@@ -42,9 +53,9 @@ export default function ProtectedRoute() {
 
     let active = true;
     getProfile()
-      .then((profile) => {
-        if (!active || !profile) return;
-        localStorage.setItem("auth_user", JSON.stringify(profile));
+      .then((remoteProfile) => {
+        if (!active || !remoteProfile) return;
+        handleProfileChange(remoteProfile);
         setStatus("authed");
       })
       .catch((error) => {
@@ -60,7 +71,7 @@ export default function ProtectedRoute() {
     return () => {
       active = false;
     };
-  }, [status]);
+  }, [status, handleProfileChange]);
 
   if (status === "anon") {
     return <Navigate to="/signin" replace state={{ from: location }} />;
@@ -70,5 +81,9 @@ export default function ProtectedRoute() {
     return <BrandLoader label="Checking your session…" />;
   }
 
-  return <Outlet />;
+  return (
+    <OnboardingGate profile={profile} onProfileChange={handleProfileChange}>
+      <Outlet />
+    </OnboardingGate>
+  );
 }

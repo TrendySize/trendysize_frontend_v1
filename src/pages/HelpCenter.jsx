@@ -3,6 +3,7 @@ import {
   ArrowRight,
   Bell,
   CircleHelp,
+  Compass,
   CreditCard,
   Search,
   Settings2,
@@ -13,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 
 import DashboardSidebar from "../components/DashboardSidebar";
 import BrandLogo from "../components/BrandLogo";
+import { startGuidedTour } from "../onboarding";
 
 const helpCategories = [
   {
@@ -470,6 +472,33 @@ export default function HelpCenter() {
                 </button>
               </div>
             )}
+
+            {/* =====================================================
+                GUIDED TOUR
+            ===================================================== */}
+            <div className="mt-6 rounded-[14px] border border-[#DDD8F5] bg-[#EBE9FE] px-4 py-4 sm:px-5 sm:py-5">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <p className="text-[12px] font-bold text-[#241065] sm:text-[13px]">
+                    New to TrendySize, or need a refresher?
+                  </p>
+
+                  <p className="mt-0.5 text-[10px] leading-4 text-[#6B7280] sm:text-[11px]">
+                    Take the guided tour to see the dashboard, customers,
+                    measurement links, storefront, subscription and support.
+                  </p>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={startGuidedTour}
+                  className="inline-flex h-9 shrink-0 items-center justify-center gap-1.5 rounded-[9px] border border-[#6133DA] bg-white px-4 text-[10px] font-semibold text-[#6133DA] transition hover:bg-[#F4F3FF] sm:h-10 sm:px-5 sm:text-[11px]"
+                >
+                  <Compass size={13} />
+                  Take the tour
+                </button>
+              </div>
+            </div>
 
             {/* =====================================================
                 SUPPORT FOOTER

@@ -256,6 +256,16 @@ export function getProfile() {
   return apiRequest("/auth/me", { method: "GET" });
 }
 
+// Onboarding — recorded per account so the policy gate and tour survive
+// switching devices.
+export function acceptDataPolicy() {
+  return apiRequest("/auth/accept-data-policy", { method: "POST" });
+}
+
+export function completeGuidedTour() {
+  return apiRequest("/auth/tour-completed", { method: "POST" });
+}
+
 // 3.6 Partial profile update — PascalCase, null fields ignored.
 export function updateProfile(fields) {
   return apiRequest("/auth/me", {

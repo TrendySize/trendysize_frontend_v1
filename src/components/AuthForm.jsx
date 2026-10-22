@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { HiOutlineEye, HiOutlineEyeOff } from "react-icons/hi";
 import { HiOutlineCheckCircle, HiOutlineEnvelope } from "react-icons/hi2";
 import {
@@ -78,6 +78,11 @@ export default function AuthForm({
   submitLabel = "Continue",
 }) {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Set by OnboardingGate when a signed-in user declines the data policy.
+  const dataPolicyDeclined =
+    !isSignUp && location.state?.dataPolicyDeclined === true;
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -508,6 +513,17 @@ export default function AuthForm({
       noValidate
       className="space-y-0"
     >
+      {dataPolicyDeclined && (
+        <div
+          role="status"
+          className="mb-5 rounded-xl border border-[#FDE68A] bg-[#FEF9C3] px-4 py-3 text-[12px] leading-5 text-[#78350F]"
+        >
+          You were signed out because you did not accept the data
+          confidentiality and terms of use. You can sign in again and accept
+          them to use TrendySize.
+        </div>
+      )}
+
       {/* ==================================================
           SIGNUP FIELDS
       ================================================== */}
