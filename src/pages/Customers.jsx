@@ -764,7 +764,7 @@ export default function Customers() {
           <div className="mb-6 flex items-start justify-between gap-3">
 
             <div>
-              <h1 className="text-[22px] font-bold text-[#241065]">
+              <h1 data-tour="customers-list" className="text-[22px] font-bold text-[#241065]">
                 Customers
               </h1>
 
@@ -777,6 +777,7 @@ export default function Customers() {
             <button
               type="button"
               onClick={() => setAddModalOpen(true)}
+              data-tour="add-customer"
               className="flex h-10 shrink-0 items-center gap-1.5 rounded-[9px] bg-[#6133DA] px-3.5 text-[12px] font-semibold text-white transition hover:bg-[#5227c2] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/50 sm:px-4"
             >
               <Plus size={15} />
@@ -1261,6 +1262,7 @@ export default function Customers() {
                           <button
                             type="button"
                             title="Generate measurement link"
+                            data-tour="measurement-link-action"
                             onClick={() =>
                               openLinkModal(
                                 customer
@@ -1489,6 +1491,7 @@ export default function Customers() {
 
                           <button
                             type="button"
+                            data-tour="measurement-link-action"
                             onClick={() =>
                               openLinkModal(
                                 customer

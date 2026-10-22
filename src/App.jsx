@@ -1,5 +1,11 @@
-import { lazy, Suspense } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { lazy, Suspense, useDeferredValue } from "react";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 import PageTransition from "./components/PageTransition";
@@ -41,13 +47,14 @@ function RouteFallback() {
   return <BrandLoader />;
 }
 
-export default function App() {
+function AppRoutes() {
+  const location = useLocation();
+  const deferredLocation = useDeferredValue(location);
+
   return (
-    <BrowserRouter>
-      <AmbientBackground />
-      <Suspense fallback={<RouteFallback />}>
-        <PageTransition>
-          <Routes>
+    <Suspense fallback={<RouteFallback />}>
+      <PageTransition routeKey={deferredLocation.pathname}>
+        <Routes location={deferredLocation}>
 
           {/* =========================
               PUBLIC ROUTES
@@ -204,8 +211,16 @@ export default function App() {
           <Route path="*" element={<Navigate to="/" replace />} />
 
         </Routes>
-        </PageTransition>
-      </Suspense>
+      </PageTransition>
+    </Suspense>
+  );
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <AmbientBackground />
+      <AppRoutes />
     </BrowserRouter>
   );
 }

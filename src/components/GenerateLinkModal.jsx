@@ -315,7 +315,7 @@ export default function GenerateLinkModal({
 
   return (
     <div
-      className="tk-scrim-enter fixed inset-0 z-[1001] flex items-end justify-center bg-[#241065]/40 p-0 backdrop-blur-sm sm:items-center sm:p-4"
+      className="tk-scrim-enter fixed inset-0 z-[1001] flex items-end justify-center bg-black/45 p-0 sm:items-center sm:p-4"
       role="dialog"
       aria-modal="true"
       aria-labelledby="generate-link-title"

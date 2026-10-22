@@ -42,9 +42,9 @@ import {
 import { dataUrlToBlob } from "../profileMediaStorage";
 import { startGuidedTour } from "../onboarding";
 
-function SectionCard({ title, description, children }) {
+function SectionCard({ title, description, children, dataTour }) {
   return (
-    <section className="rounded-2xl border border-[var(--tk-border)] bg-[var(--tk-bg-elevated)] p-4 shadow-sm sm:p-6">
+    <section data-tour={dataTour} className="rounded-2xl border border-[var(--tk-border)] bg-[var(--tk-bg-elevated)] p-4 shadow-sm sm:p-6">
       <div className="mb-4">
         <h2 className="text-[14px] font-bold text-[var(--tk-ink)] sm:text-[15px]">
           {title}
@@ -468,6 +468,7 @@ export default function Settings() {
             <SectionCard
               title="Appearance"
               description="Choose how the dashboard looks on this device."
+              dataTour="settings-workspace"
             >
               <div className="grid grid-cols-2 gap-3 sm:max-w-[360px]">
                 <button
@@ -939,7 +940,7 @@ export default function Settings() {
       {/* ADD LOOK MODAL */}
       {showProductModal && (
         <div
-          className="fixed inset-0 z-[60] flex items-center justify-center bg-[#241065]/40 px-3 py-4 backdrop-blur-sm sm:px-4"
+          className="fixed inset-0 z-[60] flex items-center justify-center bg-black/45 px-3 py-4 sm:px-4"
           onClick={closeProductModal}
         >
           <div

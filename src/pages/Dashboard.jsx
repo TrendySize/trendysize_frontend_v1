@@ -811,6 +811,7 @@ export default function Dashboard() {
             HERO + SOCIAL
         ===================================================== */}
         <section
+          data-tour="dashboard-overview"
           className="
             px-[28px]
 
@@ -1218,6 +1219,7 @@ export default function Dashboard() {
             STATISTICS
         ===================================================== */}
         <section
+          data-tour="dashboard-activity"
           className="
             mt-[20px]
             px-[28px]

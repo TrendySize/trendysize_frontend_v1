@@ -255,7 +255,7 @@ export default function HelpCenter() {
                 SEARCH
             ===================================================== */}
             <div className="mb-7 max-w-[620px]">
-              <label className="flex h-[46px] w-full items-center gap-3 rounded-[12px] border border-[#DDD8F5] bg-white px-3.5 shadow-[0_2px_8px_rgba(36,16,101,0.03)] transition focus-within:border-[#9B8AFB] focus-within:ring-2 focus-within:ring-[#EBE9FE]">
+              <label data-tour="help-search" className="flex h-[46px] w-full items-center gap-3 rounded-[12px] border border-[#DDD8F5] bg-white px-3.5 shadow-[0_2px_8px_rgba(36,16,101,0.03)] transition focus-within:border-[#9B8AFB] focus-within:ring-2 focus-within:ring-[#EBE9FE]">
                 <Search
                   size={18}
                   strokeWidth={1.8}

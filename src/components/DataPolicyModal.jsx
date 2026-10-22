@@ -138,7 +138,7 @@ export default function DataPolicyModal({ onAccept, onDecline, saving, error }) 
 
   return (
     <div
-      className="fixed inset-0 z-[1200] flex items-end justify-center bg-[#241065]/60 p-0 backdrop-blur-sm sm:items-center sm:p-4"
+      className="fixed inset-0 z-[1200] flex items-end justify-center bg-black/55 p-0 sm:items-center sm:p-4"
       role="presentation"
     >
       <div

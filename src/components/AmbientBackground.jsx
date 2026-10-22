@@ -1,11 +1,9 @@
 /*
 |--------------------------------------------------------------------------
-| AMBIENT BACKGROUND
+| APP CANVAS
 |--------------------------------------------------------------------------
-| A single fixed layer of soft, brand-tinted light pools behind the app
-| content. Its only job is to give the frosted glass tiles and chrome
-| something to reveal — without it, glass over a flat fill is invisible.
-| Non-interactive and layout-neutral (position: fixed, pointer-events: none).
+| A fixed neutral canvas behind app content. It is non-interactive and
+| layout-neutral, allowing each page to own its own surface hierarchy.
 |
 */
 

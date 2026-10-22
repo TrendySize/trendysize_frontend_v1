@@ -61,7 +61,6 @@ const Hero = () => {
             >
               Collect, organize and retrieve customer measurements from one simple workspace
             </p>
-
             {/* CTA BUTTONS */}
             <div className="mt-10 flex flex-col gap-3 sm:mt-10 sm:flex-row lg:mt-16 max-[380px]:mt-6 max-[380px]:gap-2">
               <button
@@ -99,4 +98,3 @@ const Hero = () => {
 };
 
 export default Hero;
-

@@ -283,9 +283,7 @@ export default function AuthForm({
 
       console.log("Login successful:", profile);
 
-      // An account that was never confirmed can still sign in. The dashboard picks up the
-      // emailConfirmed flag from the profile and reminds the user there, so the sign-in itself
-      // is not held up.
+      // The authenticated app will require email confirmation before exposing protected features.
       navigate("/dashboard");
     } catch (err) {
       console.error("Login error:", err);
@@ -326,7 +324,7 @@ export default function AuthForm({
 
     if (!mailAvailable) {
       setError(
-        "We can't send confirmation emails at the moment. You can still sign in with this account."
+        "Email confirmation is required to use TrendySize, but confirmation email delivery is unavailable right now."
       );
       return;
     }

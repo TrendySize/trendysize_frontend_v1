@@ -182,7 +182,7 @@ export default function Profile() {
       <main className="relative z-10 ml-0 min-h-screen px-4 pb-[calc(88px+env(safe-area-inset-bottom))] pt-0 sm:px-6 lg:ml-[240px] lg:px-7 lg:pb-14 lg:pt-0">
         <div className="mx-auto max-w-[1180px]">
           {/* COVER + AVATAR */}
-          <section>
+          <section data-tour="profile-storefront">
             <div className="relative -mx-4 h-[118px] bg-[var(--tk-brand)] sm:-mx-6 sm:h-[150px] lg:-mx-7 lg:h-[180px]">
               <div className="absolute inset-0 overflow-hidden">
                 {profile.coverImage ? (

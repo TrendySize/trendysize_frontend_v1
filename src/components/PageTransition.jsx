@@ -1,34 +1,44 @@
+import { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useAnimationControls, useReducedMotion } from "framer-motion";
 
 /*
 |--------------------------------------------------------------------------
-| PAGE TRANSITION
+| ROUTE TRANSITION
 |--------------------------------------------------------------------------
-| Wraps the routed view and plays a single, restrained entrance on every
-| route change. It animates OPACITY ONLY (not transform): the app shell
-| (fixed sidebar / bottom nav) lives inside this wrapper, and a transformed
-| ancestor would become the containing block for those fixed elements,
-| causing a visible jump on first paint. Fully static under reduced motion.
-| Keyed on pathname so React remounts the wrapper per route.
+| Applies a short opacity handoff after the next route is ready. It avoids
+| transform so fixed app navigation remains fixed, and stays out of the way
+| for users who prefer reduced motion.
 |
 */
 
-export default function PageTransition({ children }) {
+export default function PageTransition({ children, routeKey }) {
   const location = useLocation();
   const shouldReduceMotion = useReducedMotion();
+  const controls = useAnimationControls();
+  const currentRoute = routeKey ?? location.pathname;
+  const previousRoute = useRef(currentRoute);
 
-  if (shouldReduceMotion) {
-    return <div key={location.pathname}>{children}</div>;
-  }
+  useEffect(() => {
+    if (shouldReduceMotion) {
+      controls.set({ opacity: 1 });
+      previousRoute.current = currentRoute;
+      return;
+    }
+
+    if (previousRoute.current === currentRoute) return;
+    previousRoute.current = currentRoute;
+    controls.set({ opacity: 0.98 });
+    controls.start({
+      opacity: 1,
+      transition: { duration: 0.16, ease: [0.2, 0.75, 0.25, 1] },
+    });
+  }, [currentRoute, shouldReduceMotion, controls]);
+
+  if (shouldReduceMotion) return <div>{children}</div>;
 
   return (
-    <motion.div
-      key={location.pathname}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
-    >
+    <motion.div initial={false} animate={controls}>
       {children}
     </motion.div>
   );

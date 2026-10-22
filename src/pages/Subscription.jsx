@@ -635,7 +635,7 @@ export default function Subscription() {
         {/* =====================================================
             SUBSCRIPTION PLANS
         ===================================================== */}
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-7">
+        <div data-tour="subscription-plans" className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-7">
 
           {SUBSCRIPTION_PLANS.map((plan) => {
 

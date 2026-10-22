@@ -120,7 +120,7 @@ export default function MobileBottomNav({ activeLabel = "Dashboard" }) {
             type="button"
             aria-label="Close menu"
             onClick={() => setMoreOpen(false)}
-            className="absolute inset-0 bg-black/40 backdrop-blur-[1px]"
+            className="absolute inset-0 bg-black/40"
           />
 
           <div

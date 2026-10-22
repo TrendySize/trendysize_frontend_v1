@@ -29,8 +29,8 @@
  * THEME TOKENS
  * ----------------------------------------------------------------------------
  * A warm, brand-tinted dark theme (deep plum-charcoal, not #000 or neon) so
- * it reads as a considered extension of the product rather than a generic
- * inverted "AI" skin. Components read these via var(--tk-*).
+ * it reads as a considered extension of the product rather than an inverted
+ * skin. Components read these via var(--tk-*).
  * ============================================================================
  */
 :root {
@@ -76,8 +76,7 @@
   --tk-glass-highlight: rgba(255, 255, 255, 0.7);
   --tk-glass-blur: 18px;
 
-  /* Content cards — near-solid surfaces (not frosted). Hover lifts them and
-   * deepens the shadow. */
+  /* Content cards — near-solid surfaces with restrained hover feedback. */
   --tk-tile-bg: #FFFFFF;
   --tk-tile-bg-hover: #FFFFFF;
   --tk-tile-shadow: 0 1px 2px rgba(36, 16, 101, 0.05),
@@ -85,8 +84,7 @@
   --tk-tile-shadow-hover: 0 2px 6px rgba(36, 16, 101, 0.07),
     0 18px 40px -20px rgba(97, 51, 218, 0.34);
 
-  /* Ambient background wash the frosted surfaces reveal. Kept faint so it
-   * reads as lighting, not decoration. */
+  /* Ambient background wash the frosted surfaces reveal. */
   --tk-ambient-1: rgba(109, 74, 255, 0.10);
   --tk-ambient-2: rgba(109, 74, 255, 0.05);
 }
@@ -114,8 +112,7 @@
   --tk-toggle-thumb-ink: #17131F;
   --tk-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 12px 32px -16px rgba(0, 0, 0, 0.7);
 
-  /* Glass tinted darker in dark mode: a white blur would glow and hurt
-   * contrast against the plum-charcoal background. */
+  /* Glass surfaces remain tinted in dark mode for legibility. */
   --tk-glass-bg: rgba(34, 29, 46, 0.62);
   --tk-glass-bg-strong: rgba(34, 29, 46, 0.82);
   --tk-glass-border: rgba(255, 255, 255, 0.12);
@@ -326,10 +323,6 @@ html.dark .tk-loader__logo .tk-brand-logo__img {
 
 /* ============================================================================
  * CARD SURFACE
- * ----------------------------------------------------------------------------
- * Content cards. A clean, near-solid surface with a hairline border — NOT
- * frosted glass (glass-everywhere is a tell). Hover morphs the tile: a small
- * lift + scale with a deepening shadow, on the shared motion tokens.
  * ========================================================================== */
 .tk-tile {
   background-color: var(--tk-tile-bg);
@@ -361,11 +354,6 @@ html.dark .tk-loader__logo .tk-brand-logo__img {
 
 /* ============================================================================
  * AMBIENT BACKGROUND
- * ----------------------------------------------------------------------------
- * A calm, single-source light wash behind the app content. Deliberately NOT
- * floating blurred blobs (the cliché "AI gradient-mesh" look): one soft pool
- * anchored to the top edge with a gentle vertical falloff, so surfaces read
- * as lit rather than decorated. Fixed and non-interactive.
  * ========================================================================== */
 .tk-ambient {
   position: fixed;
@@ -387,14 +375,6 @@ html.dark .tk-loader__logo .tk-brand-logo__img {
     ),
     linear-gradient(to bottom, transparent 70%, var(--tk-ambient-2) 100%);
 }
-
-/* ============================================================================
- * REDUCED MOTION
- * ----------------------------------------------------------------------------
- * Glass blur and all entrance animations are dropped when the user prefers
- * reduced motion; surfaces fall back to their solid fill and content renders
- * in its final state immediately.
- * ========================================================================== */
 
 @media (prefers-reduced-motion: reduce) {
   .tk-glass,
@@ -474,12 +454,24 @@ html {
   scroll-behavior: smooth;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 body {
   margin: 0;
   font-family: Inter, sans-serif;
   background: var(--tk-bg);
   color: var(--tk-ink);
   overflow-x: hidden;
+}
+
+button:not(:disabled),
+[role="button"],
+a[href] {
+  cursor: pointer;
 }
 
 /* Keep all app content above the fixed .tk-ambient backdrop layer. Without a
