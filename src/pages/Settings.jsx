@@ -217,6 +217,7 @@ export default function Settings() {
 
       await updateProfile({
         FirstName: firstName || undefined,
+        PhoneNumber: form.phone || undefined,
         WhatsappNumber: form.whatsappNumber || undefined,
         BusinessName: form.businessName || undefined,
         Tagline: form.tagline || undefined,

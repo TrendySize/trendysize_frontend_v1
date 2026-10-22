@@ -119,6 +119,36 @@ export function getStoredProducts(products) {
   );
 }
 
+// Wipe every cached image. The store is shared by the whole browser, so this
+// must run whenever the signed-in account changes.
+export async function clearAllProfileMedia() {
+  if (typeof indexedDB === "undefined") {
+    return;
+  }
+
+  const database = await openDatabase();
+
+  try {
+    await new Promise((resolve, reject) => {
+      const transaction = database.transaction(STORE_NAME, "readwrite");
+      transaction.objectStore(STORE_NAME).clear();
+      transaction.oncomplete = resolve;
+      transaction.onerror = () =>
+        reject(
+          transaction.error ||
+            new Error("Could not clear the saved profile images.")
+        );
+      transaction.onabort = () =>
+        reject(
+          transaction.error ||
+            new Error("Clearing the saved profile images was interrupted.")
+        );
+    });
+  } finally {
+    database.close();
+  }
+}
+
 export function readBlobAsDataUrl(blob) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();

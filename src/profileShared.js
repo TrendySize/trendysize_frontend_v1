@@ -201,6 +201,7 @@ export function useOverlay(isOpen, onClose) {
 // and the featured-work products. Shared by the Profile and Settings pages.
 export async function loadVendorData() {
   let updatedProfile = DEFAULT_PROFILE;
+  let remoteLoaded = false;
 
   const savedProfile = localStorage.getItem(PROFILE_STORAGE_KEY);
   if (savedProfile) {
@@ -214,41 +215,41 @@ export async function loadVendorData() {
   try {
     const remote = await getProfile();
     if (remote) {
+      remoteLoaded = true;
+
       const fullName = [remote.firstName, remote.lastName]
         .filter(Boolean)
         .join(" ");
 
+      // Cache from a different account is never used: the identity and
+      // contact fields must describe the authenticated user only.
+      const cachedEmail = String(updatedProfile.email || "").trim().toLowerCase();
+      const remoteEmail = String(remote.email || "").trim().toLowerCase();
+      if (!cachedEmail || cachedEmail !== remoteEmail) {
+        updatedProfile = { ...DEFAULT_PROFILE };
+      }
+
       updatedProfile = {
         ...updatedProfile,
-        businessName:
-          remote.businessName || updatedProfile.businessName || fullName || "",
-        username: remote.username || updatedProfile.username || "",
-        tagline: remote.tagline || updatedProfile.tagline || "",
-        description: remote.description || updatedProfile.description || "",
-        city: remote.city || updatedProfile.city || "",
-        region: remote.region || updatedProfile.region || "",
-        specialization:
-          remote.specialization || updatedProfile.specialization || "",
-        whatsappName: remote.whatsappName || updatedProfile.whatsappName || "",
-        portfolioUrl: remote.portfolioUrl || updatedProfile.portfolioUrl || "",
-        craftTags:
-          Array.isArray(remote.craftTags) && remote.craftTags.length > 0
-            ? remote.craftTags
-            : updatedProfile.craftTags || [],
+        businessName: remote.businessName || fullName || "",
+        username: remote.username || "",
+        tagline: remote.tagline || "",
+        description: remote.description || "",
+        city: remote.city || "",
+        region: remote.region || "",
+        specialization: remote.specialization || "",
+        whatsappName: remote.whatsappName || "",
+        portfolioUrl: remote.portfolioUrl || "",
+        craftTags: Array.isArray(remote.craftTags) ? remote.craftTags : [],
         outfitsMade:
-          remote.outfitsMade != null
-            ? String(remote.outfitsMade)
-            : updatedProfile.outfitsMade || "",
+          remote.outfitsMade != null ? String(remote.outfitsMade) : "",
         yearsExperience:
-          remote.yearsExperience != null
-            ? String(remote.yearsExperience)
-            : updatedProfile.yearsExperience || "",
-        whatsappNumber:
-          remote.whatsappNumber || updatedProfile.whatsappNumber || "",
-        email: remote.email || updatedProfile.email || "",
-        profileImage:
-          remote.profileImageUrl || updatedProfile.profileImage || "",
-        coverImage: remote.bannerImageUrl || updatedProfile.coverImage || "",
+          remote.yearsExperience != null ? String(remote.yearsExperience) : "",
+        whatsappNumber: remote.whatsappNumber || "",
+        phone: remote.phoneNumber || "",
+        email: remote.email || "",
+        profileImage: remote.profileImageUrl || "",
+        coverImage: remote.bannerImageUrl || "",
       };
     }
   } catch (error) {
@@ -336,6 +337,12 @@ export async function loadVendorData() {
         console.error("Could not load products:", error);
       }
     }
+  }
+
+  // Refresh the cache with the account we just loaded. It carries the email
+  // used to detect a different account signing in on this browser later.
+  if (remoteLoaded) {
+    persistProfile(updatedProfile);
   }
 
   return { profile: updatedProfile, products };

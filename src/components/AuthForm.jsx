@@ -13,6 +13,10 @@ import {
   getProfile,
 } from "../services/api";
 import { loadGoogleIdentity, promptGoogleCredential } from "../services/google";
+import {
+  clearUserScopedData,
+  profileCacheBelongsToOtherUser,
+} from "../sessionCleanup";
 
 // Turns the ASP.NET model-validation shape ({ errors: { Field: ["msg"] } }) into a flat
 // { field: "msg" } map that can be attached to individual inputs.
@@ -183,6 +187,11 @@ export default function AuthForm({
           password,
         });
 
+        // A brand-new account must not inherit anything from whoever used this
+        // browser before: neither the cached profile/photos nor a still-valid
+        // session token belonging to the previous account.
+        await clearUserScopedData({ includeToken: true });
+
         console.log("Signup successful:", data);
 
         // The account exists at this point. Whether the confirmation email was delivered is
@@ -258,6 +267,13 @@ export default function AuthForm({
 
       // Hydrate the profile with the authenticated /api/auth/me endpoint.
       const profile = await getProfile();
+
+      // Switching accounts on the same browser must start from a clean slate,
+      // otherwise the previous user's cached profile is shown.
+      if (profileCacheBelongsToOtherUser(profile?.email)) {
+        await clearUserScopedData();
+      }
+
       localStorage.setItem("auth_user", JSON.stringify(profile));
 
       console.log("Login successful:", profile);

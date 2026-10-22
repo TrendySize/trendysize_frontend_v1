@@ -9,6 +9,8 @@ const API_BASE_URL = (
   import.meta.env.VITE_API_URL || "http://localhost:5128/api"
 ).replace(/\/+$/, "");
 
+import { clearUserScopedData } from "../sessionCleanup";
+
 const TOKEN_KEY = "auth_token";
 
 // Abort requests that hang. Long enough to tolerate a Render cold start, but
@@ -32,6 +34,9 @@ export function setToken(token) {
 export function clearToken() {
   localStorage.removeItem(TOKEN_KEY);
   localStorage.removeItem("auth_user");
+  // Never leave one account's profile/media behind for the next person using
+  // this browser. Fire-and-forget: the IndexedDB wipe finishes on its own.
+  clearUserScopedData();
 }
 
 // Called whenever any request comes back 401 so the app can log the user out.
