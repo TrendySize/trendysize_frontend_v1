@@ -48,8 +48,31 @@ export function setUnauthorizedHandler(handler) {
 //   401 from JWT middleware is an EMPTY body.
 // ============================================================================
 
+// The endpoints below answer 401 for "these credentials are wrong" rather than "your session
+// expired". A wrong password must NOT clear the stored session, otherwise a user who is already
+// signed in gets logged out for mistyping their password on the sign-in form.
+const AUTH_ENDPOINTS = [
+  "/auth/login",
+  "/auth/signup",
+  "/auth/confirm-email",
+  "/auth/resend-confirmation",
+  "/auth/forgot-password",
+  "/auth/reset-password",
+  "/auth/google",
+];
+
+function isAuthEndpoint(endpoint) {
+  return AUTH_ENDPOINTS.some((path) => endpoint.startsWith(path));
+}
+
 export function readErrorMessage(body, status) {
-  if (body == null) return `Request failed (${status})`;
+  if (body == null) {
+    // The JWT middleware answers 401 with no body at all, so there is nothing to read.
+    if (status === 401) return "Your session has expired. Please sign in again.";
+    if (status === 403) return "You don't have access to that.";
+    if (status === 404) return "We couldn't find what you were looking for.";
+    return `Request failed (${status})`;
+  }
 
   if (typeof body.message === "string") return body.message;
 
@@ -72,6 +95,10 @@ export class ApiError extends Error {
     this.name = "ApiError";
     this.status = status;
     this.data = body;
+    // Stable machine-readable code from the backend (e.g. "email_taken_unconfirmed"). The UI
+    // branches on this rather than on the message text, so copy can be reworded server-side
+    // without breaking the client.
+    this.code = body && typeof body.code === "string" ? body.code : null;
   }
 }
 
@@ -129,7 +156,11 @@ export async function apiRequest(endpoint, options = {}) {
   }
 
   if (!response.ok) {
-    if (response.status === 401 && unauthorizedHandler) {
+    if (
+      response.status === 401 &&
+      unauthorizedHandler &&
+      !isAuthEndpoint(endpoint)
+    ) {
       unauthorizedHandler();
     }
     throw new ApiError(readErrorMessage(body, response.status), response.status, body);
@@ -171,6 +202,15 @@ export function confirmEmail(userId, token) {
   return apiRequest("/auth/confirm-email", {
     method: "POST",
     body: JSON.stringify({ userId, token }),
+  });
+}
+
+// 3.2b Resend the confirmation link. Needed because delivery can fail after the account is
+// created, which leaves the account usable but its owner unable to confirm it.
+export function resendConfirmation(email) {
+  return apiRequest("/auth/resend-confirmation", {
+    method: "POST",
+    body: JSON.stringify({ email }),
   });
 }
 

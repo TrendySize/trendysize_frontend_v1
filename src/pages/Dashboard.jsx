@@ -6,11 +6,13 @@ import {
   Bell,
   ChevronDown,
   ClipboardList,
+  MailCheck,
   Ruler,
   Share2,
   Sparkles,
   TrendingUp,
   UsersRound,
+  X,
 } from "lucide-react";
 
 import {
@@ -25,7 +27,7 @@ import drawerLogo from "../assets/images/nav.png";
 import DashboardSidebar from "../components/DashboardSidebar";
 import Toast from "../components/Toast";
 import GenerateLinkModal from "../components/GenerateLinkModal";
-import { getProfile, getCustomers, getMeasurements, publicProfileLinkFor, whatsappDirectLinkFor } from "../services/api";
+import { getProfile, getCustomers, getMeasurements, publicProfileLinkFor, whatsappDirectLinkFor, resendConfirmation } from "../services/api";
 
 const bannerImageLayers = Array.from({ length: 10 });
 
@@ -181,6 +183,37 @@ export default function Dashboard() {
   const [toast, setToast] = useState(null); // { message, tone }
 
   const [linkModalOpen, setLinkModalOpen] = useState(false);
+
+  // The unconfirmed-email notice can be dismissed for the session.
+  const [emailNoticeDismissed, setEmailNoticeDismissed] = useState(false);
+  const [resendingConfirmation, setResendingConfirmation] = useState(false);
+
+  // Re-sends the confirmation link for an account that was created while email delivery was
+  // failing, so the owner can finally confirm their address.
+  const handleResendConfirmation = async () => {
+    if (!user?.email) return;
+
+    try {
+      setResendingConfirmation(true);
+      const data = await resendConfirmation(user.email);
+      setToast({
+        message:
+          data.message ||
+          "We've sent you a new confirmation link. Check your inbox.",
+        tone: "success",
+      });
+    } catch (err) {
+      console.error("Resend confirmation error:", err);
+      setToast({
+        message:
+          err.message ||
+          "Unable to send the confirmation email right now.",
+        tone: "error",
+      });
+    } finally {
+      setResendingConfirmation(false);
+    }
+  };
 
   // ============================================================
   // LOAD LOGGED-IN USER
@@ -539,6 +572,47 @@ export default function Dashboard() {
           MAIN
       ===================================================== */}
       <main className="relative z-10 min-h-screen bg-transparent pb-[calc(88px+env(safe-area-inset-bottom))] lg:ml-[240px] lg:pb-0">
+
+        {/* =====================================================
+            UNCONFIRMED EMAIL NOTICE
+            An account created while email delivery was failing can sign in but
+            was never confirmed, so the owner never received their link.
+        ===================================================== */}
+        {user?.emailConfirmed === false &&
+          !emailNoticeDismissed && (
+            <div className="mx-[16px] mt-[12px] flex items-start gap-3 rounded-xl border border-[#FDE68A] bg-[#FEF9C3] px-4 py-3 lg:mx-[28px]">
+              <MailCheck
+                size={18}
+                aria-hidden="true"
+                className="mt-0.5 shrink-0 text-[#B45309]"
+              />
+              <p className="flex-1 text-[13px] leading-5 text-[#78350F]">
+                Your email address isn&apos;t confirmed yet. Check your inbox
+                for the confirmation link, or{" "}
+                <button
+                  type="button"
+                  onClick={handleResendConfirmation}
+                  disabled={resendingConfirmation}
+                  className="font-semibold underline underline-offset-2 disabled:opacity-60"
+                >
+                  {resendingConfirmation
+                    ? "sending…"
+                    : "send me a new link"}
+                </button>
+                .
+              </p>
+              <button
+                type="button"
+                onClick={() =>
+                  setEmailNoticeDismissed(true)
+                }
+                aria-label="Dismiss notice"
+                className="shrink-0 text-[#92400E] transition hover:text-[#78350F]"
+              >
+                <X size={16} aria-hidden="true" />
+              </button>
+            </div>
+          )}
 
         {/* =====================================================
             HEADER
