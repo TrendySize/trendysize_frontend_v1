@@ -666,7 +666,6 @@ export default function Dashboard() {
             className="hidden items-center gap-0 max-lg:flex"
           >
             <BrandLogo
-              variant="light"
               className="h-9 w-9 max-[380px]:h-8 max-[380px]:w-8"
             />
             <span className="-ml-1 text-[14px] font-extrabold text-[#241065] max-[380px]:text-[13px]">

@@ -38,7 +38,6 @@ const Footer = () => {
           {/* Logo */}
           <div className="flex items-center justify-center gap-2 lg:justify-start">
             <BrandLogo
-              variant="light"
               alt="Trendysize Logo"
               className="h-8 w-8"
             />

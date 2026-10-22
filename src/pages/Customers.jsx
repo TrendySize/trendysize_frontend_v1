@@ -680,7 +680,6 @@ export default function Customers() {
             className="hidden items-center gap-0 max-lg:flex"
           >
             <BrandLogo
-              variant="light"
               className="h-9 w-9 max-[380px]:h-8 max-[380px]:w-8"
             />
 

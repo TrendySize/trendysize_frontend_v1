@@ -201,7 +201,6 @@ export default function HelpCenter() {
               className="flex shrink-0 items-center"
             >
               <BrandLogo
-                variant="light"
                 className="h-9 w-9 max-[380px]:h-8 max-[380px]:w-8"
               />
 
