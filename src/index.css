@@ -160,6 +160,147 @@
 }
 
 /* ============================================================================
+ * BRAND MARK
+ * ----------------------------------------------------------------------------
+ * Two artwork variants: the original purple mark for light surfaces, and a
+ * brightened one for dark surfaces where the deep purples would otherwise sink
+ * into the background. `auto` follows html.dark via CSS (no JS subscription).
+ * ========================================================================== */
+.tk-brand-logo {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.tk-brand-logo__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.tk-brand-logo--auto > .tk-brand-logo__dark {
+  display: none;
+}
+
+html.dark .tk-brand-logo--auto > .tk-brand-logo__light {
+  display: none;
+}
+
+html.dark .tk-brand-logo--auto > .tk-brand-logo__dark {
+  display: block;
+}
+
+/* ============================================================================
+ * BRAND LOADER
+ * ----------------------------------------------------------------------------
+ * Full-screen loading hero. Light: the mark floats over a soft lavender aura.
+ * Dark: it breathes inside a stronger purple glow. Motion is opt-out.
+ * ========================================================================== */
+.tk-loader {
+  display: flex;
+  min-height: 100vh;
+  min-height: 100svh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  background-color: var(--tk-bg);
+  color: var(--tk-ink);
+}
+
+.tk-loader__stage {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tk-loader__halo {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 11rem;
+  height: 11rem;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(97, 51, 218, 0.22), transparent 68%);
+  animation: tk-halo-pulse 2.8s ease-in-out infinite;
+}
+
+.tk-loader__logo {
+  position: relative;
+  width: 6rem;
+  height: 6rem;
+}
+
+.tk-loader__logo .tk-brand-logo__img {
+  animation: tk-logo-float 2.8s ease-in-out infinite;
+}
+
+.tk-loader__label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--tk-ink-muted);
+}
+
+html.dark .tk-loader__halo {
+  background: radial-gradient(circle, rgba(139, 111, 234, 0.38), transparent 68%);
+}
+
+html.dark .tk-loader__logo .tk-brand-logo__img {
+  animation: tk-logo-breathe 2.4s ease-in-out infinite;
+  filter: drop-shadow(0 0 22px rgba(139, 111, 234, 0.45));
+}
+
+@keyframes tk-logo-float {
+  0%,
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  50% {
+    opacity: 0.92;
+    transform: translateY(-6px) scale(1.02);
+  }
+}
+
+@keyframes tk-logo-breathe {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.72;
+    transform: scale(0.9);
+  }
+}
+
+@keyframes tk-halo-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.95;
+    transform: scale(1.18);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tk-loader__halo,
+  .tk-loader__logo .tk-brand-logo__img {
+    animation: none;
+  }
+}
+
+/* ============================================================================
  * LIGHT GLASS SURFACE
  * ----------------------------------------------------------------------------
  * Frosted chrome (headers, sidebar, bottom nav, sheets) that lets content

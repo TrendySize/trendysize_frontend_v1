@@ -2,8 +2,125 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/trendySizeLogo.svg" />
     <link rel="icon" type="image/png" href="/nav.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      /* First-paint splash: shown until React mounts and replaces #root. */
+      html,
+      body {
+        margin: 0;
+      }
+
+      #ts-splash {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f4f3ff;
+      }
+
+      html.dark #ts-splash {
+        background: #1a1622;
+      }
+
+      #ts-splash .ts-splash-stage {
+        position: relative;
+        display: grid;
+        place-items: center;
+      }
+
+      #ts-splash .ts-splash-halo {
+        position: absolute;
+        inset: 0;
+        margin: auto;
+        width: 176px;
+        height: 176px;
+        border-radius: 9999px;
+        background: radial-gradient(circle, rgba(97, 51, 218, 0.22), transparent 68%);
+        animation: ts-halo-pulse 2.8s ease-in-out infinite;
+      }
+
+      html.dark #ts-splash .ts-splash-halo {
+        background: radial-gradient(circle, rgba(139, 111, 234, 0.38), transparent 68%);
+      }
+
+      #ts-splash .ts-splash-logos {
+        position: relative;
+        display: flex;
+      }
+
+      #ts-splash img {
+        display: block;
+        width: 96px;
+        height: 96px;
+        animation: ts-logo-float 2.8s ease-in-out infinite;
+      }
+
+      html.dark #ts-splash img {
+        animation: ts-logo-breathe 2.4s ease-in-out infinite;
+        filter: drop-shadow(0 0 22px rgba(139, 111, 234, 0.45));
+      }
+
+      #ts-splash .ts-splash-logo--dark {
+        display: none;
+      }
+
+      html.dark #ts-splash .ts-splash-logo--light {
+        display: none;
+      }
+
+      html.dark #ts-splash .ts-splash-logo--dark {
+        display: block;
+      }
+
+      @keyframes ts-logo-float {
+        0%,
+        100% {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+
+        50% {
+          opacity: 0.92;
+          transform: translateY(-6px) scale(1.02);
+        }
+      }
+
+      @keyframes ts-logo-breathe {
+        0%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+
+        50% {
+          opacity: 0.72;
+          transform: scale(0.9);
+        }
+      }
+
+      @keyframes ts-halo-pulse {
+        0%,
+        100% {
+          opacity: 0.55;
+          transform: scale(1);
+        }
+
+        50% {
+          opacity: 0.95;
+          transform: scale(1.18);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        #ts-splash img,
+        #ts-splash .ts-splash-halo {
+          animation: none;
+        }
+      }
+    </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
@@ -25,7 +142,29 @@
     </script>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div id="ts-splash" role="status" aria-label="Loading TrendySize">
+        <div class="ts-splash-stage">
+          <span class="ts-splash-halo" aria-hidden="true"></span>
+          <div class="ts-splash-logos">
+            <img
+              class="ts-splash-logo ts-splash-logo--light"
+              src="/trendySizeLogo.svg"
+              alt=""
+              width="96"
+              height="96"
+            />
+            <img
+              class="ts-splash-logo ts-splash-logo--dark"
+              src="/trendySizeLogo-dark.svg"
+              alt=""
+              width="96"
+              height="96"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

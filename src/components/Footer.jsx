@@ -1,5 +1,5 @@
 import "react";
-import logoSrc from "../assets/images/nav.png";
+import BrandLogo from "./BrandLogo";
 import { Link } from "react-router-dom";
 import {
   FaFacebookF,
@@ -37,8 +37,8 @@ const Footer = () => {
 
           {/* Logo */}
           <div className="flex items-center justify-center gap-2 lg:justify-start">
-            <img
-              src={logoSrc}
+            <BrandLogo
+              variant="light"
               alt="Trendysize Logo"
               className="h-8 w-8"
             />

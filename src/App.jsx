@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PageTransition from "./components/PageTransition";
 import AmbientBackground from "./components/AmbientBackground";
+import BrandLoader from "./components/BrandLoader";
 
 // Marketing / auth shell is eager so the first paint is fast.
 import Home from "./pages/Home";
@@ -37,18 +38,7 @@ const SidePhoto = lazy(() => import("./pages/SidePhoto"));
 const Processing = lazy(() => import("./pages/Processing"));
 
 function RouteFallback() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center bg-[var(--tk-bg)]"
-      role="status"
-      aria-live="polite"
-    >
-      <div className="flex flex-col items-center gap-3">
-        <div className="h-9 w-9 animate-spin rounded-full border-4 border-[#6133DA]/30 border-t-[#6133DA]" />
-        <span className="text-sm font-medium text-[var(--tk-ink)]">Loading…</span>
-      </div>
-    </div>
-  );
+  return <BrandLoader />;
 }
 
 export default function App() {

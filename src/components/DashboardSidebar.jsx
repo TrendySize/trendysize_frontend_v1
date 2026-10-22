@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
-import logoSrc from "../assets/images/nav.png";
+import BrandLogo from "./BrandLogo";
 import MobileBottomNav from "./MobileBottomNav";
 import ThemeToggle from "./ThemeToggle";
 import { logout, clearToken } from "../services/api";
@@ -54,10 +54,9 @@ export default function DashboardSidebar({ activeLabel = "Dashboard" }) {
 
       <aside className="tk-glass tk-glass-line fixed left-0 top-0 z-40 hidden h-screen w-[220px] shrink-0 border-r border-[var(--tk-glass-border)] lg:block">
         <div className="absolute left-[32px] top-[113px] flex h-[56px] w-[200px] items-center">
-          <img
-            src={logoSrc}
+          <BrandLogo
             alt="TrendySize logo"
-            className="h-[48px] w-[48px] -translate-y-1 object-contain"
+            className="h-[48px] w-[48px] -translate-y-1"
           />
           <span className="ml-3 h-[32px] w-[152px] shrink-0 font-['Inter'] text-[20px] font-extrabold leading-[24px] tracking-tight text-[#241065]">
             TRENDY<span className="text-[#6D4CE0]">SIZE</span>

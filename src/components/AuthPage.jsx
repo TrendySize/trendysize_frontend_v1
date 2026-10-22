@@ -1,6 +1,6 @@
 import { HiChevronLeft } from "react-icons/hi2";
 import { Link, useNavigate } from "react-router-dom";
-import logoSrc from "../assets/images/nav.png";
+import BrandLogo from "./BrandLogo";
 import AuthPanel from "./AuthPanel";
 import AuthForm from "./AuthForm";
 import ThemeToggle from "./ThemeToggle";
@@ -30,12 +30,7 @@ export default function AuthPage({ hidePanelOnMobile = false, pageTitle = "Welco
                 to="/"
                 className="flex items-center gap-1.5 rounded-full bg-[var(--tk-surface)] py-1 pr-3.5 pl-2 text-[13px] font-semibold text-[var(--tk-ink)] transition-colors hover:bg-[var(--tk-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/50"
               >
-                <img
-                  src={logoSrc}
-                  alt=""
-                  aria-hidden="true"
-                  className="h-6 w-6 object-contain"
-                />
+                <BrandLogo className="h-6 w-6" />
                 Back to home
               </Link>
 

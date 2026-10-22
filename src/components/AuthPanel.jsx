@@ -1,5 +1,5 @@
 import heroImage from "../assets/images/hero.png";
-import logo from "../assets/images/nav.png";
+import BrandLogo from "./BrandLogo";
 
 export default function AuthPanel({ heroClassName = "" }) {
   return (
@@ -14,10 +14,10 @@ export default function AuthPanel({ heroClassName = "" }) {
 
       <div className="relative z-10 flex h-full flex-col px-6 py-8 lg:px-8">
         <div className="flex items-center gap-0">
-          <img
-            src={logo}
+          <BrandLogo
+            variant="light"
             alt="Trendysize logo"
-            className="h-12 w-12 rounded-xl -mr-1"
+            className="h-12 w-12 -mr-1"
           />
 
           <h1

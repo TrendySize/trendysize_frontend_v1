@@ -8,7 +8,7 @@ import {
 import { useNavigate } from "react-router-dom";
 
 import DashboardSidebar from "../components/DashboardSidebar";
-import drawerLogo from "../assets/images/nav.png";
+import BrandLogo from "../components/BrandLogo";
 
 const guides = [
   {
@@ -49,10 +49,9 @@ export default function AccountAndBilling() {
             onClick={() => navigate("/dashboard")}
             className="flex items-center gap-0 lg:hidden"
           >
-            <img
-              src={drawerLogo}
-              alt=""
-              className="h-9 w-9 object-contain max-[380px]:h-8 max-[380px]:w-8"
+            <BrandLogo
+              variant="light"
+              className="h-9 w-9 max-[380px]:h-8 max-[380px]:w-8"
             />
             <span className="-ml-1 text-[14px] font-extrabold text-[#241065] max-[380px]:text-[13px]">
               TRENDY<span className="text-[#9B8AFB]">SIZE</span>

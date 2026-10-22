@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { getToken, getProfile, clearToken, setUnauthorizedHandler } from "../services/api";
+import BrandLoader from "./BrandLoader";
 
 // A cached profile makes the app usable instantly. The .NET backend can be
 // cold (Render free tier: 15–60s), so we must NOT block the whole UI on a
@@ -66,14 +67,7 @@ export default function ProtectedRoute() {
   }
 
   if (status === "checking") {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-[#F4F3FF] text-[#241065]">
-        <div className="flex flex-col items-center gap-3">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-[#6133DA]/30 border-t-[#6133DA]" />
-          <p className="text-sm font-medium">Checking your session…</p>
-        </div>
-      </div>
-    );
+    return <BrandLoader label="Checking your session…" />;
   }
 
   return <Outlet />;

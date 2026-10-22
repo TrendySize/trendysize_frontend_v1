@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { HiOutlineMenuAlt3, HiOutlineX } from "react-icons/hi";
-import logoSrc from "../assets/images/nav.png";
+import BrandLogo from "./BrandLogo";
 import ThemeToggle from "./ThemeToggle";
 
 export default function Navbar() {
@@ -53,10 +53,9 @@ export default function Navbar() {
           to="/"
           className="flex items-center gap-0 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40"
         >
-          <img
-            src={logoSrc}
+          <BrandLogo
             alt="Trendysize logo"
-            className="h-9 w-9 rounded-lg p-0 max-[380px]:h-8 max-[380px]:w-8"
+            className="h-9 w-9 max-[380px]:h-8 max-[380px]:w-8"
           />
 
           <span className="-ml-1 text-[14px] font-extrabold tracking-tight max-[380px]:-ml-1 max-[380px]:text-[13px]">
