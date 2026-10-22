@@ -199,7 +199,12 @@ html.dark .tk-brand-logo--auto > .tk-brand-logo__dark {
  * Dark: it breathes inside a stronger purple glow. Motion is opt-out.
  * ========================================================================== */
 .tk-loader {
+  /* The fixed ambient layer paints at z-index 0, above static content. The
+   * loader must sit above it or the hero is hidden behind the background. */
+  position: relative;
+  z-index: 1;
   display: flex;
+  width: 100%;
   min-height: 100vh;
   min-height: 100svh;
   flex-direction: column;
