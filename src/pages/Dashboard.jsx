@@ -934,10 +934,13 @@ export default function Dashboard() {
             className="
               grid
               w-full
+              min-w-0
               max-w-[1140px]
+              mx-auto
               grid-cols-1
-              gap-[94px]
-              xl:grid-cols-[721px_231px]
+              gap-[24px]
+              xl:grid-cols-[minmax(0,1fr)_231px]
+              xl:gap-8
 
               max-lg:gap-[14px]
             "
@@ -1329,7 +1332,7 @@ export default function Dashboard() {
             NEXT ACTIONS
         ===================================================== */}
         <section className="mt-[18px] px-[28px] max-lg:mt-[14px] max-lg:px-[16px]">
-          <div className="w-full max-w-[1140px] overflow-hidden rounded-[11px] border border-[var(--tk-border)] bg-[var(--tk-bg-elevated)] max-lg:rounded-[12px]">
+          <div className="mx-auto w-full max-w-[1140px] overflow-hidden rounded-[11px] border border-[var(--tk-border)] bg-[var(--tk-bg-elevated)] max-lg:rounded-[12px]">
             <div className="flex items-center justify-between gap-3 border-b border-[var(--tk-border)] px-4 py-3">
               <div>
                 <h2 className="text-xs font-semibold text-[var(--tk-ink)]">
@@ -1427,7 +1430,9 @@ export default function Dashboard() {
             className="
               grid
               w-full
+              min-w-0
               max-w-[1140px]
+              mx-auto
               grid-cols-1
               gap-[20px]
               md:grid-cols-3
@@ -1723,7 +1728,7 @@ export default function Dashboard() {
 
           {/* STATUS BREAKDOWN + TREND (guide §5.1) */}
           {measurements.length > 0 && (
-            <div className="mt-[14px] w-full max-w-[1140px] rounded-[11px] bg-[#EBE9FE] px-[16px] py-[14px] max-lg:rounded-[12px]">
+            <div className="mx-auto mt-[14px] w-full max-w-[1140px] rounded-[11px] bg-[#EBE9FE] px-[16px] py-[14px] max-lg:rounded-[12px]">
               <div className="flex flex-wrap items-center justify-between gap-[10px]">
                 <p className="text-xs font-semibold text-[#241065]">
                   Status breakdown
@@ -1827,7 +1832,9 @@ export default function Dashboard() {
           <div
             className="
               w-full
+              min-w-0
               max-w-[1140px]
+              mx-auto
               overflow-hidden
               rounded-[8px]
               bg-[#EBE9FE]

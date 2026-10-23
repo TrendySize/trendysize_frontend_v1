@@ -24,7 +24,7 @@ const navItems = [
 ];
 
 const itemBase =
-  "flex h-[63px] w-[204px] items-center gap-4 rounded-l-[30px] px-4 text-left text-sm font-medium leading-[17px] text-[var(--tk-ink)] transition-colors duration-[var(--tk-dur-base)] ease-[var(--tk-ease-out)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tk-brand)] focus-visible:ring-inset";
+  "flex min-h-12 w-full items-center gap-3 rounded-lg px-3 text-left text-sm font-medium leading-[17px] text-[var(--tk-ink)] transition-colors duration-[var(--tk-dur-base)] ease-[var(--tk-ease-out)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tk-brand)] focus-visible:ring-inset";
 
 function itemClass(active) {
   return `${itemBase} ${
@@ -52,19 +52,19 @@ export default function DashboardSidebar({ activeLabel = "Dashboard" }) {
     <>
       <MobileBottomNav activeLabel={activeLabel} />
 
-      <aside className="tk-glass tk-glass-line fixed left-0 top-0 z-40 hidden h-screen w-[220px] shrink-0 border-r border-[var(--tk-glass-border)] lg:block">
-        <div className="absolute left-[32px] top-[113px] flex h-[56px] w-[200px] items-center">
+      <aside className="tk-glass tk-glass-line fixed inset-y-0 left-0 z-40 hidden h-dvh w-[240px] flex-col overflow-y-auto border-r border-[var(--tk-glass-border)] px-4 py-8 lg:flex">
+        <div className="flex h-12 shrink-0 items-center">
           <BrandLogo
             alt="TrendySize logo"
-            className="h-[48px] w-[48px] -translate-y-1"
+            className="h-11 w-11 shrink-0"
           />
-          <span className="ml-3 h-[32px] w-[152px] shrink-0 font-['Inter'] text-xl font-extrabold leading-[24px] tracking-tight text-[#241065]">
+          <span className="ml-3 min-w-0 font-['Inter'] text-lg font-extrabold leading-6 tracking-tight text-[#241065]">
             TRENDY<span className="text-[#6D4CE0]">SIZE</span>
           </span>
         </div>
 
         <nav
-          className="absolute left-[32px] top-[231px] flex w-[208px] flex-col gap-3"
+          className="mt-12 flex min-h-0 w-full flex-col gap-2 pb-4"
           aria-label="Dashboard"
         >
           {navItems.map(({ label, path, icon: Icon }) => {
@@ -101,7 +101,7 @@ export default function DashboardSidebar({ activeLabel = "Dashboard" }) {
             <span>Logout</span>
           </button>
 
-          <div className="mt-2 flex items-center justify-between px-1">
+          <div className="mt-2 flex min-h-12 items-center justify-between px-3">
             <span className="text-xs font-medium text-[#5B5280]">
               Appearance
             </span>
