@@ -4,12 +4,17 @@ import { Link as RouterLink } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
 
 import {
+  AlertTriangle,
+  ArrowRight,
+  CheckCircle2,
   ChevronDown,
   ClipboardList,
+  Clock3,
   MailCheck,
   Ruler,
   Share2,
   Sparkles,
+  Store,
   TrendingUp,
   UsersRound,
   X,
@@ -191,6 +196,18 @@ export default function Dashboard() {
   // What the server says about its ability to send mail: { enabled, healthy }. Null means "not
   // known yet", which is treated as "mail works".
   const [emailStatus, setEmailStatus] = useState(null);
+  const [clockNow, setClockNow] = useState(null);
+
+  useEffect(() => {
+    const tick = () => setClockNow(Date.now());
+    const initial = setTimeout(tick, 0);
+    const timer = setInterval(tick, 60_000);
+
+    return () => {
+      clearTimeout(initial);
+      clearInterval(timer);
+    };
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -505,6 +522,123 @@ export default function Dashboard() {
   const handleGenerateLink = () => {
     setLinkModalOpen(true);
   };
+
+  const nextActions = (() => {
+    const actions = [];
+    const now = clockNow ?? Number.MAX_SAFE_INTEGER;
+    const pending = measurements.filter(
+      (measurement) => String(measurement?.status || "").toLowerCase() === "pending"
+    );
+    const livePending = pending.filter(
+      (measurement) => new Date(measurement?.expiresAt || 0).getTime() > now
+    );
+    const expiringSoon = livePending.filter((measurement) => {
+      const remaining = new Date(measurement.expiresAt).getTime() - now;
+      return remaining > 0 && remaining <= 6 * 60 * 60 * 1000;
+    });
+    const expired = pending.filter(
+      (measurement) => new Date(measurement?.expiresAt || 0).getTime() <= now
+    );
+    const notOpened = livePending.filter(
+      (measurement) => Number(measurement?.openCount || 0) === 0
+    );
+
+    if (measurementStats.needsReview > 0) {
+      actions.push({
+        id: "review",
+        icon: ClipboardList,
+        tone: "warn",
+        title: `Review ${measurementStats.needsReview} measurement${measurementStats.needsReview === 1 ? "" : "s"}`,
+        detail: "Photos need a manual check before you can use the numbers.",
+        to: "/customers",
+        cta: "Review",
+      });
+    }
+
+    if (expiringSoon.length > 0) {
+      actions.push({
+        id: "expiring",
+        icon: Clock3,
+        tone: "warn",
+        title: `${expiringSoon.length} link${expiringSoon.length === 1 ? "" : "s"} expiring soon`,
+        detail: "Links last 24 hours. Nudge the customer or send a fresh one.",
+        to: "/customers",
+        cta: "View customers",
+      });
+    }
+
+    if (expired.length > 0) {
+      actions.push({
+        id: "expired",
+        icon: AlertTriangle,
+        tone: "danger",
+        title: `${expired.length} expired link${expired.length === 1 ? "" : "s"}`,
+        detail: "These customers never submitted. Generate a new link for them.",
+        to: "/customers",
+        cta: "Replace links",
+      });
+    }
+
+    if (notOpened.length > 0) {
+      actions.push({
+        id: "not-opened",
+        icon: Share2,
+        tone: "info",
+        title: `${notOpened.length} link${notOpened.length === 1 ? "" : "s"} not opened yet`,
+        detail: "Send the link on WhatsApp and confirm the customer received it.",
+        to: "/customers",
+        cta: "Open customers",
+      });
+    }
+
+    if (customers.length === 0) {
+      actions.push({
+        id: "first-customer",
+        icon: UsersRound,
+        tone: "brand",
+        title: "Add your first customer",
+        detail: "A customer record keeps their measurements and order history together.",
+        to: "/customers",
+        cta: "Add customer",
+      });
+    } else if (measurements.length === 0) {
+      actions.push({
+        id: "first-link",
+        icon: Ruler,
+        tone: "brand",
+        title: "Create your first measurement link",
+        detail: "Send a single-use link so a customer can submit their photos.",
+        onClick: handleGenerateLink,
+        cta: "Create link",
+      });
+    }
+
+    if (!user?.businessName || !user?.whatsappNumber) {
+      actions.push({
+        id: "storefront",
+        icon: Store,
+        tone: "info",
+        title: "Finish your storefront",
+        detail: "Add your business name and WhatsApp number before you share your store link.",
+        to: "/settings",
+        cta: "Complete profile",
+      });
+    }
+
+    if (actions.length === 0) {
+      actions.push({
+        id: "all-clear",
+        icon: CheckCircle2,
+        tone: "success",
+        title: "You are all caught up",
+        detail: "No links need attention. Create a link when the next order comes in.",
+        onClick: handleGenerateLink,
+        cta: "Create link",
+      });
+    }
+
+    return actions.slice(0, 3);
+  })();
 
   // ============================================================
   // SHARE VENDOR LINK (guide §6.1)
@@ -1066,7 +1200,7 @@ export default function Dashboard() {
               {vendorUsername && (
                 <div className="mt-[10px] flex items-center justify-between gap-[8px] rounded-[8px] bg-[var(--tk-bg-elevated)] px-[10px] py-[7px]">
                   <div className="min-w-0">
-                    <p className="text-xs font-medium uppercase tracking-wide text-[var(--tk-ink-muted)]">
+                    <p className="text-xs font-medium text-[var(--tk-ink-muted)]">
                       Your store handle
                     </p>
                     <p className="truncate text-xs font-semibold text-[var(--tk-brand)]">
@@ -1188,6 +1322,88 @@ export default function Dashboard() {
               )}
             </div>
 
+          </div>
+        </section>
+
+        {/* =====================================================
+            NEXT ACTIONS
+        ===================================================== */}
+        <section className="mt-[18px] px-[28px] max-lg:mt-[14px] max-lg:px-[16px]">
+          <div className="w-full max-w-[1140px] overflow-hidden rounded-[11px] border border-[var(--tk-border)] bg-[var(--tk-bg-elevated)] max-lg:rounded-[12px]">
+            <div className="flex items-center justify-between gap-3 border-b border-[var(--tk-border)] px-4 py-3">
+              <div>
+                <h2 className="text-xs font-semibold text-[var(--tk-ink)]">
+                  Next actions
+                </h2>
+                <p className="mt-0.5 text-xs text-[var(--tk-ink-muted)]">
+                  The few things worth doing now.
+                </p>
+              </div>
+              <span className="shrink-0 rounded-full bg-[var(--tk-surface)] px-2.5 py-1 text-xs font-semibold text-[var(--tk-brand)]">
+                {nextActions.length}
+              </span>
+            </div>
+
+            <div className="divide-y divide-[var(--tk-border)]">
+              {nextActions.map((action) => {
+                const Icon = action.icon;
+                const toneClass =
+                  action.tone === "warn"
+                    ? "bg-[#FEF3C7] text-[#B45309]"
+                    : action.tone === "danger"
+                      ? "bg-[#FEF2F2] text-[#B91C1C]"
+                      : action.tone === "success"
+                        ? "bg-[#DCFCE7] text-[#166534]"
+                        : action.tone === "brand"
+                          ? "bg-[var(--tk-surface)] text-[var(--tk-brand)]"
+                          : "bg-[#DBEAFE] text-[#1D4ED8]";
+
+                const content = (
+                  <>
+                    <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${toneClass}`}>
+                      <Icon size={17} aria-hidden="true" />
+                    </span>
+
+                    <span className="min-w-0 flex-1 text-left">
+                      <span className="block text-xs font-semibold text-[var(--tk-ink)]">
+                        {action.title}
+                      </span>
+                      <span className="mt-0.5 block text-xs leading-5 text-[var(--tk-ink-muted)]">
+                        {action.detail}
+                      </span>
+                    </span>
+
+                    <span className="hidden shrink-0 items-center gap-1 text-xs font-semibold text-[var(--tk-brand)] sm:flex">
+                      {action.cta}
+                      <ArrowRight size={13} aria-hidden="true" />
+                    </span>
+                  </>
+                );
+
+                if (action.onClick) {
+                  return (
+                    <button
+                      key={action.id}
+                      type="button"
+                      onClick={action.onClick}
+                      className="flex w-full items-center gap-3 px-4 py-3 text-left transition hover:bg-[var(--tk-surface-muted)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--tk-brand)]/40"
+                    >
+                      {content}
+                    </button>
+                  );
+                }
+
+                return (
+                  <RouterLink
+                    key={action.id}
+                    to={action.to}
+                    className="flex items-center gap-3 px-4 py-3 transition hover:bg-[var(--tk-surface-muted)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--tk-brand)]/40"
+                  >
+                    {content}
+                  </RouterLink>
+                );
+              })}
+            </div>
           </div>
         </section>
 

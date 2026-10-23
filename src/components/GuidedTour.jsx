@@ -404,7 +404,7 @@ export default function GuidedTour({ onFinish }) {
         </div>
 
         <div className="flex items-center justify-between px-4 pt-3">
-          <span className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--tk-ink-muted)]">
+          <span className="text-xs font-semibold text-[var(--tk-ink-muted)]">
             Step {index + 1} of {TOUR_STEPS.length}
           </span>
           <button

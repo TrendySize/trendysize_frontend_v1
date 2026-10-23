@@ -136,6 +136,26 @@ export default function CustomerDetails() {
   |--------------------------------------------------------------------------
   */
 
+  const linkStatus = (() => {
+    if (!measurement) return "No link yet";
+
+    const status = String(measurement.status || "").toLowerCase();
+    if (status === "needsmanualreview") return "Needs review";
+    if (status === "submitted" || status === "completed") return "Submitted";
+    if (new Date(measurement.expiresAt || 0).getTime() <= Date.now()) return "Expired";
+    if (Number(measurement.openCount || 0) > 0) return "Opened";
+    return "Sent";
+  })();
+
+  const linkStatusTone =
+    linkStatus === "Submitted"
+      ? "bg-[#DCFCE7] text-[#166534]"
+      : linkStatus === "Needs review" || linkStatus === "Expired"
+        ? "bg-[#FEF3C7] text-[#92400E]"
+        : linkStatus === "Opened"
+          ? "bg-[#DBEAFE] text-[#1D4ED8]"
+          : "bg-[#EBE9FE] text-[#4C2BB0]";
+
   const measurementFields = [
     {
       label: "Shoulder",
@@ -353,6 +373,46 @@ export default function CustomerDetails() {
 
                 </div>
 
+              </div>
+
+              {/* MEASUREMENT LINK */}
+
+              <div className="mt-4 rounded-[7px] border border-[#BDB4F7] bg-[#F4F3FF]">
+                <div className="flex items-center justify-between gap-3 border-b border-[#DDD8F6] px-4 py-3">
+                  <div>
+                    <h2 className="text-xs font-bold text-[#241065]">
+                      Measurement link
+                    </h2>
+                    <p className="mt-0.5 text-xs text-[#8179AD]">
+                      Single use. Links expire 24 hours after they are created.
+                    </p>
+                  </div>
+
+                  <span className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-semibold ${linkStatusTone}`}>
+                    {linkStatus}
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 gap-3 p-4 sm:grid-cols-3">
+                  <InfoField
+                    label="Created"
+                    value={measurement ? new Date(measurement.createdAt).toLocaleDateString() : "No link yet"}
+                  />
+                  <InfoField
+                    label="Opened"
+                    value={
+                      measurement
+                        ? Number(measurement.openCount || 0) > 0
+                          ? `${measurement.openCount} time${Number(measurement.openCount) === 1 ? "" : "s"}`
+                          : "Not opened"
+                        : "Not opened"
+                    }
+                  />
+                  <InfoField
+                    label="Expires"
+                    value={measurement ? new Date(measurement.expiresAt).toLocaleString(undefined, { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }) : "Not set"}
+                  />
+                </div>
               </div>
 
               {/* MEASUREMENTS */}

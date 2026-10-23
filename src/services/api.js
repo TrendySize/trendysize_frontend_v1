@@ -311,8 +311,8 @@ export function deleteVendorProject(id) {
   return apiRequest(`/vendor/projects/${id}`, { method: "DELETE" });
 }
 
-// 3.8 Deactivate account (destructive, irreversible).
-export function deactivateAccount() {
+// 3.8 Erase the account, workspace data and uploaded images (irreversible).
+export function deleteAccount() {
   return apiRequest("/auth/me", { method: "DELETE" });
 }
 
@@ -556,6 +556,15 @@ export async function probeVendorVanity(username) {
 // ApiError with the backend message (404 "Vendor not found." / 400 inactive).
 export function getPublicVendorProfile(username) {
   return apiRequest(`/public/v/${encodeURIComponent(username)}/profile`, {
+    method: "GET",
+  });
+}
+
+// Read a public measurement link before the customer fills the form. Returns
+// the link state (ready / expired / submitted / manual_review), the vendor's
+// public branding, and the expiry. The backend records the first open.
+export function getPublicMeasurementLink(token) {
+  return apiRequest(`/public/measure/${encodeURIComponent(token)}`, {
     method: "GET",
   });
 }

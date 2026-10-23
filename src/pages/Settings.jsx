@@ -687,7 +687,7 @@ export default function Settings() {
                 />
               </div>
 
-              <div className="mb-2 text-xs font-semibold uppercase tracking-wide text-[var(--tk-ink-muted)] sm:text-xs">
+              <div className="mb-2 text-xs font-semibold text-[var(--tk-ink-muted)] sm:text-xs">
                 Craft Tags
               </div>
 

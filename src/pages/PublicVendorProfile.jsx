@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
   Ban,
+  Check,
   ExternalLink,
   Images,
   MapPin,
   MessageCircle,
   Ruler,
   SearchX,
+  Share2,
   ShieldCheck,
   Sparkles,
   Store,
@@ -80,6 +82,7 @@ export default function PublicVendorProfile() {
   const [attempt, setAttempt] = useState(0);
   const [bannerFailed, setBannerFailed] = useState(false);
   const [avatarFailed, setAvatarFailed] = useState(false);
+  const [shareState, setShareState] = useState("");
 
   useEffect(() => {
     let active = true;
@@ -181,6 +184,29 @@ export default function PublicVendorProfile() {
     stats.push({ label: "Outfits made", value: vendor.outfitsMade });
   }
 
+  const shareStore = async () => {
+    const url = window.location.href;
+
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: `${displayName} on TrendySize`,
+          text: `Take a look at ${displayName} on TrendySize.`,
+          url,
+        });
+        setShareState("Shared");
+      } else {
+        await navigator.clipboard.writeText(url);
+        setShareState("Link copied");
+      }
+    } catch (error) {
+      if (error?.name !== "AbortError") {
+        console.error("Could not share storefront:", error);
+        setShareState("Could not share");
+      }
+    }
+  };
+
   const hasDetails = Boolean(
     vendor.tagline ||
       vendor.description ||
@@ -240,6 +266,21 @@ export default function PublicVendorProfile() {
             <p className="mt-1 text-xs font-medium text-[var(--tk-ink-muted)]">
               @{vendor.username || username}
             </p>
+
+            <div className="mt-3 flex flex-wrap items-center gap-2">
+              <button
+                type="button"
+                onClick={shareStore}
+                className="inline-flex items-center gap-1.5 rounded-full border border-[var(--tk-border)] bg-[var(--tk-bg-elevated)] px-3 py-1.5 text-xs font-semibold text-[var(--tk-ink)] transition hover:bg-[var(--tk-surface)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tk-brand)]/40"
+              >
+                {shareState === "Shared" || shareState === "Link copied" ? (
+                  <Check size={13} aria-hidden="true" />
+                ) : (
+                  <Share2 size={13} aria-hidden="true" />
+                )}
+                {shareState || "Share store"}
+              </button>
+            </div>
 
             <div className="mt-2 flex flex-wrap items-center gap-2">
               {location && (
@@ -361,6 +402,51 @@ export default function PublicVendorProfile() {
           </p>
         )}
 
+        {/* ORDERING FLOW */}
+        <section className="mt-6 rounded-xl border border-[var(--tk-border)] bg-[var(--tk-bg-elevated)] p-5">
+          <h2 className="flex items-center gap-2 text-sm font-bold text-[var(--tk-ink)]">
+            <Ruler size={15} aria-hidden="true" />
+            Ordering with {displayName}
+          </h2>
+
+          <ol className="mt-3 space-y-3">
+            {[
+              {
+                title: "Message the vendor",
+                body: "Tell them what you want to order and share your style inspiration.",
+              },
+              {
+                title: "Get a private measurement link",
+                body: "They send a single-use link that only works for your order.",
+              },
+              {
+                title: "Submit two photos",
+                body: "Take a front and side photo. TrendySize calculates your measurements automatically.",
+              },
+            ].map((step, index) => (
+              <li key={step.title} className="flex gap-3">
+                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[var(--tk-surface)] text-xs font-bold text-[var(--tk-brand)]">
+                  {index + 1}
+                </span>
+                <div>
+                  <p className="text-xs font-semibold text-[var(--tk-ink)]">
+                    {step.title}
+                  </p>
+                  <p className="mt-0.5 text-xs leading-5 text-[var(--tk-ink-muted)]">
+                    {step.body}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ol>
+
+          <p className="mt-4 flex items-start gap-2 rounded-lg bg-[var(--tk-surface-muted)] px-3 py-2.5 text-xs leading-5 text-[var(--tk-ink-soft)]">
+            <ShieldCheck size={14} className="mt-0.5 shrink-0 text-[var(--tk-brand)]" aria-hidden="true" />
+            Your photos are used only for this order and are shared only with
+            {` ${displayName}`}. Ask them to delete the photos after your order is complete.
+          </p>
+        </section>
+
         {/* WHATSAPP CTA */}
         <div className="mt-6">
           {hasWhatsApp ? (
@@ -404,9 +490,22 @@ export default function PublicVendorProfile() {
           </div>
         </div>
 
-        <p className="mt-6 text-center text-xs text-[var(--tk-ink-muted)]">
-          Powered by TrendySize
-        </p>
+        <div className="mt-6 rounded-xl border border-[var(--tk-border)] bg-[var(--tk-surface-muted)] px-5 py-4 text-center">
+          <p className="text-xs font-semibold text-[var(--tk-ink)]">
+            Powered by TrendySize
+          </p>
+          <p className="mt-1 text-xs leading-5 text-[var(--tk-ink-muted)]">
+            Are you a fashion vendor? Create a storefront and send private
+            measurement links to your customers.
+          </p>
+          <Link
+            to="/signup"
+            className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-[var(--tk-brand)] hover:underline"
+          >
+            Create your storefront
+            <ExternalLink size={12} aria-hidden="true" />
+          </Link>
+        </div>
       </main>
     </div>
   );

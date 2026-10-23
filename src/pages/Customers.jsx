@@ -34,6 +34,17 @@ import {
 
 const ITEMS_PER_PAGE = 5;
 
+function getLinkStatus(measurement) {
+  if (!measurement) return "No link";
+
+  const status = String(measurement.status || "").toLowerCase();
+  if (status === "needsmanualreview") return "Needs review";
+  if (status === "submitted" || status === "completed") return "Submitted";
+  if (new Date(measurement.expiresAt || 0).getTime() <= Date.now()) return "Expired";
+  if (Number(measurement.openCount || 0) > 0) return "Opened";
+  return "Sent";
+}
+
 export default function Customers() {
   const navigate = useNavigate();
 
@@ -305,6 +316,9 @@ export default function Customers() {
           customer?.last_measurement_at ||
           customer?.lastMeasurementAt ||
           null,
+
+        latestLinkStatus: getLinkStatus(latestMeasurement),
+        latestLinkExpiresAt: latestMeasurement?.expiresAt || null,
       };
     });
   }, [customers, getCustomerMeasurements, getLatestMeasurement]);
@@ -1202,7 +1216,7 @@ export default function Customers() {
                             </p>
 
                             <p className="text-xs text-[#A19ABA]">
-                              Customer
+                              {customer.latestLinkStatus}
                             </p>
 
                           </div>
@@ -1416,7 +1430,7 @@ export default function Customers() {
                                 <p className="mt-1 truncate text-xs text-[#8179AD]">
                                   {getCustomerPhone(
                                     customer
-                                  )}
+                                  )} · {customer.latestLinkStatus}
                                 </p>
 
                               </div>
@@ -1431,7 +1445,7 @@ export default function Customers() {
                                 {customer.measurementCount}
                               </p>
 
-                              <p className="mt-1 text-xs font-medium uppercase tracking-[0.3px] text-[#8179AD]">
+                              <p className="mt-1 text-xs font-medium text-[#8179AD]">
                                 Measurements
                               </p>
 
@@ -1447,7 +1461,7 @@ export default function Customers() {
 
                           <div className="border-r border-[var(--tk-border)] px-3 py-2.5">
 
-                            <p className="text-xs font-medium uppercase tracking-[0.4px] text-[var(--tk-ink-muted)]">
+                            <p className="text-xs font-medium text-[var(--tk-ink-muted)]">
                               Last measurement
                             </p>
 
@@ -1461,7 +1475,7 @@ export default function Customers() {
 
                           <div className="px-3 py-2.5">
 
-                            <p className="text-xs font-medium uppercase tracking-[0.4px] text-[var(--tk-ink-muted)]">
+                            <p className="text-xs font-medium text-[var(--tk-ink-muted)]">
                               Date added
                             </p>
 

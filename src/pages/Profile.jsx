@@ -273,6 +273,9 @@ export default function Profile() {
               >
                 <LinkIcon size={15} />
                 Measurement link
+                {measurementLink.expiresAt
+                  ? ` · ${new Date(measurementLink.expiresAt).toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" })}`
+                  : ""}
               </button>
             )}
 
@@ -312,7 +315,7 @@ export default function Profile() {
           <section className="mt-5 grid grid-cols-1 gap-4 lg:mt-7 lg:grid-cols-12 lg:gap-5">
             {/* STORY / ABOUT */}
             <div className="tk-tile rounded-xl p-4 sm:p-5 lg:col-span-7">
-              <h2 className="flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-[var(--tk-ink)] lg:text-sm">
+              <h2 className="flex items-center gap-2 text-sm font-bold text-[var(--tk-ink)] lg:text-sm">
                 <Sparkles size={15} className="text-[var(--tk-brand)]" />
                 Your story
               </h2>
@@ -331,7 +334,7 @@ export default function Profile() {
 
               {craftTags.length > 0 && (
                 <div className="mt-4">
-                  <p className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-[var(--tk-ink-muted)]">
+                  <p className="flex items-center gap-1.5 text-xs font-semibold text-[var(--tk-ink-muted)]">
                     <Tags size={13} />
                     Crafts
                   </p>
@@ -366,7 +369,7 @@ export default function Profile() {
 
             {/* AT A GLANCE */}
             <div className="tk-tile rounded-xl p-4 sm:p-5 lg:col-span-5">
-              <h2 className="flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-[var(--tk-ink)] lg:text-sm">
+              <h2 className="flex items-center gap-2 text-sm font-bold text-[var(--tk-ink)] lg:text-sm">
                 <Store size={15} className="text-[var(--tk-brand)]" />
                 At a glance
               </h2>
@@ -529,7 +532,7 @@ export default function Profile() {
           <section className="mt-7 lg:mt-9">
             <div className="mb-3 flex items-end justify-between gap-3 lg:mb-4">
               <div>
-                <h2 className="flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-[var(--tk-ink)] lg:text-sm">
+                <h2 className="flex items-center gap-2 text-sm font-bold text-[var(--tk-ink)] lg:text-sm">
                   <Images size={16} className="text-[var(--tk-brand)]" />
                   Featured Work
                 </h2>

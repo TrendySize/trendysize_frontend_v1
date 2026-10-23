@@ -77,7 +77,7 @@ const FAQ = () => {
       <div className="mx-auto max-w-[1376px] px-4 sm:px-6 lg:px-8 xl:px-12">
         {/* Heading */}
         <div className="text-center mb-12">
-          <p className="text-sm font-semibold uppercase tracking-wide text-[#241065] sm:text-base">
+          <p className="text-sm font-semibold text-[#241065] sm:text-base">
             Frequently Asked Questions
           </p>
 

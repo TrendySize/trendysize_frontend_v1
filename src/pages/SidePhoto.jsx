@@ -6,12 +6,22 @@ import {
   CheckCircle2,
   Image,
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import guideImage from "../assets/images/side.png";
+import MeasurementBrand from "../components/MeasurementBrand";
+import { checkPhotoBrightness } from "../photoQuality";
+import {
+  loadMeasurementToken,
+  saveMeasurementToken,
+} from "../measurementSession";
 
 export default function SidePhoto() {
   const navigate = useNavigate();
+  const [params] = useSearchParams();
+  const token = params.get("token") || loadMeasurementToken();
+  const withToken = (path) =>
+    token ? `${path}?token=${encodeURIComponent(token)}` : path;
 
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
@@ -21,6 +31,11 @@ export default function SidePhoto() {
   const [photo, setPhoto] = useState("");
   const [cameraActive, setCameraActive] = useState(false);
   const [error, setError] = useState("");
+  const [qualityWarning, setQualityWarning] = useState("");
+
+  useEffect(() => {
+    if (token) saveMeasurementToken(token);
+  }, [token]);
 
   useEffect(() => {
     /*
@@ -42,8 +57,18 @@ export default function SidePhoto() {
     };
   }, []);
 
+  const reviewPhoto = async (imageData) => {
+    const result = await checkPhotoBrightness(imageData);
+    setQualityWarning(
+      result.isDark
+        ? "This photo looks dark. Face a window or light, then retake it so the AI can see your outline clearly."
+        : ""
+    );
+  };
+
   const startCamera = async () => {
     setError("");
+    setQualityWarning("");
 
     try {
       if (
@@ -166,6 +191,7 @@ export default function SidePhoto() {
       imageData
     );
 
+    reviewPhoto(imageData);
     stopCamera();
   };
 
@@ -206,6 +232,8 @@ export default function SidePhoto() {
         "trendySize_side_photo",
         imageData
       );
+
+      reviewPhoto(imageData);
     };
 
     reader.readAsDataURL(file);
@@ -220,7 +248,7 @@ export default function SidePhoto() {
     }
 
     setError("");
-    navigate("/processing");
+    navigate(withToken("/processing"));
   };
 
   /*
@@ -234,7 +262,8 @@ export default function SidePhoto() {
   const handleBack = () => {
     stopCamera();
     setPhoto("");
-    navigate("/front-photo");
+    setQualityWarning("");
+    navigate(withToken("/front-photo"));
   };
 
   return (
@@ -247,9 +276,11 @@ export default function SidePhoto() {
           <div className="h-full w-[55%] bg-[#6133DA]" />
         </div>
 
+        <MeasurementBrand className="mt-4" />
+
         {/* BACK */}
 
-        <div className="mt-5">
+        <div className="mt-4">
           <button
             type="button"
             onClick={handleBack}
@@ -268,7 +299,7 @@ export default function SidePhoto() {
           </h1>
 
           <p className="mt-1 text-xs text-[#4C2BB0]">
-            Turn sideways and stand straight facing the side
+            Turn sideways with your whole body in frame
           </p>
         </div>
 
@@ -278,6 +309,15 @@ export default function SidePhoto() {
             className="mx-auto mt-4 w-full max-w-[720px] rounded-lg border border-[#FECACA] bg-[#FFF7F7] px-4 py-2 text-center text-xs font-medium text-[#B91C1C]"
           >
             {error}
+          </p>
+        )}
+
+        {qualityWarning && (
+          <p
+            role="status"
+            className="mx-auto mt-4 w-full max-w-[720px] rounded-lg border border-[#FCD34D] bg-[#FFFBEB] px-4 py-2 text-center text-xs font-medium text-[#92400E]"
+          >
+            {qualityWarning}
           </p>
         )}
 
@@ -306,13 +346,30 @@ export default function SidePhoto() {
             {/* LIVE CAMERA */}
 
             {cameraActive && (
-              <video
-                ref={videoRef}
-                autoPlay
-                playsInline
-                muted
-                className="absolute inset-0 z-10 h-full w-full object-fill"
-              />
+              <>
+                <video
+                  ref={videoRef}
+                  autoPlay
+                  playsInline
+                  muted
+                  className="absolute inset-0 z-10 h-full w-full object-fill"
+                />
+
+                <img
+                  src={guideImage}
+                  alt=""
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 z-20 h-full w-full object-fill opacity-40"
+                />
+
+                <span className="absolute left-1/2 top-3 z-20 -translate-x-1/2 rounded-full bg-black/55 px-3 py-1 text-xs font-medium text-white">
+                  Head to feet inside the frame
+                </span>
+
+                <span className="absolute bottom-3 left-1/2 z-20 -translate-x-1/2 rounded-full bg-black/55 px-3 py-1 text-xs font-medium text-white">
+                  Keep your side profile facing the camera
+                </span>
+              </>
             )}
 
             {/* CAPTURED PHOTO */}
@@ -480,15 +537,15 @@ export default function SidePhoto() {
           </button>
         </div>
 
-        {/* SECURITY */}
+        {/* PRIVACY */}
 
-        <div className="mt-3 flex items-center justify-center gap-1">
+        <div className="mt-3 flex items-center justify-center gap-1.5 px-4 text-center">
           <span aria-hidden="true" className="text-xs text-[#6D4CE0]">
             ♥
           </span>
 
           <p className="text-xs text-[#241065]">
-            Your photos are encrypted and secure
+            Used only for your measurements and shared only with your vendor.
           </p>
         </div>
 

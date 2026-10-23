@@ -2,7 +2,9 @@ import { useEffect, useMemo, useState } from "react";
 
 import {
   AlertTriangle,
+  Clock3,
   Copy,
+  ExternalLink,
   Link2,
   Search,
   Share2,
@@ -12,6 +14,7 @@ import {
 } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 
+import LinkQrCode from "./LinkQrCode";
 import Toast from "./Toast";
 import {
   generateMeasurementLink,
@@ -226,6 +229,7 @@ export default function GenerateLinkModal({
             : customerDisplayName(selected),
         orderReference: orderReference.trim() || "",
         createdAt: Date.now(),
+        expiresAt: data?.expiresAt || new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
         used: false,
       };
 
@@ -422,7 +426,7 @@ export default function GenerateLinkModal({
               <div>
                 <label
                   htmlFor="new-customer-first"
-                  className="block text-xs font-semibold uppercase tracking-wide text-[var(--tk-ink-muted)]"
+                  className="block text-xs font-semibold text-[var(--tk-ink-muted)]"
                 >
                   First name
                 </label>
@@ -448,7 +452,7 @@ export default function GenerateLinkModal({
               <div>
                 <label
                   htmlFor="new-customer-last"
-                  className="block text-xs font-semibold uppercase tracking-wide text-[var(--tk-ink-muted)]"
+                  className="block text-xs font-semibold text-[var(--tk-ink-muted)]"
                 >
                   Last name
                 </label>
@@ -474,7 +478,7 @@ export default function GenerateLinkModal({
               <div className="col-span-2">
                 <label
                   htmlFor="new-customer-phone"
-                  className="block text-xs font-semibold uppercase tracking-wide text-[var(--tk-ink-muted)]"
+                  className="block text-xs font-semibold text-[var(--tk-ink-muted)]"
                 >
                   Phone number (optional)
                 </label>
@@ -504,7 +508,7 @@ export default function GenerateLinkModal({
               <div className="col-span-2">
                 <label
                   htmlFor="new-customer-order-reference"
-                  className="block text-xs font-semibold uppercase tracking-wide text-[var(--tk-ink-muted)]"
+                  className="block text-xs font-semibold text-[var(--tk-ink-muted)]"
                 >
                   Order reference (optional)
                 </label>
@@ -633,7 +637,7 @@ export default function GenerateLinkModal({
 
               <label
                 htmlFor="generate-order-reference"
-                className="block text-xs font-semibold uppercase tracking-wide text-[var(--tk-ink-muted)]"
+                className="block text-xs font-semibold text-[var(--tk-ink-muted)]"
               >
                 Order reference (optional)
               </label>
@@ -663,11 +667,35 @@ export default function GenerateLinkModal({
           {/* RESULT */}
           {result?.link && (
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wide text-[var(--tk-ink-muted)]">
+              <label className="block text-xs font-semibold text-[var(--tk-ink-muted)]">
                 Share this with {result.customerName}
               </label>
               <div className="mt-1.5 break-all rounded-[9px] border border-[var(--tk-border)] bg-[var(--tk-surface-muted)] px-3 py-2.5 text-xs font-medium text-[var(--tk-ink)]">
                 {result.link}
+              </div>
+
+              <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-[var(--tk-ink-muted)]">
+                <span className="inline-flex items-center gap-1">
+                  <Clock3 size={12} aria-hidden="true" />
+                  Expires{" "}
+                  {new Date(result.expiresAt).toLocaleString(undefined, {
+                    month: "short",
+                    day: "numeric",
+                    hour: "numeric",
+                    minute: "2-digit",
+                  })}
+                </span>
+                <span>Single use</span>
+              </div>
+
+              <div className="mt-4 flex items-center gap-3 rounded-[10px] border border-[var(--tk-border)] bg-[var(--tk-surface-muted)] p-3">
+                <LinkQrCode value={result.link} size={92} />
+                <div className="min-w-0 text-xs leading-5 text-[var(--tk-ink-soft)]">
+                  <p className="font-semibold text-[var(--tk-ink)]">Scan on their phone</p>
+                  <p className="mt-0.5">
+                    The customer should open the link on the phone they will use for photos.
+                  </p>
+                </div>
               </div>
 
               <div className="mt-3 grid grid-cols-2 gap-2">
@@ -690,14 +718,26 @@ export default function GenerateLinkModal({
                 </button>
               </div>
 
-              <button
-                type="button"
-                onClick={shareMore}
-                className="mt-2 flex w-full items-center justify-center gap-1.5 rounded-[9px] border border-[var(--tk-border)] px-3 py-2.5 text-xs font-semibold text-[var(--tk-brand)] transition hover:bg-[var(--tk-surface)]"
-              >
-                <Share2 size={13} />
-                More sharing options
-              </button>
+              <div className="mt-2 grid grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  onClick={shareMore}
+                  className="flex items-center justify-center gap-1.5 rounded-[9px] border border-[var(--tk-border)] px-3 py-2.5 text-xs font-semibold text-[var(--tk-brand)] transition hover:bg-[var(--tk-surface)]"
+                >
+                  <Share2 size={13} />
+                  Share
+                </button>
+
+                <a
+                  href={result.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-1.5 rounded-[9px] border border-[var(--tk-border)] px-3 py-2.5 text-xs font-semibold text-[var(--tk-ink)] transition hover:bg-[var(--tk-surface)]"
+                >
+                  <ExternalLink size={13} />
+                  Open link
+                </a>
+              </div>
             </div>
           )}
         </div>

@@ -1,6 +1,21 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowLeft } from "lucide-react";
+import {
+  ArrowLeft,
+  CheckCircle2,
+  Clock3,
+  LockKeyhole,
+  Ruler,
+  ShieldCheck,
+} from "lucide-react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import MeasurementBrand from "../components/MeasurementBrand";
+import {
+  FRONT_PHOTO_KEY,
+  SIDE_PHOTO_KEY,
+  loadMeasurementToken,
+  loadMeasurementVendor,
+  saveMeasurementToken,
+} from "../measurementSession";
 import { submitPublicMeasurement } from "../services/api";
 
 // Converts a base64 data URL (as stored by the photo pages) into a Blob.
@@ -18,16 +33,22 @@ function dataUrlToBlob(dataUrl) {
 export default function Processing() {
   const navigate = useNavigate();
   const [params] = useSearchParams();
-  const token =
-    params.get("token") || localStorage.getItem("trendySize_measure_token");
+  const token = params.get("token") || loadMeasurementToken();
+  const withToken = (path) =>
+    token ? `${path}?token=${encodeURIComponent(token)}` : path;
 
   const [progress, setProgress] = useState(0);
   const [state, setState] = useState("submitting"); // submitting | success | retry | manual | error
   const [message, setMessage] = useState("");
   const [attemptsRemaining, setAttemptsRemaining] = useState(null);
   const [measurements, setMeasurements] = useState(null);
+  const [confidence, setConfidence] = useState("");
 
   const started = useRef(false);
+
+  useEffect(() => {
+    if (token) saveMeasurementToken(token);
+  }, [token]);
 
   // Animate the ring while the request is in flight.
   useEffect(() => {
@@ -50,8 +71,8 @@ export default function Processing() {
       setMessage(msg);
     };
 
-    const frontData = localStorage.getItem("trendySize_front_photo");
-    const sideData = localStorage.getItem("trendySize_side_photo");
+    const frontData = localStorage.getItem(FRONT_PHOTO_KEY);
+    const sideData = localStorage.getItem(SIDE_PHOTO_KEY);
     const detailsRaw = localStorage.getItem("trendySize_customer_details");
 
     // Validate inside a microtask so no setState runs synchronously in the
@@ -112,6 +133,7 @@ export default function Processing() {
         setState("success");
         setMessage(data.message || "Measurement submitted and analyzed successfully.");
         setMeasurements(data.measurements || null);
+        setConfidence(data.confidence || "");
       })
       .catch((err) => {
         if (err._fatal && err.message === "missing-token") {
@@ -146,19 +168,32 @@ export default function Processing() {
   // Returning to the side-photo step is always safe; navigating back in
   // browser history could leave the app (the flow was entered from a shared
   // link) and discard the captured photos.
-  const handleBack = () =>
-    navigate(`/side-photo${token ? `?token=${token}` : ""}`);
+  const handleBack = () => navigate(withToken("/side-photo"));
 
   const retryPhotos = () => {
-    localStorage.removeItem("trendySize_front_photo");
-    localStorage.removeItem("trendySize_side_photo");
-    navigate(`/front-photo${token ? `?token=${token}` : ""}`);
+    localStorage.removeItem(FRONT_PHOTO_KEY);
+    localStorage.removeItem(SIDE_PHOTO_KEY);
+    navigate(withToken("/front-photo"));
   };
+
+  const confidenceValue = (() => {
+    if (!confidence) return "";
+    const numeric = Number(confidence);
+    if (Number.isFinite(numeric)) {
+      const percent = numeric <= 1 ? numeric * 100 : numeric;
+      return `${Math.round(percent)}% confidence`;
+    }
+    return `${confidence.charAt(0).toUpperCase()}${confidence.slice(1)} confidence`;
+  })();
+
+  const vendorUsername = loadMeasurementVendor()?.username || "";
 
   return (
     <div className="relative min-h-screen bg-transparent text-[var(--tk-ink)]">
       <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-[1440px] flex-col px-[22px] py-[20px]">
         {/* Top Progress Indicator */}
+        <MeasurementBrand className="mb-4" />
+
         <div className="flex h-[7px] w-full shrink-0">
           <div className="h-[7px] flex-1 bg-[#D1D5DB]" />
           <div className="h-[7px] flex-1 bg-[#D1D5DB]" />
@@ -192,8 +227,8 @@ export default function Processing() {
                   Analyzing your measurements
                 </h1>
                 <p className="w-full text-sm font-medium leading-[18px] text-[#4B5563]">
-                  Our AI is processing your photos to generate accurate
-                  measurements. This can take up to a minute.
+                  Your photos are being checked and measured now. This can take
+                  up to a minute, so keep this page open.
                 </p>
               </div>
 
@@ -228,10 +263,19 @@ export default function Processing() {
           {state === "success" && (
             <>
               <div className="flex w-full flex-col items-center gap-[8px] text-center">
+                <span className="flex h-11 w-11 items-center justify-center rounded-full bg-[#DCFCE7]">
+                  <CheckCircle2 size={22} className="text-[#16A34A]" aria-hidden="true" />
+                </span>
                 <h1 className="text-lg font-bold text-[#3F1E94]">
                   Measurement complete
                 </h1>
                 <p className="text-sm font-medium text-[#4B5563]">{message}</p>
+                {confidenceValue && (
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-[#BBF7D0] bg-[#F0FDF4] px-2.5 py-1 text-xs font-semibold text-[#166534]">
+                    <CheckCircle2 size={12} aria-hidden="true" />
+                    {confidenceValue}
+                  </span>
+                )}
               </div>
 
               {measurements && (
@@ -259,21 +303,47 @@ export default function Processing() {
                 </div>
               )}
 
+              <div className="w-full space-y-2 rounded-xl border border-[#E5E7EB] bg-white p-4">
+                <p className="flex items-center gap-1.5 text-xs font-semibold text-[#241065]">
+                  <Ruler size={13} aria-hidden="true" />
+                  What these numbers mean
+                </p>
+                <p className="text-xs leading-5 text-[#6B7280]">
+                  These are your body measurements, not the finished garment
+                  size. Your vendor will use them as a starting point and may
+                  allow for fit, fabric and the style of the outfit.
+                </p>
+              </div>
+
+              <div className="flex items-start gap-2.5 rounded-xl bg-[#EBE9FE] px-4 py-3 text-left">
+                <LockKeyhole size={16} className="mt-0.5 shrink-0 text-[#6133DA]" aria-hidden="true" />
+                <p className="text-xs leading-5 text-[#241065]">
+                  Shared only with your vendor. Ask them to delete your photos
+                  after the order is complete.
+                </p>
+              </div>
+
               <p className="text-center text-xs text-[#6B7280]">
-                You can close this page. The results have been shared with the
-                vendor.
+                You can close this page. The results have been shared with the vendor.
               </p>
             </>
           )}
 
           {state === "manual" && (
             <>
+              <span className="flex h-11 w-11 items-center justify-center rounded-full bg-[#FEF3C7]">
+                <Clock3 size={22} className="text-[#B45309]" aria-hidden="true" />
+              </span>
               <h1 className="text-lg font-bold text-[#3F1E94]">
                 Sent for manual review
               </h1>
               <p className="text-center text-sm font-medium text-[#4B5563]">
                 {message}
               </p>
+              <div className="rounded-xl border border-[#FCD34D] bg-[#FFFBEB] px-4 py-3 text-xs leading-5 text-[#92400E]">
+                The vendor will check your photos and finish the measurements
+                manually. You do not need to upload again unless they ask you to.
+              </div>
               <p className="text-center text-xs text-[#6B7280]">
                 You can close this page. The vendor will follow up.
               </p>
@@ -293,6 +363,14 @@ export default function Processing() {
                   {attemptsRemaining} attempt{attemptsRemaining === 1 ? "" : "s"} remaining
                 </p>
               )}
+
+              <div className="w-full space-y-1.5 rounded-xl bg-[#EBE9FE] px-4 py-3 text-xs leading-5 text-[#241065]">
+                <p className="font-semibold">Before you retake</p>
+                <p>Use even light and avoid shadows behind you.</p>
+                <p>Keep your whole body in frame, from head to feet.</p>
+                <p>Wear fitted clothing and stand against a plain background.</p>
+              </div>
+
               <button
                 type="button"
                 onClick={retryPhotos}
@@ -318,10 +396,24 @@ export default function Processing() {
               >
                 Try again
               </button>
+
+              {vendorUsername && (
+                <a
+                  href={`/vendor/${vendorUsername}`}
+                  className="text-xs font-semibold text-[#6133DA] hover:underline"
+                >
+                  Back to vendor store
+                </a>
+              )}
             </>
           )}
           </div>
         </div>
+
+        <p className="mt-4 flex items-center justify-center gap-1.5 text-center text-xs text-[#6B7280]">
+          <ShieldCheck size={13} aria-hidden="true" />
+          Private measurement flow
+        </p>
       </div>
     </div>
   );

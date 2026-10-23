@@ -6,12 +6,22 @@ import {
   CheckCircle2,
   Image,
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import guideImage from "../assets/images/front.png";
+import MeasurementBrand from "../components/MeasurementBrand";
+import { checkPhotoBrightness } from "../photoQuality";
+import {
+  loadMeasurementToken,
+  saveMeasurementToken,
+} from "../measurementSession";
 
 export default function FrontPhoto() {
   const navigate = useNavigate();
+  const [params] = useSearchParams();
+  const token = params.get("token") || loadMeasurementToken();
+  const withToken = (path) =>
+    token ? `${path}?token=${encodeURIComponent(token)}` : path;
 
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
@@ -21,6 +31,11 @@ export default function FrontPhoto() {
   const [photo, setPhoto] = useState("");
   const [cameraActive, setCameraActive] = useState(false);
   const [error, setError] = useState("");
+  const [qualityWarning, setQualityWarning] = useState("");
+
+  useEffect(() => {
+    if (token) saveMeasurementToken(token);
+  }, [token]);
 
   useEffect(() => {
     return () => {
@@ -32,8 +47,18 @@ export default function FrontPhoto() {
     };
   }, []);
 
+  const reviewPhoto = async (imageData) => {
+    const result = await checkPhotoBrightness(imageData);
+    setQualityWarning(
+      result.isDark
+        ? "This photo looks dark. Face a window or light, then retake it so the AI can see your outline clearly."
+        : ""
+    );
+  };
+
   const startCamera = async () => {
     setError("");
+    setQualityWarning("");
 
     try {
       if (
@@ -154,6 +179,8 @@ export default function FrontPhoto() {
       imageData
     );
 
+    reviewPhoto(imageData);
+
     if (streamRef.current) {
       streamRef.current.getTracks().forEach((track) => {
         track.stop();
@@ -217,6 +244,8 @@ export default function FrontPhoto() {
         "trendySize_front_photo",
         imageData
       );
+
+      reviewPhoto(imageData);
     };
 
     reader.readAsDataURL(file);
@@ -231,7 +260,7 @@ export default function FrontPhoto() {
     }
 
     setError("");
-    navigate("/side-photo");
+    navigate(withToken("/side-photo"));
   };
 
   return (
@@ -242,10 +271,12 @@ export default function FrontPhoto() {
           <div className="h-full w-[38%] bg-[#6133DA]" />
         </div>
 
-        <div className="mt-5">
+        <MeasurementBrand className="mt-4" />
+
+        <div className="mt-4">
           <button
             type="button"
-            onClick={() => navigate("/how-it-works")}
+            onClick={() => navigate(withToken("/how-it-works"))}
             className="flex h-[38px] w-[106px] items-center justify-center gap-2 rounded-lg border border-[#D8D6FE] bg-[#EBE9FE] text-xs font-medium text-[#241065] transition hover:bg-[#D8D6FE] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40"
           >
             <ArrowLeft size={14} aria-hidden="true" />
@@ -259,7 +290,7 @@ export default function FrontPhoto() {
           </h1>
 
           <p className="mt-1 text-xs text-[#4C2BB0]">
-            Stand straight facing the camera
+            Stand straight facing the camera with your whole body in frame
           </p>
         </div>
 
@@ -269,6 +300,15 @@ export default function FrontPhoto() {
             className="mx-auto mt-4 w-full max-w-[720px] rounded-lg border border-[#FECACA] bg-[#FFF7F7] px-4 py-2 text-center text-xs font-medium text-[#B91C1C]"
           >
             {error}
+          </p>
+        )}
+
+        {qualityWarning && (
+          <p
+            role="status"
+            className="mx-auto mt-4 w-full max-w-[720px] rounded-lg border border-[#FCD34D] bg-[#FFFBEB] px-4 py-2 text-center text-xs font-medium text-[#92400E]"
+          >
+            {qualityWarning}
           </p>
         )}
 
@@ -294,13 +334,30 @@ export default function FrontPhoto() {
             {/* LIVE CAMERA */}
 
             {cameraActive && (
-              <video
-                ref={videoRef}
-                autoPlay
-                playsInline
-                muted
-                className="absolute inset-0 z-10 h-full w-full object-fill"
-              />
+              <>
+                <video
+                  ref={videoRef}
+                  autoPlay
+                  playsInline
+                  muted
+                  className="absolute inset-0 z-10 h-full w-full object-fill"
+                />
+
+                <img
+                  src={guideImage}
+                  alt=""
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 z-20 h-full w-full object-fill opacity-40"
+                />
+
+                <span className="absolute left-1/2 top-3 z-20 -translate-x-1/2 rounded-full bg-black/55 px-3 py-1 text-xs font-medium text-white">
+                  Head to feet inside the frame
+                </span>
+
+                <span className="absolute bottom-3 left-1/2 z-20 -translate-x-1/2 rounded-full bg-black/55 px-3 py-1 text-xs font-medium text-white">
+                  Hold the phone at chest height
+                </span>
+              </>
             )}
 
             {/* CAPTURED PHOTO */}
@@ -467,15 +524,15 @@ export default function FrontPhoto() {
           </button>
         </div>
 
-        {/* SECURITY MESSAGE */}
+        {/* PRIVACY */}
 
-        <div className="mt-3 flex items-center justify-center gap-1">
+        <div className="mt-3 flex items-center justify-center gap-1.5 px-4 text-center">
           <span aria-hidden="true" className="text-xs text-[#6D4CE0]">
             ♥
           </span>
 
           <p className="text-xs text-[#241065]">
-            Your photos are encrypted and secure
+            Used only for your measurements and shared only with your vendor.
           </p>
         </div>
 

@@ -5,10 +5,15 @@ import {
   Shirt,
   UserRound,
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+
+import MeasurementBrand from "../components/MeasurementBrand";
 
 export default function HowItWorks() {
   const navigate = useNavigate();
+  const [params] = useSearchParams();
+  const token = params.get("token") || "";
+  const nextStep = token ? `/front-photo?token=${encodeURIComponent(token)}` : "/front-photo";
 
   return (
     <div className="relative min-h-screen bg-transparent px-8 py-6 text-[var(--tk-ink)]">
@@ -41,13 +46,15 @@ export default function HowItWorks() {
             HEADING
         ================================================== */}
 
-        <div className="mt-12 text-center">
-          <h1 className="text-3xl font-bold text-[#241065]">
+        <div className="mt-8 flex flex-col items-center text-center">
+          <MeasurementBrand />
+
+          <h1 className="mt-4 text-3xl font-bold text-[#241065]">
             How it works
           </h1>
 
           <p className="mt-2 text-sm text-[#6133DA]">
-            Follow these simple steps for best results
+            Follow these simple steps for the most accurate measurements
           </p>
         </div>
 
@@ -88,7 +95,7 @@ export default function HowItWorks() {
               </h3>
 
               <p className="mt-1 text-xs leading-4 text-[#6B7280]">
-                Keep a natural posture, no
+                Stand naturally with your arms slightly away from your sides
               </p>
             </div>
           </div>
@@ -106,7 +113,7 @@ export default function HowItWorks() {
               </h3>
 
               <p className="mt-1 text-xs leading-4 text-[#6B7280]">
-                Avoid baggy clothes for accuracy
+                Fitted clothing or underwear gives the AI a clearer outline
               </p>
             </div>
           </div>
@@ -124,7 +131,7 @@ export default function HowItWorks() {
               </h3>
 
               <p className="mt-1 text-xs leading-4 text-[#6B7280]">
-                Make sure the area is well lit
+                Face a window or light. Avoid strong shadows behind you
               </p>
             </div>
           </div>
@@ -136,9 +143,14 @@ export default function HowItWorks() {
         ================================================== */}
 
         <div className="mt-auto pb-10 pt-10">
+          <p className="mx-auto mb-4 max-w-[430px] text-center text-xs leading-5 text-[var(--tk-ink-muted)]">
+            These photos are used only for your measurements and are shared only
+            with the vendor who sent this link.
+          </p>
+
           <button
             type="button"
-            onClick={() => navigate("/front-photo")}
+            onClick={() => navigate(nextStep)}
             className="mx-auto flex h-[48px] w-full max-w-[430px] items-center justify-center rounded-lg bg-[#6133DA] text-sm font-semibold text-white transition hover:bg-[#4D26B5]"
           >
             Continue
