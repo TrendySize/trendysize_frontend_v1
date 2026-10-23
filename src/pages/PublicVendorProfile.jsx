@@ -119,7 +119,7 @@ export default function PublicVendorProfile() {
     return (
       <Shell>
         <div className="mx-auto h-9 w-9 animate-spin rounded-full border-2 border-[var(--tk-border-strong)] border-t-[var(--tk-brand)]" />
-        <p className="mt-3 text-[13px] font-medium text-[var(--tk-ink-soft)]">
+        <p className="mt-3 text-sm font-medium text-[var(--tk-ink-soft)]">
           Loading vendor…
         </p>
       </Shell>
@@ -136,18 +136,18 @@ export default function PublicVendorProfile() {
           <Icon size={24} className="text-[#DC2626]" aria-hidden="true" />
         </span>
 
-        <h1 className="mt-4 text-[17px] font-bold text-[var(--tk-ink)]">
+        <h1 className="mt-4 text-base font-bold text-[var(--tk-ink)]">
           {config.title}
         </h1>
 
-        <p className="mx-auto mt-2 max-w-[34ch] text-[13px] leading-6 text-[var(--tk-ink-soft)]">
+        <p className="mx-auto mt-2 max-w-[34ch] text-sm leading-6 text-[var(--tk-ink-soft)]">
           {state.message || config.body}
         </p>
 
         <button
           type="button"
           onClick={recheck}
-          className="mt-6 inline-flex items-center gap-2 rounded-[9px] bg-[var(--tk-brand)] px-5 py-2.5 text-[12px] font-semibold text-[var(--tk-brand-ink)] transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tk-brand)]/50"
+          className="mt-6 inline-flex items-center gap-2 rounded-[9px] bg-[var(--tk-brand)] px-5 py-2.5 text-xs font-semibold text-[var(--tk-brand-ink)] transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tk-brand)]/50"
         >
           <MessageCircle size={14} aria-hidden="true" />
           Try again
@@ -196,7 +196,7 @@ export default function PublicVendorProfile() {
     <div className="relative min-h-screen bg-transparent text-[var(--tk-ink)]">
       <main className="relative z-10 mx-auto w-full max-w-[720px] px-4 pb-16 sm:px-6">
         {/* BANNER */}
-        <div className="relative mt-4 h-[150px] overflow-hidden rounded-2xl bg-[var(--tk-brand)] sm:h-[190px]">
+        <div className="relative mt-4 h-[150px] overflow-hidden rounded-xl bg-[var(--tk-brand)] sm:h-[190px]">
           {vendor.bannerImageUrl && !bannerFailed ? (
             <img
               src={vendor.bannerImageUrl}
@@ -218,7 +218,7 @@ export default function PublicVendorProfile() {
         {/* IDENTITY */}
         <div className="relative px-1">
           <div className="-mt-12 flex items-end gap-4">
-            <div className="flex h-[96px] w-[96px] shrink-0 items-center justify-center overflow-hidden rounded-2xl border-4 border-[var(--tk-bg)] bg-[#241065] text-[28px] font-bold text-[#9B8CF9] shadow-md">
+            <div className="flex h-[96px] w-[96px] shrink-0 items-center justify-center overflow-hidden rounded-xl border-4 border-[var(--tk-bg)] bg-[#241065] text-3xl font-bold text-[#9B8CF9] ">
               {vendor.profileImageUrl && !avatarFailed ? (
                 <img
                   src={vendor.profileImageUrl}
@@ -233,24 +233,24 @@ export default function PublicVendorProfile() {
           </div>
 
           <div className="mt-4">
-            <h1 className="text-[22px] font-bold text-[var(--tk-ink)] sm:text-[26px]">
+            <h1 className="text-2xl font-bold text-[var(--tk-ink)] sm:text-3xl">
               {displayName}
             </h1>
 
-            <p className="mt-1 text-[12px] font-medium text-[var(--tk-ink-muted)]">
+            <p className="mt-1 text-xs font-medium text-[var(--tk-ink-muted)]">
               @{vendor.username || username}
             </p>
 
             <div className="mt-2 flex flex-wrap items-center gap-2">
               {location && (
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--tk-border)] bg-[var(--tk-surface-muted)] px-3 py-1 text-[12px] text-[var(--tk-ink-soft)]">
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--tk-border)] bg-[var(--tk-surface-muted)] px-3 py-1 text-xs text-[var(--tk-ink-soft)]">
                   <MapPin size={13} className="shrink-0" aria-hidden="true" />
                   {location}
                 </span>
               )}
 
               {vendor.specialization && (
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--tk-brand)]/30 bg-[var(--tk-brand)]/10 px-3 py-1 text-[12px] font-medium text-[var(--tk-brand)]">
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--tk-brand)]/30 bg-[var(--tk-brand)]/10 px-3 py-1 text-xs font-medium text-[var(--tk-brand)]">
                   <Sparkles size={13} className="shrink-0" aria-hidden="true" />
                   {vendor.specialization}
                 </span>
@@ -258,7 +258,7 @@ export default function PublicVendorProfile() {
             </div>
 
             {vendor.tagline && (
-              <p className="mt-4 text-[14px] font-medium italic text-[var(--tk-ink-soft)]">
+              <p className="mt-4 text-sm font-medium italic text-[var(--tk-ink-soft)]">
                 “{vendor.tagline}”
               </p>
             )}
@@ -268,7 +268,7 @@ export default function PublicVendorProfile() {
                 {craftTags.map((tag) => (
                   <span
                     key={tag}
-                    className="inline-flex items-center rounded-full border border-[var(--tk-border)] bg-[var(--tk-surface-muted)] px-2.5 py-1 text-[11px] font-medium text-[var(--tk-ink-soft)]"
+                    className="inline-flex items-center rounded-full border border-[var(--tk-border)] bg-[var(--tk-surface-muted)] px-2.5 py-1 text-xs font-medium text-[var(--tk-ink-soft)]"
                   >
                     {tag}
                   </span>
@@ -283,10 +283,10 @@ export default function PublicVendorProfile() {
                     key={stat.label}
                     className="rounded-xl border border-[var(--tk-border)] bg-[var(--tk-bg-elevated)] px-4 py-2.5"
                   >
-                    <p className="text-[18px] font-bold leading-none text-[var(--tk-ink)]">
+                    <p className="text-lg font-bold leading-none text-[var(--tk-ink)]">
                       {stat.value}
                     </p>
-                    <p className="mt-1 text-[11px] font-medium text-[var(--tk-ink-muted)]">
+                    <p className="mt-1 text-xs font-medium text-[var(--tk-ink-muted)]">
                       {stat.label}
                     </p>
                   </div>
@@ -298,12 +298,12 @@ export default function PublicVendorProfile() {
 
         {/* ABOUT */}
         {vendor.description && (
-          <section className="mt-6 rounded-2xl border border-[var(--tk-border)] bg-[var(--tk-bg-elevated)] p-5 shadow-sm">
-            <h2 className="flex items-center gap-2 text-[13px] font-bold text-[var(--tk-ink)]">
+          <section className="mt-6 rounded-xl border border-[var(--tk-border)] bg-[var(--tk-bg-elevated)] p-5 ">
+            <h2 className="flex items-center gap-2 text-sm font-bold text-[var(--tk-ink)]">
               <Store size={15} aria-hidden="true" />
               About
             </h2>
-            <p className="mt-2 whitespace-pre-line text-[13px] leading-6 text-[var(--tk-ink-soft)]">
+            <p className="mt-2 whitespace-pre-line text-sm leading-6 text-[var(--tk-ink-soft)]">
               {vendor.description}
             </p>
           </section>
@@ -311,8 +311,8 @@ export default function PublicVendorProfile() {
 
         {/* FEATURED WORK */}
         {featuredWork.length > 0 && (
-          <section className="mt-6 rounded-2xl border border-[var(--tk-border)] bg-[var(--tk-bg-elevated)] p-5 shadow-sm">
-            <h2 className="flex items-center gap-2 text-[13px] font-bold text-[var(--tk-ink)]">
+          <section className="mt-6 rounded-xl border border-[var(--tk-border)] bg-[var(--tk-bg-elevated)] p-5 ">
+            <h2 className="flex items-center gap-2 text-sm font-bold text-[var(--tk-ink)]">
               <Images size={15} aria-hidden="true" />
               Featured Work
             </h2>
@@ -330,7 +330,7 @@ export default function PublicVendorProfile() {
                     className="aspect-square w-full object-cover"
                   />
                   {item.name && (
-                    <figcaption className="px-2.5 py-2 text-[11px] font-medium text-[var(--tk-ink-soft)]">
+                    <figcaption className="px-2.5 py-2 text-xs font-medium text-[var(--tk-ink-soft)]">
                       {item.name}
                     </figcaption>
                   )}
@@ -346,7 +346,7 @@ export default function PublicVendorProfile() {
             href={vendor.portfolioUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-4 flex items-center justify-center gap-2 rounded-xl border border-[var(--tk-border)] bg-[var(--tk-bg-elevated)] px-4 py-3 text-[13px] font-semibold text-[var(--tk-ink)] transition hover:border-[var(--tk-brand)]/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tk-brand)]/40"
+            className="mt-4 flex items-center justify-center gap-2 rounded-xl border border-[var(--tk-border)] bg-[var(--tk-bg-elevated)] px-4 py-3 text-sm font-semibold text-[var(--tk-ink)] transition hover:border-[var(--tk-brand)]/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tk-brand)]/40"
           >
             <ExternalLink size={15} aria-hidden="true" />
             View full portfolio
@@ -355,7 +355,7 @@ export default function PublicVendorProfile() {
 
         {/* EMPTY-DETAILS NOTE — only when the vendor has added nothing yet. */}
         {!hasDetails && (
-          <p className="mt-6 rounded-2xl border border-[var(--tk-border)] bg-[var(--tk-surface-muted)] px-4 py-4 text-center text-[12px] leading-6 text-[var(--tk-ink-muted)]">
+          <p className="mt-6 rounded-xl border border-[var(--tk-border)] bg-[var(--tk-surface-muted)] px-4 py-4 text-center text-xs leading-6 text-[var(--tk-ink-muted)]">
             This vendor hasn't added their store details yet. You can still
             reach them on WhatsApp.
           </p>
@@ -366,13 +366,13 @@ export default function PublicVendorProfile() {
           {hasWhatsApp ? (
             <a
               href={backendVanityUrl(username)}
-              className="flex h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] text-[15px] font-semibold text-white shadow-sm transition hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366]/50 focus-visible:ring-offset-2"
+              className="flex h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] text-sm font-semibold text-white  transition hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366]/50 focus-visible:ring-offset-2"
             >
               <FaWhatsapp size={20} aria-hidden="true" />
               Chat on WhatsApp
             </a>
           ) : (
-            <p className="rounded-xl border border-[var(--tk-border)] bg-[var(--tk-surface-muted)] px-4 py-3 text-center text-[12px] text-[var(--tk-ink-muted)]">
+            <p className="rounded-xl border border-[var(--tk-border)] bg-[var(--tk-surface-muted)] px-4 py-3 text-center text-xs text-[var(--tk-ink-muted)]">
               This vendor hasn't added a WhatsApp number yet.
             </p>
           )}
@@ -386,7 +386,7 @@ export default function PublicVendorProfile() {
               className="mt-0.5 shrink-0 text-[var(--tk-brand)]"
               aria-hidden="true"
             />
-            <p className="text-[12px] leading-5 text-[var(--tk-ink-soft)]">
+            <p className="text-xs leading-5 text-[var(--tk-ink-soft)]">
               Your measurements are taken in a private, secure flow and shared
               only with this vendor.
             </p>
@@ -398,13 +398,13 @@ export default function PublicVendorProfile() {
               className="mt-0.5 shrink-0 text-[var(--tk-brand)]"
               aria-hidden="true"
             />
-            <p className="text-[12px] leading-5 text-[var(--tk-ink-soft)]">
-              Get accurate measurements in minutes — no tape measure needed.
+            <p className="text-xs leading-5 text-[var(--tk-ink-soft)]">
+              Get accurate measurements in minutes; no tape measure needed.
             </p>
           </div>
         </div>
 
-        <p className="mt-6 text-center text-[11px] text-[var(--tk-ink-muted)]">
+        <p className="mt-6 text-center text-xs text-[var(--tk-ink-muted)]">
           Powered by TrendySize
         </p>
       </main>

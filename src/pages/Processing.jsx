@@ -174,7 +174,7 @@ export default function Processing() {
         <button
           type="button"
           onClick={handleBack}
-          className="mt-[26px] flex h-[34px] w-[118px] shrink-0 items-center justify-center gap-[8px] rounded-[10px] border border-[#D1D5DB] bg-[#EBE9FE] px-[8px] text-[13px] font-semibold text-[#241065] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40"
+          className="mt-[26px] flex h-[34px] w-[118px] shrink-0 items-center justify-center gap-[8px] rounded-[10px] border border-[#D1D5DB] bg-[#EBE9FE] px-[8px] text-sm font-semibold text-[#241065] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40"
         >
           <span className="flex h-[24px] w-[24px] items-center justify-center rounded-full">
             <ArrowLeft size={16} strokeWidth={1.5} aria-hidden="true" />
@@ -184,14 +184,14 @@ export default function Processing() {
 
         {/* Processing Card */}
         <div className="flex flex-1 items-center justify-center py-8">
-          <div className="flex w-[440px] max-w-[92vw] flex-col items-center justify-center gap-[28px] rounded-[28px] border border-[#E5E7EB] bg-[#F4F3FF] p-[28px] shadow-sm">
+          <div className="flex w-[440px] max-w-[92vw] flex-col items-center justify-center gap-[28px] rounded-xl border border-[#E5E7EB] bg-[#F4F3FF] p-[28px] ">
           {state === "submitting" && (
             <>
               <div className="flex w-[300px] flex-col items-center gap-[8px] text-center">
-                <h1 className="w-full text-[17px] font-bold leading-[22px] text-[#3F1E94]">
+                <h1 className="w-full text-base font-bold leading-[22px] text-[#3F1E94]">
                   Analyzing your measurements
                 </h1>
-                <p className="w-full text-[13px] font-medium leading-[18px] text-[#4B5563]">
+                <p className="w-full text-sm font-medium leading-[18px] text-[#4B5563]">
                   Our AI is processing your photos to generate accurate
                   measurements. This can take up to a minute.
                 </p>
@@ -217,7 +217,7 @@ export default function Processing() {
                   />
                 </svg>
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-[24px] font-bold leading-[29px] text-[#241065]">
+                  <span className="text-2xl font-bold leading-[29px] text-[#241065]">
                     {progress}%
                   </span>
                 </div>
@@ -228,14 +228,14 @@ export default function Processing() {
           {state === "success" && (
             <>
               <div className="flex w-full flex-col items-center gap-[8px] text-center">
-                <h1 className="text-[18px] font-bold text-[#3F1E94]">
+                <h1 className="text-lg font-bold text-[#3F1E94]">
                   Measurement complete
                 </h1>
-                <p className="text-[13px] font-medium text-[#4B5563]">{message}</p>
+                <p className="text-sm font-medium text-[#4B5563]">{message}</p>
               </div>
 
               {measurements && (
-                <div className="w-full rounded-xl border border-[#D8D6FE] bg-white p-4 text-[12px]">
+                <div className="w-full rounded-xl border border-[#D8D6FE] bg-white p-4 text-xs">
                   {[
                     ["Shoulder width", measurements.shoulderWidthCm],
                     ["Arm length", measurements.armLengthCm],
@@ -259,7 +259,7 @@ export default function Processing() {
                 </div>
               )}
 
-              <p className="text-center text-[12px] text-[#6B7280]">
+              <p className="text-center text-xs text-[#6B7280]">
                 You can close this page. The results have been shared with the
                 vendor.
               </p>
@@ -268,13 +268,13 @@ export default function Processing() {
 
           {state === "manual" && (
             <>
-              <h1 className="text-[18px] font-bold text-[#3F1E94]">
+              <h1 className="text-lg font-bold text-[#3F1E94]">
                 Sent for manual review
               </h1>
-              <p className="text-center text-[13px] font-medium text-[#4B5563]">
+              <p className="text-center text-sm font-medium text-[#4B5563]">
                 {message}
               </p>
-              <p className="text-center text-[12px] text-[#6B7280]">
+              <p className="text-center text-xs text-[#6B7280]">
                 You can close this page. The vendor will follow up.
               </p>
             </>
@@ -282,21 +282,21 @@ export default function Processing() {
 
           {state === "retry" && (
             <>
-              <h1 className="text-[18px] font-bold text-[#3F1E94]">
+              <h1 className="text-lg font-bold text-[#3F1E94]">
                 Let&apos;s try that again
               </h1>
-              <p className="text-center text-[13px] font-medium text-[#4B5563]">
+              <p className="text-center text-sm font-medium text-[#4B5563]">
                 {message}
               </p>
               {attemptsRemaining != null && (
-                <p className="text-center text-[12px] font-semibold text-[#6133DA]">
+                <p className="text-center text-xs font-semibold text-[#6133DA]">
                   {attemptsRemaining} attempt{attemptsRemaining === 1 ? "" : "s"} remaining
                 </p>
               )}
               <button
                 type="button"
                 onClick={retryPhotos}
-                className="flex h-[44px] w-full max-w-[320px] items-center justify-center rounded-lg bg-[#6133DA] text-[12px] font-semibold text-white transition hover:bg-[#4D26B5]"
+                className="flex h-[44px] w-full max-w-[320px] items-center justify-center rounded-lg bg-[#6133DA] text-xs font-semibold text-white transition hover:bg-[#4D26B5]"
               >
                 Retake photos
               </button>
@@ -305,16 +305,16 @@ export default function Processing() {
 
           {state === "error" && (
             <>
-              <h1 className="text-[18px] font-bold text-[#3F1E94]">
+              <h1 className="text-lg font-bold text-[#3F1E94]">
                 Something went wrong
               </h1>
-              <p className="text-center text-[13px] font-medium text-[#4B5563]">
+              <p className="text-center text-sm font-medium text-[#4B5563]">
                 {message}
               </p>
               <button
                 type="button"
                 onClick={() => window.location.reload()}
-                className="flex h-[44px] w-full max-w-[320px] items-center justify-center rounded-lg bg-[#6133DA] text-[12px] font-semibold text-white transition hover:bg-[#4D26B5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40 focus-visible:ring-offset-2"
+                className="flex h-[44px] w-full max-w-[320px] items-center justify-center rounded-lg bg-[#6133DA] text-xs font-semibold text-white transition hover:bg-[#4D26B5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40 focus-visible:ring-offset-2"
               >
                 Try again
               </button>

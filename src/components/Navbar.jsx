@@ -58,7 +58,7 @@ export default function Navbar() {
             className="h-9 w-9 max-[380px]:h-8 max-[380px]:w-8"
           />
 
-          <span className="-ml-1 text-[14px] font-extrabold tracking-tight max-[380px]:-ml-1 max-[380px]:text-[13px]">
+          <span className="-ml-1 text-sm font-extrabold tracking-tight max-[380px]:-ml-1 max-[380px]:text-sm">
             <span className="text-[var(--tk-ink)]">TRENDY</span>
             <span className="text-[var(--tk-brand)]">SIZE</span>
           </span>
@@ -70,7 +70,7 @@ export default function Navbar() {
             <Link
               key={item.label}
               to={item.to}
-              className={`text-[15px] font-medium transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40 ${
+              className={`text-sm font-medium transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40 ${
                 headerActive ? "text-[var(--tk-ink)]" : "text-slate-600 dark:text-[var(--tk-ink-muted)]"
               } hover:text-[#6F4CFF] hover:underline hover:underline-offset-4`}
             >
@@ -104,7 +104,7 @@ export default function Navbar() {
 
           <Link
             to="/signin"
-            className="rounded-lg bg-[#6F4CFF] px-2.5 py-1.5 text-[11px] font-semibold text-white transition hover:bg-[#5E3EF5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40 max-[380px]:px-2 max-[380px]:py-1.5 max-[380px]:text-[10px]"
+            className="rounded-lg bg-[#6F4CFF] px-2.5 py-1.5 text-xs font-semibold text-white transition hover:bg-[#5E3EF5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40 max-[380px]:px-2 max-[380px]:py-1.5 max-[380px]:text-xs"
           >
             Sign in
           </Link>
@@ -116,7 +116,7 @@ export default function Navbar() {
             aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
             aria-expanded={isOpen}
             aria-controls="mobile-nav"
-            className="flex h-10 w-10 items-center justify-center rounded-lg text-[27px] text-[var(--tk-ink)] transition hover:bg-[var(--tk-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40 max-[380px]:text-2xl"
+            className="flex h-10 w-10 items-center justify-center rounded-lg text-3xl text-[var(--tk-ink)] transition hover:bg-[var(--tk-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40 max-[380px]:text-2xl"
           >
             {isOpen ? <HiOutlineX aria-hidden="true" /> : <HiOutlineMenuAlt3 aria-hidden="true" />}
           </button>
@@ -138,7 +138,7 @@ export default function Navbar() {
             <Link
               key={item.label}
               to={item.to}
-              className="block rounded-md text-[14px] font-medium text-[var(--tk-ink-soft)] transition duration-200 hover:text-[#6F4CFF] hover:underline hover:underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40 max-[380px]:text-[13px]"
+              className="block rounded-md text-sm font-medium text-[var(--tk-ink-soft)] transition duration-200 hover:text-[#6F4CFF] hover:underline hover:underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40 max-[380px]:text-sm"
               onClick={() => setIsOpen(false)}
             >
               {item.label}
@@ -148,7 +148,7 @@ export default function Navbar() {
           <Link
             to="/signup"
             onClick={() => setIsOpen(false)}
-            className="block rounded-lg border border-[#6133DA] bg-[var(--tk-bg-elevated)] px-4 py-2.5 text-center text-xs font-semibold text-[var(--tk-brand)] transition hover:bg-[#EBE9FE] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40 max-[380px]:px-3 max-[380px]:py-2 max-[380px]:text-[11px]"
+            className="block rounded-lg border border-[#6133DA] bg-[var(--tk-bg-elevated)] px-4 py-2.5 text-center text-xs font-semibold text-[var(--tk-brand)] transition hover:bg-[#EBE9FE] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40 max-[380px]:px-3 max-[380px]:py-2 max-[380px]:text-xs"
           >
             Create free account
           </Link>
@@ -156,7 +156,7 @@ export default function Navbar() {
           <Link
             to="/signin"
             onClick={() => setIsOpen(false)}
-            className="block rounded-lg bg-[#6F4CFF] px-4 py-2.5 text-center text-xs font-semibold text-white transition hover:bg-[#5E3EF5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40 max-[380px]:px-3 max-[380px]:py-2 max-[380px]:text-[11px]"
+            className="block rounded-lg bg-[#6F4CFF] px-4 py-2.5 text-center text-xs font-semibold text-white transition hover:bg-[#5E3EF5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40 max-[380px]:px-3 max-[380px]:py-2 max-[380px]:text-xs"
           >
             Sign in
           </Link>

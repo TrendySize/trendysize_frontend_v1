@@ -30,7 +30,7 @@ export default function HowItWorks() {
           <button
             type="button"
             onClick={() => navigate(-1)}
-            className="flex h-[40px] w-[110px] items-center justify-center gap-2 rounded-lg border border-[#D8D6FE] bg-[#EBE9FE] text-[13px] font-medium text-[#241065] transition hover:bg-[#D8D6FE]"
+            className="flex h-[40px] w-[110px] items-center justify-center gap-2 rounded-lg border border-[#D8D6FE] bg-[#EBE9FE] text-sm font-medium text-[#241065] transition hover:bg-[#D8D6FE]"
           >
             <ArrowLeft size={15} />
             Back
@@ -42,11 +42,11 @@ export default function HowItWorks() {
         ================================================== */}
 
         <div className="mt-12 text-center">
-          <h1 className="text-[30px] font-bold text-[#241065]">
+          <h1 className="text-3xl font-bold text-[#241065]">
             How it works
           </h1>
 
-          <p className="mt-2 text-[13px] text-[#6133DA]">
+          <p className="mt-2 text-sm text-[#6133DA]">
             Follow these simple steps for best results
           </p>
         </div>
@@ -65,11 +65,11 @@ export default function HowItWorks() {
             </div>
 
             <div>
-              <h3 className="text-[14px] font-semibold text-[#241065]">
+              <h3 className="text-sm font-semibold text-[#241065]">
                 Take clear photos
               </h3>
 
-              <p className="mt-1 text-[11px] leading-4 text-[#6B7280]">
+              <p className="mt-1 text-xs leading-4 text-[#6B7280]">
                 We’ll need front and side photos
               </p>
             </div>
@@ -83,11 +83,11 @@ export default function HowItWorks() {
             </div>
 
             <div>
-              <h3 className="text-[14px] font-semibold text-[#241065]">
+              <h3 className="text-sm font-semibold text-[#241065]">
                 Stand straight
               </h3>
 
-              <p className="mt-1 text-[11px] leading-4 text-[#6B7280]">
+              <p className="mt-1 text-xs leading-4 text-[#6B7280]">
                 Keep a natural posture, no
               </p>
             </div>
@@ -101,11 +101,11 @@ export default function HowItWorks() {
             </div>
 
             <div>
-              <h3 className="text-[14px] font-semibold text-[#241065]">
+              <h3 className="text-sm font-semibold text-[#241065]">
                 Wear fitted clothing
               </h3>
 
-              <p className="mt-1 text-[11px] leading-4 text-[#6B7280]">
+              <p className="mt-1 text-xs leading-4 text-[#6B7280]">
                 Avoid baggy clothes for accuracy
               </p>
             </div>
@@ -119,11 +119,11 @@ export default function HowItWorks() {
             </div>
 
             <div>
-              <h3 className="text-[14px] font-semibold text-[#241065]">
+              <h3 className="text-sm font-semibold text-[#241065]">
                 Good lighting
               </h3>
 
-              <p className="mt-1 text-[11px] leading-4 text-[#6B7280]">
+              <p className="mt-1 text-xs leading-4 text-[#6B7280]">
                 Make sure the area is well lit
               </p>
             </div>
@@ -139,7 +139,7 @@ export default function HowItWorks() {
           <button
             type="button"
             onClick={() => navigate("/front-photo")}
-            className="mx-auto flex h-[48px] w-full max-w-[430px] items-center justify-center rounded-lg bg-[#6133DA] text-[13px] font-semibold text-white transition hover:bg-[#4D26B5]"
+            className="mx-auto flex h-[48px] w-full max-w-[430px] items-center justify-center rounded-lg bg-[#6133DA] text-sm font-semibold text-white transition hover:bg-[#4D26B5]"
           >
             Continue
           </button>

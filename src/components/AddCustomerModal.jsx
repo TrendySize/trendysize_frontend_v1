@@ -117,18 +117,18 @@ export default function AddCustomerModal({ open, onClose, onCreated }) {
         tabIndex={-1}
         onSubmit={submit}
         onClick={(event) => event.stopPropagation()}
-        className="tk-panel-enter flex max-h-[92dvh] w-full max-w-[440px] flex-col overflow-hidden rounded-t-2xl bg-[var(--tk-bg-elevated)] shadow-2xl sm:max-h-[90vh] sm:rounded-2xl"
+        className="tk-panel-enter flex max-h-[92dvh] w-full max-w-[440px] flex-col overflow-hidden rounded-t-2xl bg-[var(--tk-bg-elevated)]  sm:max-h-[90vh] sm:rounded-xl"
       >
         {/* HEADER */}
         <div className="flex items-start justify-between gap-3 border-b border-[var(--tk-border)] px-5 py-4">
           <div className="min-w-0">
             <h2
               id="add-customer-title"
-              className="text-[15px] font-bold text-[var(--tk-ink)]"
+              className="text-sm font-bold text-[var(--tk-ink)]"
             >
               Add customer
             </h2>
-            <p className="mt-1 text-[11px] leading-5 text-[var(--tk-ink-muted)]">
+            <p className="mt-1 text-xs leading-5 text-[var(--tk-ink-muted)]">
               Save a customer once, then generate measurement links for them.
             </p>
           </div>
@@ -173,14 +173,14 @@ export default function AddCustomerModal({ open, onClose, onCreated }) {
                 placeholder="e.g. +2348012345678"
                 inputMode="tel"
                 maxLength={20}
-                hint="Used to detect returning customers — adding the same number again reuses the existing record."
+                hint="Used to detect returning customers; adding the same number again reuses the existing record."
               />
             </div>
 
             <div className="sm:col-span-2">
               <label
                 htmlFor="gender"
-                className="mb-1.5 block text-[12px] font-semibold text-[var(--tk-ink)] sm:text-[14px]"
+                className="mb-1.5 block text-xs font-semibold text-[var(--tk-ink)] sm:text-sm"
               >
                 Gender
               </label>
@@ -190,7 +190,7 @@ export default function AddCustomerModal({ open, onClose, onCreated }) {
                 name="gender"
                 value={form.gender}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-[var(--tk-border-strong)] px-3 py-2.5 text-[13px] text-[var(--tk-ink)] outline-none transition focus:border-[var(--tk-brand)] focus:ring-2 focus:ring-[var(--tk-brand)]/10 sm:text-[14px]"
+                className="w-full rounded-lg border border-[var(--tk-border-strong)] px-3 py-2.5 text-sm text-[var(--tk-ink)] outline-none transition focus:border-[var(--tk-brand)] focus:ring-2 focus:ring-[var(--tk-brand)]/10 sm:text-sm"
               >
                 <option value="1">Female</option>
                 <option value="0">Male</option>
@@ -199,7 +199,7 @@ export default function AddCustomerModal({ open, onClose, onCreated }) {
           </div>
 
           {error && (
-            <div className="mt-4 rounded-[10px] border border-[#FCA5A5] bg-[#FEF2F2] px-3 py-2.5 text-[11px] leading-5 text-[#B91C1C]">
+            <div className="mt-4 rounded-[10px] border border-[#FCA5A5] bg-[#FEF2F2] px-3 py-2.5 text-xs leading-5 text-[#B91C1C]">
               {error}
             </div>
           )}
@@ -210,7 +210,7 @@ export default function AddCustomerModal({ open, onClose, onCreated }) {
           <button
             type="button"
             onClick={onClose}
-            className="rounded-[9px] px-3 py-2 text-[12px] font-semibold text-[var(--tk-ink-muted)] transition hover:bg-[var(--tk-surface)]"
+            className="rounded-[9px] px-3 py-2 text-xs font-semibold text-[var(--tk-ink-muted)] transition hover:bg-[var(--tk-surface)]"
           >
             Cancel
           </button>
@@ -218,7 +218,7 @@ export default function AddCustomerModal({ open, onClose, onCreated }) {
           <button
             type="submit"
             disabled={saving}
-            className="flex items-center justify-center gap-1.5 rounded-[9px] bg-[var(--tk-brand)] px-4 py-2 text-[12px] font-semibold text-[var(--tk-brand-ink)] transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+            className="flex items-center justify-center gap-1.5 rounded-[9px] bg-[var(--tk-brand)] px-4 py-2 text-xs font-semibold text-[var(--tk-brand-ink)] transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {saving ? (
               <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-current/30 border-t-current" />

@@ -119,11 +119,11 @@ export default function CustomerProfile() {
           <Icon size={24} className="text-[#DC2626]" aria-hidden="true" />
         </span>
 
-        <h1 className="mt-4 text-[17px] font-bold text-[var(--tk-ink)]">
+        <h1 className="mt-4 text-base font-bold text-[var(--tk-ink)]">
           {config.title}
         </h1>
 
-        <p className="mx-auto mt-2 max-w-[34ch] text-[13px] leading-6 text-[var(--tk-ink-soft)]">
+        <p className="mx-auto mt-2 max-w-[34ch] text-sm leading-6 text-[var(--tk-ink-soft)]">
           {state.message || config.body}
         </p>
 
@@ -131,14 +131,14 @@ export default function CustomerProfile() {
           <button
             type="button"
             onClick={() => navigate(`/measure?token=${measureToken}`)}
-            className="mt-5 inline-flex items-center gap-2 rounded-[6px] bg-[#6133DA] px-5 py-2 text-[12px] font-semibold text-white transition hover:bg-[#5128BC]"
+            className="mt-5 inline-flex items-center gap-2 rounded-[6px] bg-[#6133DA] px-5 py-2 text-xs font-semibold text-white transition hover:bg-[#5128BC]"
           >
             <Phone size={13} />
             Continue to measurement
           </button>
         )}
 
-        <p className="mt-4 flex items-center justify-center gap-1.5 text-[11px] text-[var(--tk-ink-muted)]">
+        <p className="mt-4 flex items-center justify-center gap-1.5 text-xs text-[var(--tk-ink-muted)]">
           <AlertTriangle size={12} aria-hidden="true" />
           If this keeps happening, contact the vendor directly.
         </p>

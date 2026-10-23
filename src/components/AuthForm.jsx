@@ -54,13 +54,13 @@ function messageForError(err, fallback) {
 // Small inline message shown under an input when the backend rejected that specific field.
 function FieldError({ message }) {
   if (!message) return null;
-  return <p className="mt-1.5 text-[12px] font-medium text-red-600">{message}</p>;
+  return <p className="mt-1.5 text-xs font-medium text-red-600">{message}</p>;
 }
 
 // Shared input styling, with an error variant so the field the backend complained about is
 // obvious rather than just having a banner at the top of the form.
 const inputClass = (hasError = false) =>
-  `h-14 w-full rounded-xl border bg-[#F4F3FF] px-4 text-[14px] font-medium text-[#241065] transition placeholder:text-[#6B7280] focus:outline-none ${
+  `h-14 w-full rounded-xl border bg-[#F4F3FF] px-4 text-sm font-medium text-[#241065] transition placeholder:text-[#6B7280] focus:outline-none ${
     hasError
       ? "border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-100"
       : "border-[#D1D5DB] focus:border-[#6133DA] focus:ring-2 focus:ring-[#EBE9FE]"
@@ -418,13 +418,13 @@ export default function AuthForm({
           </span>
 
           <h2
-            className="mt-5 text-[22px] font-bold text-[#241065]"
+            className="mt-5 text-2xl font-bold text-[#241065]"
             style={{ fontFamily: "SF Pro Display, sans-serif" }}
           >
             {success.title || "Account created"}
           </h2>
 
-          <p className="mt-2 max-w-sm text-[14px] leading-6 text-[#4B5563]">
+          <p className="mt-2 max-w-sm text-sm leading-6 text-[#4B5563]">
             {success.message}
           </p>
         </div>
@@ -438,7 +438,7 @@ export default function AuthForm({
               aria-hidden="true"
               className="mt-0.5 shrink-0 text-[#1FAF38]"
             />
-            <p className="text-[13px] leading-5 text-[#14532D]">
+            <p className="text-sm leading-5 text-[#14532D]">
               Your account is ready to use. Sign in below to get started - there is
               nothing to confirm.
             </p>
@@ -450,7 +450,7 @@ export default function AuthForm({
               aria-hidden="true"
               className="mt-0.5 shrink-0 text-[#6133DA]"
             />
-            <p className="text-[13px] leading-5 text-[#4B5563]">
+            <p className="text-sm leading-5 text-[#4B5563]">
               Open the link in that email to confirm your address. If it doesn&apos;t
               arrive within a few minutes, check your spam folder or ask us to send
               it again.
@@ -463,7 +463,7 @@ export default function AuthForm({
               aria-hidden="true"
               className="mt-0.5 shrink-0 text-[#B45309]"
             />
-            <p className="text-[13px] leading-5 text-[#78350F]">
+            <p className="text-sm leading-5 text-[#78350F]">
               The confirmation email didn&apos;t go out. You can sign in now and
               request a new link whenever you&apos;re ready.
             </p>
@@ -480,7 +480,7 @@ export default function AuthForm({
           <button
             type="button"
             onClick={() => navigate("/signin")}
-            className="flex h-12 w-full items-center justify-center rounded-xl bg-[#6133DA] text-[16px] font-semibold text-white transition-all duration-300 hover:bg-[#4F28C7] hover:shadow-lg active:scale-[0.98]"
+            className="flex h-12 w-full items-center justify-center rounded-xl bg-[#6133DA] text-base font-semibold text-white transition-all duration-300 hover:bg-[#4F28C7]  "
             style={{ fontFamily: "SF Pro Display, sans-serif" }}
           >
             Go to sign in
@@ -491,7 +491,7 @@ export default function AuthForm({
               type="button"
               onClick={handleResendConfirmation}
               disabled={resending}
-              className="flex h-12 w-full items-center justify-center gap-2 rounded-xl border border-[#D1D5DB] bg-white text-[15px] font-semibold text-[#241065] transition hover:bg-[#F4F3FF] disabled:cursor-not-allowed disabled:opacity-60"
+              className="flex h-12 w-full items-center justify-center gap-2 rounded-xl border border-[#D1D5DB] bg-white text-sm font-semibold text-[#241065] transition hover:bg-[#F4F3FF] disabled:cursor-not-allowed disabled:opacity-60"
               style={{ fontFamily: "SF Pro Display, sans-serif" }}
             >
               {resending ? "Sending…" : "Resend confirmation email"}
@@ -514,7 +514,7 @@ export default function AuthForm({
       {dataPolicyDeclined && (
         <div
           role="status"
-          className="mb-5 rounded-xl border border-[#FDE68A] bg-[#FEF9C3] px-4 py-3 text-[12px] leading-5 text-[#78350F]"
+          className="mb-5 rounded-xl border border-[#FDE68A] bg-[#FEF9C3] px-4 py-3 text-xs leading-5 text-[#78350F]"
         >
           You were signed out because you did not accept the data
           confidentiality and terms of use. You can sign in again and accept
@@ -532,7 +532,7 @@ export default function AuthForm({
             {/* First Name */}
             <div className="mb-5">
               <label
-                className="mb-2 block text-[16px] font-semibold leading-6 text-[#241065]"
+                className="mb-2 block text-base font-semibold leading-6 text-[#241065]"
                 style={{
                   fontFamily: "SF Pro Display, sans-serif",
                 }}
@@ -556,7 +556,7 @@ export default function AuthForm({
             {/* Last Name */}
             <div className="mb-5">
               <label
-                className="mb-2 block text-[16px] font-semibold leading-6 text-[#241065]"
+                className="mb-2 block text-base font-semibold leading-6 text-[#241065]"
                 style={{
                   fontFamily: "SF Pro Display, sans-serif",
                 }}
@@ -580,7 +580,7 @@ export default function AuthForm({
 
               <div className="mb-5">
             <label
-              className="mb-2 block text-[16px] font-semibold leading-6 text-[#241065]"
+              className="mb-2 block text-base font-semibold leading-6 text-[#241065]"
               style={{
                 fontFamily: "SF Pro Display, sans-serif",
               }}
@@ -603,7 +603,7 @@ export default function AuthForm({
 
           <div className="mb-5">
             <label
-              className="mb-2 block text-[16px] font-semibold leading-6 text-[#241065]"
+              className="mb-2 block text-base font-semibold leading-6 text-[#241065]"
               style={{
                 fontFamily: "SF Pro Display, sans-serif",
               }}
@@ -632,7 +632,7 @@ export default function AuthForm({
 
       <div className="mb-5">
         <label
-          className="mb-2 block text-[16px] font-semibold leading-6 text-[#241065]"
+          className="mb-2 block text-base font-semibold leading-6 text-[#241065]"
           style={{
             fontFamily: "SF Pro Display, sans-serif",
           }}
@@ -669,7 +669,7 @@ export default function AuthForm({
 
       <div className="mb-5">
         <label
-          className="mb-2 block text-[16px] font-semibold leading-6 text-[#241065]"
+          className="mb-2 block text-base font-semibold leading-6 text-[#241065]"
           style={{
             fontFamily: "SF Pro Display, sans-serif",
           }}
@@ -690,7 +690,7 @@ export default function AuthForm({
                 ? "new-password"
                 : "current-password"
             }
-            className="w-full bg-transparent text-[14px] font-medium text-[#241065] outline-none placeholder:text-[#6B7280] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40"
+            className="w-full bg-transparent text-sm font-medium text-[#241065] outline-none placeholder:text-[#6B7280] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40"
           />
 
           <button
@@ -722,7 +722,7 @@ export default function AuthForm({
         {isSignUp && (
           <div className="mt-5">
             <label
-              className="mb-2 block text-[16px] font-semibold leading-6 text-[#241065]"
+              className="mb-2 block text-base font-semibold leading-6 text-[#241065]"
               style={{
                 fontFamily: "SF Pro Display, sans-serif",
               }}
@@ -743,7 +743,7 @@ export default function AuthForm({
                   setConfirmPassword(e.target.value)
                 }
                 autoComplete="new-password"
-                className="w-full bg-transparent text-[14px] font-medium text-[#241065] outline-none placeholder:text-[#6B7280] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40"
+                className="w-full bg-transparent text-sm font-medium text-[#241065] outline-none placeholder:text-[#6B7280] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40"
               />
 
               <button
@@ -778,7 +778,7 @@ export default function AuthForm({
           <button
             type="button"
             onClick={handleForgotPassword}
-            className="text-[12px] font-medium text-[#6133DA] hover:underline"
+            className="text-xs font-medium text-[#6133DA] hover:underline"
           >
             Forgot password?
           </button>
@@ -805,14 +805,14 @@ export default function AuthForm({
           needed. This is the action the message above points at. */}
       {canResend && mailAvailable && (
         <div className="mb-5 rounded-xl border border-[#D1D5DB] bg-[#F4F3FF] px-4 py-3">
-          <p className="text-[13px] leading-5 text-[#4B5563]">
+          <p className="text-sm leading-5 text-[#4B5563]">
             Still waiting for your confirmation link?
           </p>
           <button
             type="button"
             onClick={handleResendConfirmation}
             disabled={resending}
-            className="mt-2 text-[13px] font-semibold text-[#6133DA] underline underline-offset-2 transition hover:text-[#4F28C7] disabled:opacity-60"
+            className="mt-2 text-sm font-semibold text-[#6133DA] underline underline-offset-2 transition hover:text-[#4F28C7] disabled:opacity-60"
           >
             {resending ? "Sending…" : "Resend confirmation email"}
           </button>
@@ -826,7 +826,7 @@ export default function AuthForm({
       <button
         type="submit"
         disabled={loading}
-        className="mt-6 flex h-12 w-full items-center justify-center rounded-xl bg-[#6133DA] text-[16px] font-semibold text-white transition-all duration-300 hover:bg-[#4F28C7] hover:shadow-lg active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
+        className="mt-6 flex h-12 w-full items-center justify-center rounded-xl bg-[#6133DA] text-base font-semibold text-white transition-all duration-300 hover:bg-[#4F28C7]   disabled:cursor-not-allowed disabled:opacity-60"
         style={{
           fontFamily: "SF Pro Display, sans-serif",
         }}
@@ -870,7 +870,7 @@ export default function AuthForm({
           SWITCH AUTH PAGE
       ================================================== */}
 
-      <p className="mt-3 text-center text-[13px] font-medium text-[#4B5563]">
+      <p className="mt-3 text-center text-sm font-medium text-[#4B5563]">
         {isSignUp ? (
           <>
             Already have an account?{" "}

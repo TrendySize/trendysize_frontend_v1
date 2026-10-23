@@ -37,13 +37,13 @@ export default function Features() {
     <section id="features" className="overflow-x-hidden bg-[#6133DA] py-16 sm:py-20 lg:py-24">
       <div className="mx-auto flex max-w-[1376px] flex-col items-center px-4 sm:px-6 lg:px-8 xl:px-12">
         <div className="max-w-3xl text-center">
-          <h2 className="text-[28px] font-bold leading-tight text-white sm:text-[36px] lg:text-[44px]">
+          <h2 className="text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
             Everything you need to run your
             <br />
             fashion business digitally
           </h2>
 
-          <p className="mt-5 text-[16px] leading-8 text-[#D8D6FE] sm:text-[18px]">
+          <p className="mt-5 text-base leading-8 text-[#D8D6FE] sm:text-lg">
             Trendysize helps fashion businesses collect customer measurements, manage records and share measurement links, all from one secure workspace.
           </p>
         </div>
@@ -61,7 +61,7 @@ export default function Features() {
                     </div>
 
                     <div>
-                      <h3 className="mb-4 text-[20px] font-bold text-white">{item.title}</h3>
+                      <h3 className="mb-4 text-xl font-bold text-white">{item.title}</h3>
                       <p className="text-base leading-6 text-[#BCB5FD]">{item.description}</p>
                     </div>
                   </div>

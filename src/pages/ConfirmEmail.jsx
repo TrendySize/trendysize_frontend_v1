@@ -61,20 +61,20 @@ const ConfirmEmail = () => {
               <button
                 type="button"
                 onClick={() => navigate("/signin")}
-                className="flex h-8 w-8 items-center justify-center rounded-full bg-[#EBE9FE] text-[#241065] transition-all duration-300 hover:bg-[#DCD6FF] hover:scale-105"
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-[#EBE9FE] text-[#241065] transition-all duration-300 hover:bg-[#DCD6FF] "
               >
                 <HiChevronLeft size={18} />
               </button>
 
               <h1
-                className="flex-1 pr-8 text-center text-[28px] font-bold leading-9 text-[#241065] sm:text-[32px]"
+                className="flex-1 pr-8 text-center text-3xl font-bold leading-9 text-[#241065] sm:text-4xl"
                 style={{ fontFamily: "SF Pro Display, sans-serif" }}
               >
                 Confirm Email
               </h1>
             </div>
 
-            <div className="rounded-[32px] border border-[#E9E7FF] bg-white p-8 shadow-[0_25px_70px_rgba(0,0,0,0.06)] sm:p-10">
+            <div className="rounded-xl border border-[#E9E7FF] bg-white p-8  sm:p-10">
               <div className="mb-6 flex justify-center">
                 <img
                   src={verifyIllustration}
@@ -100,7 +100,7 @@ const ConfirmEmail = () => {
                   <button
                     type="button"
                     onClick={() => navigate("/signin")}
-                    className="mt-5 flex h-14 w-full items-center justify-center rounded-xl bg-[#6133DA] text-lg font-bold text-white shadow-lg shadow-[#6133DA]/20 transition-all hover:bg-[#542BC2] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40 focus-visible:ring-offset-2 active:scale-[0.99]"
+                    className="mt-5 flex h-14 w-full items-center justify-center rounded-xl bg-[#6133DA] text-lg font-bold text-white   transition-all hover:bg-[#542BC2] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40 focus-visible:ring-offset-2 "
                   >
                     Continue to sign in
                   </button>
@@ -115,7 +115,7 @@ const ConfirmEmail = () => {
                   <button
                     type="button"
                     onClick={() => navigate("/signin")}
-                    className="flex h-14 w-full items-center justify-center rounded-xl bg-[#6133DA] text-lg font-bold text-white shadow-lg shadow-[#6133DA]/20 transition-all hover:bg-[#542BC2] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40 focus-visible:ring-offset-2 active:scale-[0.99]"
+                    className="flex h-14 w-full items-center justify-center rounded-xl bg-[#6133DA] text-lg font-bold text-white   transition-all hover:bg-[#542BC2] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40 focus-visible:ring-offset-2 "
                   >
                     Back to sign in
                   </button>

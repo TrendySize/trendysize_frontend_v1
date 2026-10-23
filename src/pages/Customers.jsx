@@ -200,7 +200,7 @@ export default function Customers() {
       customer?.phone_number ||
       customer?.phoneNumber ||
       customer?.contact ||
-      "—"
+      "Not set"
     );
   };
 
@@ -482,13 +482,13 @@ export default function Customers() {
 
   const formatDate = (date) => {
     if (!date) {
-      return "—";
+      return "Not set";
     }
 
     const parsedDate = new Date(date);
 
     if (Number.isNaN(parsedDate.getTime())) {
-      return "—";
+      return "Not set";
     }
 
     return parsedDate.toLocaleDateString(
@@ -683,7 +683,7 @@ export default function Customers() {
               className="h-9 w-9 max-[380px]:h-8 max-[380px]:w-8"
             />
 
-            <span className="-ml-1 text-[14px] font-extrabold text-[#241065] max-[380px]:text-[13px]">
+            <span className="-ml-1 text-sm font-extrabold text-[#241065] max-[380px]:text-sm">
               TRENDY
               <span className="text-[#9B8AFB]">
                 SIZE
@@ -711,7 +711,7 @@ export default function Customers() {
                 title="Profile & Settings"
                 className="flex items-center gap-3 rounded-full pr-1 transition-colors hover:bg-[#EBE9FE] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/50 max-lg:gap-1 max-lg:pr-0"
               >
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#241065] text-[13px] font-bold text-[#9B8CF9]">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#241065] text-sm font-bold text-[#9B8CF9]">
                   {profileImage && !avatarFailed ? (
                     <img
                       src={profileImage}
@@ -725,7 +725,7 @@ export default function Customers() {
                   )}
                 </div>
 
-                <span className="max-w-[120px] truncate text-[13px] font-medium text-[#241065] max-lg:hidden">
+                <span className="max-w-[120px] truncate text-sm font-medium text-[#241065] max-lg:hidden">
                   {userName}
                 </span>
 
@@ -741,7 +741,7 @@ export default function Customers() {
                   window.location.href =
                     "/signin";
                 }}
-                className="text-[13px] font-semibold text-[#6133DA] transition hover:text-[#4D26B5] hover:underline"
+                className="text-sm font-semibold text-[#6133DA] transition hover:text-[#4D26B5] hover:underline"
               >
                 Sign in
               </button>
@@ -764,11 +764,11 @@ export default function Customers() {
           <div className="mb-6 flex items-start justify-between gap-3">
 
             <div>
-              <h1 data-tour="customers-list" className="text-[22px] font-bold text-[#241065]">
+              <h1 data-tour="customers-list" className="text-2xl font-bold text-[#241065]">
                 Customers
               </h1>
 
-              <p className="mt-1 text-[12px] text-[#8179AD]">
+              <p className="mt-1 text-xs text-[#8179AD]">
                 Manage your customer measurement
                 records.
               </p>
@@ -778,7 +778,7 @@ export default function Customers() {
               type="button"
               onClick={() => setAddModalOpen(true)}
               data-tour="add-customer"
-              className="flex h-10 shrink-0 items-center gap-1.5 rounded-[9px] bg-[#6133DA] px-3.5 text-[12px] font-semibold text-white transition hover:bg-[#5227c2] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/50 sm:px-4"
+              className="flex h-10 shrink-0 items-center gap-1.5 rounded-[9px] bg-[#6133DA] px-3.5 text-xs font-semibold text-white transition hover:bg-[#5227c2] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/50 sm:px-4"
             >
               <Plus size={15} />
               <span className="max-[380px]:hidden">Add customer</span>
@@ -804,15 +804,15 @@ export default function Customers() {
 
               <div className="flex flex-1 flex-col justify-center gap-[4px] overflow-hidden">
 
-                <p className="overflow-hidden text-ellipsis text-[11px] font-medium text-[#8179AD]">
+                <p className="overflow-hidden text-ellipsis text-xs font-medium text-[#8179AD]">
                   Total Customers
                 </p>
 
-                <p className="text-[20px] font-bold leading-none text-[#241065]">
+                <p className="text-xl font-bold leading-none text-[#241065]">
                   {totalCustomers}
                 </p>
 
-                <p className="text-[10px] text-[#958DBA]">
+                <p className="text-xs text-[#958DBA]">
                   All Time
                 </p>
 
@@ -830,15 +830,15 @@ export default function Customers() {
 
               <div className="flex flex-1 flex-col justify-center gap-[4px] overflow-hidden">
 
-                <p className="overflow-hidden text-ellipsis text-[11px] font-medium text-[#8179AD]">
+                <p className="overflow-hidden text-ellipsis text-xs font-medium text-[#8179AD]">
                   Measurements collected
                 </p>
 
-                <p className="text-[20px] font-bold leading-none text-[#241065]">
+                <p className="text-xl font-bold leading-none text-[#241065]">
                   {totalMeasurements}
                 </p>
 
-                <p className="text-[10px] text-[#958DBA]">
+                <p className="text-xs text-[#958DBA]">
                   Across all customers
                 </p>
 
@@ -856,15 +856,15 @@ export default function Customers() {
 
               <div>
 
-                <p className="text-[11px] font-medium text-[#8179AD]">
+                <p className="text-xs font-medium text-[#8179AD]">
                   New This Month
                 </p>
 
-                <p className="mt-1 text-[20px] font-bold text-[#241065]">
+                <p className="mt-1 text-xl font-bold text-[#241065]">
                   {newThisMonth}
                 </p>
 
-                <p className="text-[10px] text-[#958DBA]">
+                <p className="text-xs text-[#958DBA]">
                   From this month
                 </p>
 
@@ -890,17 +890,17 @@ export default function Customers() {
                   <UsersRound size={17} />
                 </div>
                 <div className="min-w-0">
-                  <p className="truncate text-[12px] font-semibold text-[#241065]">
+                  <p className="truncate text-xs font-semibold text-[#241065]">
                     Total Customers
                   </p>
-                  <p className="mt-0.5 text-[10px] text-[#8179AD]">
+                  <p className="mt-0.5 text-xs text-[#8179AD]">
                     All time
                   </p>
                 </div>
               </div>
 
               <div className="shrink-0 pl-2 text-right">
-                <p className="text-[20px] font-bold leading-none text-[#241065]">
+                <p className="text-xl font-bold leading-none text-[#241065]">
                   {totalCustomers}
                 </p>
               </div>
@@ -916,17 +916,17 @@ export default function Customers() {
                   <Ruler size={17} />
                 </div>
                 <div className="min-w-0">
-                  <p className="truncate text-[12px] font-semibold text-[#241065]">
+                  <p className="truncate text-xs font-semibold text-[#241065]">
                     Measurements
                   </p>
-                  <p className="mt-0.5 text-[10px] text-[#8179AD]">
+                  <p className="mt-0.5 text-xs text-[#8179AD]">
                     Across all customers
                   </p>
                 </div>
               </div>
 
               <div className="shrink-0 pl-2 text-right">
-                <p className="text-[20px] font-bold leading-none text-[#241065]">
+                <p className="text-xl font-bold leading-none text-[#241065]">
                   {totalMeasurements}
                 </p>
               </div>
@@ -942,17 +942,17 @@ export default function Customers() {
                   <ClipboardList size={17} />
                 </div>
                 <div className="min-w-0">
-                  <p className="truncate text-[12px] font-semibold text-[#241065]">
+                  <p className="truncate text-xs font-semibold text-[#241065]">
                     New this month
                   </p>
-                  <p className="mt-0.5 text-[10px] text-[#8179AD]">
+                  <p className="mt-0.5 text-xs text-[#8179AD]">
                     New customers
                   </p>
                 </div>
               </div>
 
               <div className="shrink-0 pl-2 text-right">
-                <p className="text-[20px] font-bold leading-none text-[#241065]">
+                <p className="text-xl font-bold leading-none text-[#241065]">
                   {newThisMonth}
                 </p>
               </div>
@@ -987,7 +987,7 @@ export default function Customers() {
                   setCurrentPage(1);
                 }}
                 placeholder="Search by name or phone number..."
-                className="w-full bg-transparent text-[12px] text-[#241065] outline-none placeholder:text-[#AAA4C1] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40"
+                className="w-full bg-transparent text-xs text-[#241065] outline-none placeholder:text-[#AAA4C1] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40"
               />
 
             </div>
@@ -1004,7 +1004,7 @@ export default function Customers() {
                   );
                   setCurrentPage(1);
                 }}
-                className="h-10 min-w-[130px] appearance-none rounded-[9px] border border-[#E0DCF5] bg-white pl-9 pr-8 text-[12px] font-medium text-[#5E5782] outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40"
+                className="h-10 min-w-[130px] appearance-none rounded-[9px] border border-[#E0DCF5] bg-white pl-9 pr-8 text-xs font-medium text-[#5E5782] outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40"
               >
                 <option value="newest">
                   Newest first
@@ -1046,7 +1046,7 @@ export default function Customers() {
 
             {/* SEARCH */}
 
-            <div className="flex h-[44px] w-full items-center gap-2 rounded-[11px] border border-[#E0DCF5] bg-white px-3 shadow-[0_2px_8px_rgba(36,16,101,0.03)]">
+            <div className="flex h-[44px] w-full items-center gap-2 rounded-[11px] border border-[#E0DCF5] bg-white px-3 ">
 
               <Search
                 size={16}
@@ -1063,7 +1063,7 @@ export default function Customers() {
                   setCurrentPage(1);
                 }}
                 placeholder="Search customers..."
-                className="w-full bg-transparent text-[12px] text-[#241065] outline-none placeholder:text-[#AAA4C1] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40"
+                className="w-full bg-transparent text-xs text-[#241065] outline-none placeholder:text-[#AAA4C1] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40"
               />
 
             </div>
@@ -1072,7 +1072,7 @@ export default function Customers() {
 
             <div className="mt-2 flex items-center justify-between gap-2">
 
-              <div className="flex items-center gap-2 text-[10px] font-medium text-[#8179AD]">
+              <div className="flex items-center gap-2 text-xs font-medium text-[#8179AD]">
                 <UsersRound size={13} />
                 <span>
                   {filteredCustomers.length}{" "}
@@ -1092,7 +1092,7 @@ export default function Customers() {
                     );
                     setCurrentPage(1);
                   }}
-                  className="h-[34px] min-w-[125px] appearance-none rounded-[9px] border border-[#E0DCF5] bg-white pl-8 pr-8 text-[10px] font-semibold text-[#5E5782] outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40"
+                  className="h-[34px] min-w-[125px] appearance-none rounded-[9px] border border-[#E0DCF5] bg-white pl-8 pr-8 text-xs font-semibold text-[#5E5782] outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40"
                 >
                   <option value="newest">
                     Newest first
@@ -1139,23 +1139,23 @@ export default function Customers() {
 
             <div className="hidden grid-cols-[1.5fr_1.3fr_1fr_1fr_90px] items-center border-b border-[var(--tk-glass-border)] bg-[var(--tk-surface-muted)] px-5 py-3 md:grid">
 
-              <span className="text-[11px] font-semibold text-[#8179AD]">
+              <span className="text-xs font-semibold text-[#8179AD]">
                 Name
               </span>
 
-              <span className="text-[11px] font-semibold text-[#8179AD]">
+              <span className="text-xs font-semibold text-[#8179AD]">
                 Contact
               </span>
 
-              <span className="text-[11px] font-semibold text-[#8179AD]">
+              <span className="text-xs font-semibold text-[#8179AD]">
                 Last Measurement
               </span>
 
-              <span className="text-[11px] font-semibold text-[#8179AD]">
+              <span className="text-xs font-semibold text-[#8179AD]">
                 Date Added
               </span>
 
-              <span className="text-center text-[11px] font-semibold text-[#8179AD]">
+              <span className="text-center text-xs font-semibold text-[#8179AD]">
                 Actions
               </span>
 
@@ -1170,7 +1170,7 @@ export default function Customers() {
 
                   <div className="mx-auto h-6 w-6 animate-spin rounded-full border-2 border-[#D8D6FE] border-t-[#6133DA]" />
 
-                  <p className="mt-3 text-[11px] text-[#8179AD]">
+                  <p className="mt-3 text-xs text-[#8179AD]">
                     Loading customers...
                   </p>
 
@@ -1200,17 +1200,17 @@ export default function Customers() {
 
                         <div className="flex items-center gap-2">
 
-                          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#EBE9FE] text-[10px] font-bold text-[#6133DA]">
+                          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#EBE9FE] text-xs font-bold text-[#6133DA]">
                             {getInitials(name)}
                           </div>
 
                           <div>
 
-                            <p className="text-[12px] font-semibold text-[#241065]">
+                            <p className="text-xs font-semibold text-[#241065]">
                               {name}
                             </p>
 
-                            <p className="text-[10px] text-[#A19ABA]">
+                            <p className="text-xs text-[#A19ABA]">
                               Customer
                             </p>
 
@@ -1222,7 +1222,7 @@ export default function Customers() {
 
                         <div>
 
-                          <p className="text-[11px] text-[#5E5782]">
+                          <p className="text-xs text-[#5E5782]">
                             {getCustomerPhone(
                               customer
                             )}
@@ -1234,7 +1234,7 @@ export default function Customers() {
 
                         <div>
 
-                          <p className="text-[11px] text-[#5E5782]">
+                          <p className="text-xs text-[#5E5782]">
                             {formatDate(
                               customer.lastMeasurement
                             )}
@@ -1246,7 +1246,7 @@ export default function Customers() {
 
                         <div>
 
-                          <p className="text-[11px] text-[#5E5782]">
+                          <p className="text-xs text-[#5E5782]">
                             {formatDate(
                               customer?.created_at ||
                                 customer?.createdAt
@@ -1332,11 +1332,11 @@ export default function Customers() {
                   <UsersRound size={27} />
                 </div>
 
-                <h2 className="mt-4 text-[15px] font-bold text-[#241065]">
+                <h2 className="mt-4 text-sm font-bold text-[#241065]">
                   No Customers Yet
                 </h2>
 
-                <p className="mt-2 max-w-[400px] text-[11px] leading-5 text-[#8179AD]">
+                <p className="mt-2 max-w-[400px] text-xs leading-5 text-[#8179AD]">
                   Customers you add will appear
                   here. Add a customer, then use
                   the link icon to generate a
@@ -1346,7 +1346,7 @@ export default function Customers() {
 
                 <button
                   type="button"
-                  className="mt-3 flex items-center gap-2 text-[11px] font-medium text-[#6133DA]"
+                  className="mt-3 flex items-center gap-2 text-xs font-medium text-[#6133DA]"
                 >
                   <PlayCircle size={13} />
                   Learn How It Works
@@ -1373,7 +1373,7 @@ export default function Customers() {
 
                 <div className="mx-auto h-6 w-6 animate-spin rounded-full border-2 border-[#D8D6FE] border-t-[#6133DA]" />
 
-                <p className="mt-3 text-[11px] text-[#8179AD]">
+                <p className="mt-3 text-xs text-[#8179AD]">
                   Loading customers...
                 </p>
 
@@ -1412,17 +1412,17 @@ export default function Customers() {
 
                             <div className="flex min-w-0 items-center gap-3">
 
-                              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#EBE9FE] text-[12px] font-bold text-[#6133DA]">
+                              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#EBE9FE] text-xs font-bold text-[#6133DA]">
                                 {getInitials(name)}
                               </div>
 
                               <div className="min-w-0">
 
-                                <p className="truncate text-[13px] font-bold text-[#241065]">
+                                <p className="truncate text-sm font-bold text-[#241065]">
                                   {name}
                                 </p>
 
-                                <p className="mt-1 truncate text-[10px] text-[#8179AD]">
+                                <p className="mt-1 truncate text-xs text-[#8179AD]">
                                   {getCustomerPhone(
                                     customer
                                   )}
@@ -1436,11 +1436,11 @@ export default function Customers() {
 
                             <div className="shrink-0 rounded-[8px] bg-[#EBE9FE] px-2.5 py-1.5 text-center">
 
-                              <p className="text-[14px] font-bold leading-none text-[#6133DA]">
+                              <p className="text-sm font-bold leading-none text-[#6133DA]">
                                 {customer.measurementCount}
                               </p>
 
-                              <p className="mt-1 text-[7px] font-medium uppercase tracking-[0.3px] text-[#8179AD]">
+                              <p className="mt-1 text-xs font-medium uppercase tracking-[0.3px] text-[#8179AD]">
                                 Measurements
                               </p>
 
@@ -1456,11 +1456,11 @@ export default function Customers() {
 
                           <div className="border-r border-[var(--tk-border)] px-3 py-2.5">
 
-                            <p className="text-[8px] font-medium uppercase tracking-[0.4px] text-[var(--tk-ink-muted)]">
+                            <p className="text-xs font-medium uppercase tracking-[0.4px] text-[var(--tk-ink-muted)]">
                               Last measurement
                             </p>
 
-                            <p className="mt-1 text-[10px] font-semibold text-[var(--tk-ink-soft)]">
+                            <p className="mt-1 text-xs font-semibold text-[var(--tk-ink-soft)]">
                               {formatDate(
                                 customer.lastMeasurement
                               )}
@@ -1470,11 +1470,11 @@ export default function Customers() {
 
                           <div className="px-3 py-2.5">
 
-                            <p className="text-[8px] font-medium uppercase tracking-[0.4px] text-[var(--tk-ink-muted)]">
+                            <p className="text-xs font-medium uppercase tracking-[0.4px] text-[var(--tk-ink-muted)]">
                               Date added
                             </p>
 
-                            <p className="mt-1 text-[10px] font-semibold text-[var(--tk-ink-soft)]">
+                            <p className="mt-1 text-xs font-semibold text-[var(--tk-ink-soft)]">
                               {formatDate(
                                 customer?.created_at ||
                                   customer?.createdAt
@@ -1497,7 +1497,7 @@ export default function Customers() {
                                 customer
                               )
                             }
-                            className="flex flex-1 items-center justify-center gap-1.5 rounded-[8px] py-1.5 text-[10px] font-semibold text-[#6133DA] transition hover:bg-[#EBE9FE]"
+                            className="flex flex-1 items-center justify-center gap-1.5 rounded-[8px] py-1.5 text-xs font-semibold text-[#6133DA] transition hover:bg-[#EBE9FE]"
                           >
                             <Link2 size={13} />
                             Link
@@ -1512,7 +1512,7 @@ export default function Customers() {
                                 customer
                               )
                             }
-                            className="flex flex-1 items-center justify-center gap-1.5 rounded-[8px] py-1.5 text-[10px] font-semibold text-[#6133DA] transition hover:bg-[#EBE9FE]"
+                            className="flex flex-1 items-center justify-center gap-1.5 rounded-[8px] py-1.5 text-xs font-semibold text-[#6133DA] transition hover:bg-[#EBE9FE]"
                           >
                             <Eye size={13} />
                             View
@@ -1527,7 +1527,7 @@ export default function Customers() {
                                 customer
                               )
                             }
-                            className="flex flex-1 items-center justify-center gap-1.5 rounded-[8px] py-1.5 text-[10px] font-semibold text-[#6133DA] transition hover:bg-[#EBE9FE]"
+                            className="flex flex-1 items-center justify-center gap-1.5 rounded-[8px] py-1.5 text-xs font-semibold text-[#6133DA] transition hover:bg-[#EBE9FE]"
                           >
                             <Pencil size={13} />
                             Edit
@@ -1542,7 +1542,7 @@ export default function Customers() {
                                 customer
                               )
                             }
-                            className="flex flex-1 items-center justify-center gap-1.5 rounded-[8px] py-1.5 text-[10px] font-semibold text-[#E05252] transition hover:bg-[#FFF0F0]"
+                            className="flex flex-1 items-center justify-center gap-1.5 rounded-[8px] py-1.5 text-xs font-semibold text-[#E05252] transition hover:bg-[#FFF0F0]"
                           >
                             <Trash2 size={13} />
                             Delete
@@ -1570,11 +1570,11 @@ export default function Customers() {
                   <UsersRound size={23} />
                 </div>
 
-                <h2 className="mt-3 text-[14px] font-bold text-[#241065]">
+                <h2 className="mt-3 text-sm font-bold text-[#241065]">
                   No Customers Yet
                 </h2>
 
-                <p className="mx-auto mt-2 max-w-[280px] text-[10px] leading-5 text-[#8179AD]">
+                <p className="mx-auto mt-2 max-w-[280px] text-xs leading-5 text-[#8179AD]">
                   Customers you add will appear
                   here. Add a customer, then tap
                   the link icon to generate their
@@ -1583,7 +1583,7 @@ export default function Customers() {
 
                 <button
                   type="button"
-                  className="mx-auto mt-3 flex items-center gap-2 text-[10px] font-medium text-[#6133DA]"
+                  className="mx-auto mt-3 flex items-center gap-2 text-xs font-medium text-[#6133DA]"
                 >
                   <PlayCircle size={13} />
                   Learn How It Works
@@ -1604,7 +1604,7 @@ export default function Customers() {
 
             <div className="mt-4 hidden flex-col gap-3 sm:flex-row sm:items-center sm:justify-between md:flex">
 
-              <span className="text-[10px] text-[#8179AD]">
+              <span className="text-xs text-[#8179AD]">
 
                 Showing{" "}
                 {startIndex + 1} to{" "}
@@ -1656,7 +1656,7 @@ export default function Customers() {
                         page
                       )
                     }
-                    className={`flex h-7 min-w-7 items-center justify-center rounded px-2 text-[10px] ${
+                    className={`flex h-7 min-w-7 items-center justify-center rounded px-2 text-xs ${
                       safeCurrentPage ===
                       page
                         ? "bg-[#6133DA] font-semibold text-white"
@@ -1703,7 +1703,7 @@ export default function Customers() {
 
             <div className="mt-4 flex items-center justify-between md:hidden">
 
-              <span className="text-[9px] text-[#8179AD]">
+              <span className="text-xs text-[#8179AD]">
 
                 {startIndex + 1}–
                 {Math.min(
@@ -1737,11 +1737,11 @@ export default function Customers() {
                   <ChevronLeft size={14} />
                 </button>
 
-                <div className="flex h-8 min-w-8 items-center justify-center rounded-[8px] bg-[#6133DA] px-2 text-[10px] font-semibold text-white">
+                <div className="flex h-8 min-w-8 items-center justify-center rounded-[8px] bg-[#6133DA] px-2 text-xs font-semibold text-white">
                   {safeCurrentPage}
                 </div>
 
-                <span className="text-[9px] text-[#A19ABA]">
+                <span className="text-xs text-[#A19ABA]">
                   of {totalPages}
                 </span>
 

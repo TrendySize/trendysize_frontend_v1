@@ -39,7 +39,7 @@ export default function ThemeToggle({ variant = "default", className = "" }) {
     >
       <span
         aria-hidden="true"
-        className={`absolute left-1 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full bg-[var(--tk-toggle-thumb)] text-[var(--tk-toggle-thumb-ink)] shadow-sm transition-transform duration-300 ease-out ${
+        className={`absolute left-1 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full bg-[var(--tk-toggle-thumb)] text-[var(--tk-toggle-thumb-ink)]  transition-transform duration-300 ease-out ${
           isDark ? "translate-x-[calc(62px-2rem)]" : "translate-x-0"
         }`}
       >

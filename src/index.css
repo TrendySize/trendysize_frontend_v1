@@ -57,10 +57,7 @@
   --tk-toggle-track: #EBE9FE;
   --tk-toggle-thumb: #FFFFFF;
   --tk-toggle-thumb-ink: #6133DA;
-  --tk-shadow: 0 1px 2px rgba(36, 16, 101, 0.06),
-    0 8px 24px -12px rgba(36, 16, 101, 0.18);
-
-  /* Motion tokens — one source of truth for app-wide transition timing.
+/* Motion tokens — one source of truth for app-wide transition timing.
    * Enter eases out (decelerates on arrival); exits resolve faster. */
   --tk-dur-fast: 150ms;
   --tk-dur-base: 240ms;
@@ -79,10 +76,6 @@
   /* Content cards — near-solid surfaces with restrained hover feedback. */
   --tk-tile-bg: #FFFFFF;
   --tk-tile-bg-hover: #FFFFFF;
-  --tk-tile-shadow: 0 1px 2px rgba(36, 16, 101, 0.05),
-    0 10px 28px -18px rgba(36, 16, 101, 0.28);
-  --tk-tile-shadow-hover: 0 2px 6px rgba(36, 16, 101, 0.07),
-    0 18px 40px -20px rgba(97, 51, 218, 0.34);
 
   /* Ambient background wash the frosted surfaces reveal. */
   --tk-ambient-1: rgba(109, 74, 255, 0.10);
@@ -110,7 +103,6 @@
   --tk-toggle-track: #2A2438;
   --tk-toggle-thumb: #8B6FEA;
   --tk-toggle-thumb-ink: #17131F;
-  --tk-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 12px 32px -16px rgba(0, 0, 0, 0.7);
 
   /* Glass surfaces remain tinted in dark mode for legibility. */
   --tk-glass-bg: rgba(34, 29, 46, 0.62);
@@ -120,10 +112,6 @@
 
   --tk-tile-bg: #221D2E;
   --tk-tile-bg-hover: #262130;
-  --tk-tile-shadow: 0 1px 2px rgba(0, 0, 0, 0.35),
-    0 12px 30px -18px rgba(0, 0, 0, 0.6);
-  --tk-tile-shadow-hover: 0 2px 6px rgba(0, 0, 0, 0.4),
-    0 18px 40px -20px rgba(139, 111, 234, 0.4);
 
   --tk-ambient-1: rgba(139, 111, 234, 0.12);
   --tk-ambient-2: rgba(139, 111, 234, 0.05);
@@ -253,7 +241,6 @@ html.dark .tk-loader__halo {
 
 html.dark .tk-loader__logo .tk-brand-logo__img {
   animation: tk-logo-breathe 2.4s ease-in-out infinite;
-  filter: drop-shadow(0 0 22px rgba(139, 111, 234, 0.45));
 }
 
 @keyframes tk-logo-float {
@@ -318,7 +305,6 @@ html.dark .tk-loader__logo .tk-brand-logo__img {
 }
 
 .tk-glass-line {
-  box-shadow: inset 0 1px 0 0 var(--tk-glass-highlight);
 }
 
 /* ============================================================================
@@ -327,30 +313,18 @@ html.dark .tk-loader__logo .tk-brand-logo__img {
 .tk-tile {
   background-color: var(--tk-tile-bg);
   border: 1px solid var(--tk-glass-border);
-  box-shadow: var(--tk-tile-shadow);
-  transition: transform var(--tk-dur-base) var(--tk-ease-out),
-    box-shadow var(--tk-dur-base) var(--tk-ease-out),
-    background-color var(--tk-dur-base) var(--tk-ease-out);
+  transition: background-color var(--tk-dur-base) var(--tk-ease-out);
 }
 
 @media (hover: hover) {
   .tk-tile:hover {
     background-color: var(--tk-tile-bg-hover);
-    box-shadow: var(--tk-tile-shadow-hover);
-  }
+}
 }
 
-@media (hover: hover) and (prefers-reduced-motion: no-preference) {
-  .tk-tile:hover {
-    transform: translateY(-3px) scale(1.01);
-  }
-}
 
-@media (prefers-reduced-motion: reduce) {
-  .tk-tile {
-    transition: box-shadow var(--tk-dur-base) var(--tk-ease-out);
-  }
-}
+
+
 
 /* ============================================================================
  * AMBIENT BACKGROUND
@@ -794,8 +768,7 @@ a[href] {
     width: 220px !important;
     background: #EBE9FE !important;
     border-right: 1px solid #6133DA !important;
-    box-shadow: 0 0 24px 8px rgba(0, 0, 0, 0.25) !important;
-  }
+}
 
   .dashboard-nav {
     top: 231px !important;

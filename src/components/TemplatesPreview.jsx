@@ -79,14 +79,12 @@ export default function TemplatesPreview() {
               className="
               group
               overflow-hidden
-              rounded-2xl
-              bg-white
-              shadow-md
+              rounded-xl
+              bg-white 
               transition
               duration-300
-              hover:-translate-y-2
-              hover:border-[#6133DA]
-              hover:shadow-2xl
+              
+              hover:border-[#6133DA] 
             "
             >
 
@@ -105,7 +103,7 @@ export default function TemplatesPreview() {
                     object-cover
                     transition
                     duration-500
-                    group-hover:scale-105
+                    group-
                   "
                 />
 

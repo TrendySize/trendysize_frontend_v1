@@ -148,7 +148,7 @@ export default function DataPolicyModal({ onAccept, onDecline, saving, error }) 
         aria-labelledby="data-policy-title"
         aria-describedby="data-policy-summary"
         tabIndex={-1}
-        className="flex max-h-[94dvh] w-full max-w-[680px] flex-col overflow-hidden rounded-t-2xl bg-[var(--tk-bg-elevated)] shadow-2xl outline-none sm:max-h-[90vh] sm:rounded-2xl"
+        className="flex max-h-[94dvh] w-full max-w-[680px] flex-col overflow-hidden rounded-t-2xl bg-[var(--tk-bg-elevated)]  outline-none sm:max-h-[90vh] sm:rounded-xl"
       >
         {/* HEADER */}
         <div className="flex items-start gap-3 border-b border-[var(--tk-border)] px-5 py-4 sm:px-6 sm:py-5">
@@ -159,13 +159,13 @@ export default function DataPolicyModal({ onAccept, onDecline, saving, error }) 
           <div className="min-w-0">
             <h1
               id="data-policy-title"
-              className="text-[17px] font-bold leading-tight text-[var(--tk-ink)] sm:text-[19px]"
+              className="text-base font-bold leading-tight text-[var(--tk-ink)] sm:text-lg"
             >
               Data confidentiality & terms of use
             </h1>
             <p
               id="data-policy-summary"
-              className="mt-1 text-[11px] leading-5 text-[var(--tk-ink-muted)] sm:text-[12px]"
+              className="mt-1 text-xs leading-5 text-[var(--tk-ink-muted)] sm:text-xs"
             >
               Please read this before using your workspace. Last updated
               22 October 2026 · version 2026-10-22.
@@ -175,7 +175,7 @@ export default function DataPolicyModal({ onAccept, onDecline, saving, error }) 
 
         {/* BODY */}
         <div className="min-h-0 flex-1 overflow-y-auto px-5 py-4 sm:px-6 sm:py-5">
-          <p className="text-[12px] leading-6 text-[var(--tk-ink-soft)] sm:text-[13px]">
+          <p className="text-xs leading-6 text-[var(--tk-ink-soft)] sm:text-sm">
             TrendySize handles personal and body-measurement data, so we want
             to be direct about what we collect, why, who can see it, and how
             you can have it removed. The points below are part of your
@@ -188,7 +188,7 @@ export default function DataPolicyModal({ onAccept, onDecline, saving, error }) 
 
               return (
                 <section key={section.title}>
-                  <h2 className="flex items-center gap-2 text-[13px] font-bold text-[var(--tk-ink)] sm:text-[14px]">
+                  <h2 className="flex items-center gap-2 text-sm font-bold text-[var(--tk-ink)] sm:text-sm">
                     <Icon
                       size={15}
                       className="shrink-0 text-[var(--tk-brand)]"
@@ -201,7 +201,7 @@ export default function DataPolicyModal({ onAccept, onDecline, saving, error }) 
                     {section.points.map((point) => (
                       <li
                         key={point}
-                        className="flex gap-2 text-[11px] leading-5 text-[var(--tk-ink-muted)] sm:text-[12px]"
+                        className="flex gap-2 text-xs leading-5 text-[var(--tk-ink-muted)] sm:text-xs"
                       >
                         <span
                           aria-hidden="true"
@@ -227,7 +227,7 @@ export default function DataPolicyModal({ onAccept, onDecline, saving, error }) 
               disabled={saving}
               className="mt-0.5 h-4 w-4 shrink-0 rounded border-[var(--tk-border-strong)] accent-[var(--tk-brand)]"
             />
-            <span className="text-[11px] font-medium leading-5 text-[var(--tk-ink)] sm:text-[12px]">
+            <span className="text-xs font-medium leading-5 text-[var(--tk-ink)] sm:text-xs">
               I have read and accept the data confidentiality and terms of use.
               I understand that if I do not accept, I will be signed out and
               cannot use TrendySize until I accept.
@@ -237,7 +237,7 @@ export default function DataPolicyModal({ onAccept, onDecline, saving, error }) 
           {error && (
             <p
               role="alert"
-              className="mt-3 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-[11px] font-medium leading-5 text-red-700"
+              className="mt-3 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-xs font-medium leading-5 text-red-700"
             >
               {error}
             </p>
@@ -248,7 +248,7 @@ export default function DataPolicyModal({ onAccept, onDecline, saving, error }) 
               type="button"
               onClick={onDecline}
               disabled={saving}
-              className="inline-flex h-10 items-center justify-center rounded-lg border border-red-200 px-4 text-[12px] font-semibold text-red-600 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-60"
+              className="inline-flex h-10 items-center justify-center rounded-lg border border-red-200 px-4 text-xs font-semibold text-red-600 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-60"
             >
               Decline & sign out
             </button>
@@ -258,7 +258,7 @@ export default function DataPolicyModal({ onAccept, onDecline, saving, error }) 
               onClick={onAccept}
               disabled={!accepted || saving}
               aria-busy={saving}
-              className="inline-flex h-10 items-center justify-center gap-1.5 rounded-lg bg-[var(--tk-brand)] px-5 text-[12px] font-semibold text-[var(--tk-brand-ink)] transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+              className="inline-flex h-10 items-center justify-center gap-1.5 rounded-lg bg-[var(--tk-brand)] px-5 text-xs font-semibold text-[var(--tk-brand-ink)] transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {saving ? (
                 <>

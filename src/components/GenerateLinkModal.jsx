@@ -325,18 +325,18 @@ export default function GenerateLinkModal({
         ref={dialogRef}
         tabIndex={-1}
         onClick={(event) => event.stopPropagation()}
-        className="tk-panel-enter flex max-h-[92dvh] w-full max-w-[440px] flex-col overflow-hidden rounded-t-2xl bg-[var(--tk-bg-elevated)] shadow-2xl sm:max-h-[90vh] sm:rounded-2xl"
+        className="tk-panel-enter flex max-h-[92dvh] w-full max-w-[440px] flex-col overflow-hidden rounded-t-2xl bg-[var(--tk-bg-elevated)]  sm:max-h-[90vh] sm:rounded-xl"
       >
         {/* HEADER */}
         <div className="flex items-start justify-between gap-3 border-b border-[var(--tk-border)] px-5 py-4">
           <div className="min-w-0">
             <h2
               id="generate-link-title"
-              className="text-[15px] font-bold text-[var(--tk-ink)]"
+              className="text-sm font-bold text-[var(--tk-ink)]"
             >
               Measurement link
             </h2>
-            <p className="mt-1 text-[11px] leading-5 text-[var(--tk-ink-muted)]">
+            <p className="mt-1 text-xs leading-5 text-[var(--tk-ink-muted)]">
               {subscriptionBlocked
                 ? "Renew your subscription to create measurement links."
                 : selected
@@ -361,16 +361,16 @@ export default function GenerateLinkModal({
         <div className="min-h-0 flex-1 overflow-y-auto px-5 py-4">
           {/* FREE TRIAL */}
           {onFreeTrial && !result && (
-            <div className="mb-4 rounded-[10px] border border-[var(--tk-border)] bg-[var(--tk-surface-muted)] px-3 py-2.5 text-[11px] leading-5 text-[var(--tk-ink-muted)]">
+            <div className="mb-4 rounded-[10px] border border-[var(--tk-border)] bg-[var(--tk-surface-muted)] px-3 py-2.5 text-xs leading-5 text-[var(--tk-ink-muted)]">
               <span className="font-semibold text-[var(--tk-ink)]">Free plan</span>{" "}
-              — {freeLinksRemaining} of {state.subscription.freeLinksLimit} free
+              : {freeLinksRemaining} of {state.subscription.freeLinksLimit} free
               measurement {freeLinksRemaining === 1 ? "link" : "links"} left.
             </div>
           )}
 
           {/* SUBSCRIPTION BLOCKED */}
           {subscriptionBlocked && (
-            <div className="flex gap-2.5 rounded-[10px] border border-[#FCA5A5] bg-[#FEF2F2] px-3 py-3 text-[11px] leading-5 text-[#B91C1C]">
+            <div className="flex gap-2.5 rounded-[10px] border border-[#FCA5A5] bg-[#FEF2F2] px-3 py-3 text-xs leading-5 text-[#B91C1C]">
               <AlertTriangle size={15} className="mt-0.5 shrink-0" />
               <div>
                 <p className="font-semibold">Link generation is paused</p>
@@ -388,9 +388,9 @@ export default function GenerateLinkModal({
                   setState((previous) => ({ ...previous, mode: "existing", error: "" }))
                 }
                 aria-pressed={mode === "existing"}
-                className={`flex items-center justify-center gap-1.5 rounded-[8px] px-3 py-2 text-[11px] font-semibold transition ${
+                className={`flex items-center justify-center gap-1.5 rounded-[8px] px-3 py-2 text-xs font-semibold transition ${
                   mode === "existing"
-                    ? "bg-[var(--tk-bg-elevated)] text-[var(--tk-ink)] shadow-sm"
+                    ? "bg-[var(--tk-bg-elevated)] text-[var(--tk-ink)] "
                     : "text-[var(--tk-ink-muted)] hover:text-[var(--tk-ink)]"
                 }`}
               >
@@ -404,9 +404,9 @@ export default function GenerateLinkModal({
                   setState((previous) => ({ ...previous, mode: "new", error: "" }))
                 }
                 aria-pressed={mode === "new"}
-                className={`flex items-center justify-center gap-1.5 rounded-[8px] px-3 py-2 text-[11px] font-semibold transition ${
+                className={`flex items-center justify-center gap-1.5 rounded-[8px] px-3 py-2 text-xs font-semibold transition ${
                   mode === "new"
-                    ? "bg-[var(--tk-bg-elevated)] text-[var(--tk-ink)] shadow-sm"
+                    ? "bg-[var(--tk-bg-elevated)] text-[var(--tk-ink)] "
                     : "text-[var(--tk-ink-muted)] hover:text-[var(--tk-ink)]"
                 }`}
               >
@@ -422,7 +422,7 @@ export default function GenerateLinkModal({
               <div>
                 <label
                   htmlFor="new-customer-first"
-                  className="block text-[10px] font-semibold uppercase tracking-wide text-[var(--tk-ink-muted)]"
+                  className="block text-xs font-semibold uppercase tracking-wide text-[var(--tk-ink-muted)]"
                 >
                   First name
                 </label>
@@ -441,14 +441,14 @@ export default function GenerateLinkModal({
                   }
                   placeholder="e.g. Chukwuma"
                   maxLength={60}
-                  className="mt-1.5 w-full rounded-[9px] border border-[var(--tk-border)] bg-[var(--tk-surface-muted)] px-3 py-2.5 text-[12px] text-[var(--tk-ink)] outline-none placeholder:text-[var(--tk-ink-muted)] focus:border-[var(--tk-brand)]"
+                  className="mt-1.5 w-full rounded-[9px] border border-[var(--tk-border)] bg-[var(--tk-surface-muted)] px-3 py-2.5 text-xs text-[var(--tk-ink)] outline-none placeholder:text-[var(--tk-ink-muted)] focus:border-[var(--tk-brand)]"
                 />
               </div>
 
               <div>
                 <label
                   htmlFor="new-customer-last"
-                  className="block text-[10px] font-semibold uppercase tracking-wide text-[var(--tk-ink-muted)]"
+                  className="block text-xs font-semibold uppercase tracking-wide text-[var(--tk-ink-muted)]"
                 >
                   Last name
                 </label>
@@ -467,14 +467,14 @@ export default function GenerateLinkModal({
                   }
                   placeholder="e.g. Johnson"
                   maxLength={60}
-                  className="mt-1.5 w-full rounded-[9px] border border-[var(--tk-border)] bg-[var(--tk-surface-muted)] px-3 py-2.5 text-[12px] text-[var(--tk-ink)] outline-none placeholder:text-[var(--tk-ink-muted)] focus:border-[var(--tk-brand)]"
+                  className="mt-1.5 w-full rounded-[9px] border border-[var(--tk-border)] bg-[var(--tk-surface-muted)] px-3 py-2.5 text-xs text-[var(--tk-ink)] outline-none placeholder:text-[var(--tk-ink-muted)] focus:border-[var(--tk-brand)]"
                 />
               </div>
 
               <div className="col-span-2">
                 <label
                   htmlFor="new-customer-phone"
-                  className="block text-[10px] font-semibold uppercase tracking-wide text-[var(--tk-ink-muted)]"
+                  className="block text-xs font-semibold uppercase tracking-wide text-[var(--tk-ink-muted)]"
                 >
                   Phone number (optional)
                 </label>
@@ -493,18 +493,18 @@ export default function GenerateLinkModal({
                   }
                   placeholder="e.g. +2348012345678"
                   maxLength={20}
-                  className="mt-1.5 w-full rounded-[9px] border border-[var(--tk-border)] bg-[var(--tk-surface-muted)] px-3 py-2.5 text-[12px] text-[var(--tk-ink)] outline-none placeholder:text-[var(--tk-ink-muted)] focus:border-[var(--tk-brand)]"
+                  className="mt-1.5 w-full rounded-[9px] border border-[var(--tk-border)] bg-[var(--tk-surface-muted)] px-3 py-2.5 text-xs text-[var(--tk-ink)] outline-none placeholder:text-[var(--tk-ink-muted)] focus:border-[var(--tk-brand)]"
                 />
               </div>
 
-              <p className="col-span-2 -mt-1 text-[10px] leading-4 text-[var(--tk-ink-muted)]">
+              <p className="col-span-2 -mt-1 text-xs leading-4 text-[var(--tk-ink-muted)]">
                 The customer fills in their phone and gender when they open the link.
               </p>
 
               <div className="col-span-2">
                 <label
                   htmlFor="new-customer-order-reference"
-                  className="block text-[10px] font-semibold uppercase tracking-wide text-[var(--tk-ink-muted)]"
+                  className="block text-xs font-semibold uppercase tracking-wide text-[var(--tk-ink-muted)]"
                 >
                   Order reference (optional)
                 </label>
@@ -519,7 +519,7 @@ export default function GenerateLinkModal({
                     }))
                   }
                   placeholder="e.g. ORD-002"
-                  className="mt-1.5 w-full rounded-[9px] border border-[var(--tk-border)] bg-[var(--tk-surface-muted)] px-3 py-2.5 text-[12px] text-[var(--tk-ink)] outline-none placeholder:text-[var(--tk-ink-muted)] focus:border-[var(--tk-brand)]"
+                  className="mt-1.5 w-full rounded-[9px] border border-[var(--tk-border)] bg-[var(--tk-surface-muted)] px-3 py-2.5 text-xs text-[var(--tk-ink)] outline-none placeholder:text-[var(--tk-ink-muted)] focus:border-[var(--tk-brand)]"
                 />
               </div>
             </div>
@@ -541,13 +541,13 @@ export default function GenerateLinkModal({
                   }
                   placeholder="Search customers…"
                   aria-label="Search customers"
-                  className="h-full w-full bg-transparent text-[13px] text-[var(--tk-ink)] outline-none placeholder:text-[var(--tk-ink-muted)]"
+                  className="h-full w-full bg-transparent text-sm text-[var(--tk-ink)] outline-none placeholder:text-[var(--tk-ink-muted)]"
                 />
               </label>
 
               <div className="mt-3">
                 {listLoading ? (
-                  <div className="flex items-center justify-center gap-2 py-8 text-[12px] text-[var(--tk-ink-muted)]">
+                  <div className="flex items-center justify-center gap-2 py-8 text-xs text-[var(--tk-ink-muted)]">
                     <span className="h-4 w-4 animate-spin rounded-full border-2 border-[var(--tk-border-strong)] border-t-[var(--tk-brand)]" />
                     Loading customers…
                   </div>
@@ -557,10 +557,10 @@ export default function GenerateLinkModal({
                       size={22}
                       className="mx-auto text-[var(--tk-ink-muted)]"
                     />
-                    <p className="mt-2 text-[12px] font-medium text-[var(--tk-ink)]">
+                    <p className="mt-2 text-xs font-medium text-[var(--tk-ink)]">
                       {searchTerm ? "No matching customers" : "No customers yet"}
                     </p>
-                    <p className="mt-1 text-[11px] text-[var(--tk-ink-muted)]">
+                    <p className="mt-1 text-xs text-[var(--tk-ink-muted)]">
                       {searchTerm
                         ? "Try a different name or number."
                         : "Add a customer first, then generate their link."}
@@ -580,15 +580,15 @@ export default function GenerateLinkModal({
                           }
                           className="flex w-full items-center gap-3 rounded-[10px] border border-[var(--tk-border)] bg-[var(--tk-bg-elevated)] px-3 py-2.5 text-left transition hover:bg-[var(--tk-surface)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tk-brand)]/40"
                         >
-                          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--tk-brand)] text-[12px] font-bold text-[var(--tk-brand-ink)]">
+                          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--tk-brand)] text-xs font-bold text-[var(--tk-brand-ink)]">
                             {customerDisplayName(item).charAt(0).toUpperCase()}
                           </span>
 
                           <span className="min-w-0 flex-1">
-                            <span className="block truncate text-[13px] font-semibold text-[var(--tk-ink)]">
+                            <span className="block truncate text-sm font-semibold text-[var(--tk-ink)]">
                               {customerDisplayName(item)}
                             </span>
-                            <span className="block truncate text-[11px] text-[var(--tk-ink-muted)]">
+                            <span className="block truncate text-xs text-[var(--tk-ink-muted)]">
                               {customerDisplayPhone(item)}
                             </span>
                           </span>
@@ -606,14 +606,14 @@ export default function GenerateLinkModal({
           {/* ORDER REFERENCE + CONFIRM */}
           {selected && !result && !error && !subscriptionBlocked && (            <div>
               <div className="mb-4 flex items-center gap-3 rounded-[10px] bg-[var(--tk-surface-muted)] px-3 py-2.5">
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--tk-brand)] text-[12px] font-bold text-[var(--tk-brand-ink)]">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--tk-brand)] text-xs font-bold text-[var(--tk-brand-ink)]">
                   {customerDisplayName(selected).charAt(0).toUpperCase()}
                 </span>
                 <div className="min-w-0 flex-1">
-                  <p className="truncate text-[13px] font-semibold text-[var(--tk-ink)]">
+                  <p className="truncate text-sm font-semibold text-[var(--tk-ink)]">
                     {customerDisplayName(selected)}
                   </p>
-                  <p className="truncate text-[11px] text-[var(--tk-ink-muted)]">
+                  <p className="truncate text-xs text-[var(--tk-ink-muted)]">
                     {customerDisplayPhone(selected)}
                   </p>
                 </div>
@@ -624,7 +624,7 @@ export default function GenerateLinkModal({
                     onClick={() =>
                       setState((previous) => ({ ...previous, selected: null }))
                     }
-                    className="shrink-0 text-[11px] font-semibold text-[var(--tk-brand)] transition hover:underline"
+                    className="shrink-0 text-xs font-semibold text-[var(--tk-brand)] transition hover:underline"
                   >
                     Change
                   </button>
@@ -633,7 +633,7 @@ export default function GenerateLinkModal({
 
               <label
                 htmlFor="generate-order-reference"
-                className="block text-[10px] font-semibold uppercase tracking-wide text-[var(--tk-ink-muted)]"
+                className="block text-xs font-semibold uppercase tracking-wide text-[var(--tk-ink-muted)]"
               >
                 Order reference (optional)
               </label>
@@ -648,14 +648,14 @@ export default function GenerateLinkModal({
                   }))
                 }
                 placeholder="e.g. ORD-002"
-                className="mt-1.5 w-full rounded-[9px] border border-[var(--tk-border)] bg-[var(--tk-surface-muted)] px-3 py-2.5 text-[12px] text-[var(--tk-ink)] outline-none placeholder:text-[var(--tk-ink-muted)] focus:border-[var(--tk-brand)]"
+                className="mt-1.5 w-full rounded-[9px] border border-[var(--tk-border)] bg-[var(--tk-surface-muted)] px-3 py-2.5 text-xs text-[var(--tk-ink)] outline-none placeholder:text-[var(--tk-ink-muted)] focus:border-[var(--tk-brand)]"
               />
             </div>
           )}
 
           {/* ERROR */}
           {error && (
-            <div className="rounded-[10px] border border-[#FCA5A5] bg-[#FEF2F2] px-3 py-2.5 text-[11px] leading-5 text-[#B91C1C]">
+            <div className="rounded-[10px] border border-[#FCA5A5] bg-[#FEF2F2] px-3 py-2.5 text-xs leading-5 text-[#B91C1C]">
               {error}
             </div>
           )}
@@ -663,10 +663,10 @@ export default function GenerateLinkModal({
           {/* RESULT */}
           {result?.link && (
             <div>
-              <label className="block text-[10px] font-semibold uppercase tracking-wide text-[var(--tk-ink-muted)]">
+              <label className="block text-xs font-semibold uppercase tracking-wide text-[var(--tk-ink-muted)]">
                 Share this with {result.customerName}
               </label>
-              <div className="mt-1.5 break-all rounded-[9px] border border-[var(--tk-border)] bg-[var(--tk-surface-muted)] px-3 py-2.5 text-[11px] font-medium text-[var(--tk-ink)]">
+              <div className="mt-1.5 break-all rounded-[9px] border border-[var(--tk-border)] bg-[var(--tk-surface-muted)] px-3 py-2.5 text-xs font-medium text-[var(--tk-ink)]">
                 {result.link}
               </div>
 
@@ -674,7 +674,7 @@ export default function GenerateLinkModal({
                 <button
                   type="button"
                   onClick={copyLink}
-                  className="flex items-center justify-center gap-1.5 rounded-[9px] border border-[var(--tk-border)] bg-[var(--tk-surface)] px-3 py-2.5 text-[11px] font-semibold text-[var(--tk-ink)] transition hover:opacity-90"
+                  className="flex items-center justify-center gap-1.5 rounded-[9px] border border-[var(--tk-border)] bg-[var(--tk-surface)] px-3 py-2.5 text-xs font-semibold text-[var(--tk-ink)] transition hover:opacity-90"
                 >
                   <Copy size={13} />
                   Copy link
@@ -683,7 +683,7 @@ export default function GenerateLinkModal({
                 <button
                   type="button"
                   onClick={shareOnWhatsApp}
-                  className="flex items-center justify-center gap-1.5 rounded-[9px] bg-[#25D366] px-3 py-2.5 text-[11px] font-semibold text-white transition hover:opacity-90"
+                  className="flex items-center justify-center gap-1.5 rounded-[9px] bg-[#25D366] px-3 py-2.5 text-xs font-semibold text-white transition hover:opacity-90"
                 >
                   <FaWhatsapp size={13} />
                   WhatsApp
@@ -693,7 +693,7 @@ export default function GenerateLinkModal({
               <button
                 type="button"
                 onClick={shareMore}
-                className="mt-2 flex w-full items-center justify-center gap-1.5 rounded-[9px] border border-[var(--tk-border)] px-3 py-2.5 text-[11px] font-semibold text-[var(--tk-brand)] transition hover:bg-[var(--tk-surface)]"
+                className="mt-2 flex w-full items-center justify-center gap-1.5 rounded-[9px] border border-[var(--tk-border)] px-3 py-2.5 text-xs font-semibold text-[var(--tk-brand)] transition hover:bg-[var(--tk-surface)]"
               >
                 <Share2 size={13} />
                 More sharing options
@@ -707,7 +707,7 @@ export default function GenerateLinkModal({
           <button
             type="button"
             onClick={onClose}
-            className="rounded-[9px] px-3 py-2 text-[12px] font-semibold text-[var(--tk-ink-muted)] transition hover:bg-[var(--tk-surface)]"
+            className="rounded-[9px] px-3 py-2 text-xs font-semibold text-[var(--tk-ink-muted)] transition hover:bg-[var(--tk-surface)]"
           >
             {result ? "Done" : "Cancel"}
           </button>
@@ -717,7 +717,7 @@ export default function GenerateLinkModal({
               type="button"
               onClick={submit}
               disabled={loading || !canSubmit}
-              className="flex items-center justify-center gap-1.5 rounded-[9px] bg-[var(--tk-brand)] px-4 py-2 text-[12px] font-semibold text-[var(--tk-brand-ink)] transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+              className="flex items-center justify-center gap-1.5 rounded-[9px] bg-[var(--tk-brand)] px-4 py-2 text-xs font-semibold text-[var(--tk-brand-ink)] transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
             >
               {loading ? (
                 <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-current/30 border-t-current" />

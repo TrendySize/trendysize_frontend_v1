@@ -62,7 +62,7 @@ export default function Troubleshooting() {
             <BrandLogo
               className="h-9 w-9 max-[380px]:h-8 max-[380px]:w-8"
             />
-            <span className="-ml-1 text-[14px] font-extrabold text-[#241065] max-[380px]:text-[13px]">
+            <span className="-ml-1 text-sm font-extrabold text-[#241065] max-[380px]:text-sm">
               TRENDY<span className="text-[#9B8AFB]">SIZE</span>
             </span>
           </button>
@@ -76,7 +76,7 @@ export default function Troubleshooting() {
               <Bell size={19} strokeWidth={1.7} />
               <span className="absolute right-1 top-1 h-1.5 w-1.5 rounded-full bg-[#6133DA]" />
             </button>
-            <span className="hidden text-[14px] font-medium text-[#241065] sm:inline">
+            <span className="hidden text-sm font-medium text-[#241065] sm:inline">
               Help Center
             </span>
           </div>
@@ -94,10 +94,10 @@ export default function Troubleshooting() {
             </button>
 
             <div>
-              <h1 className="text-[20px] font-bold leading-tight text-[#241065] sm:text-[22px] lg:text-[24px]">
+              <h1 className="text-xl font-bold leading-tight text-[#241065] sm:text-2xl lg:text-2xl">
                 Troubleshooting
               </h1>
-              <p className="mt-2 text-[12px] leading-[18px] text-[#4B5563] sm:text-[14px] sm:leading-5 lg:text-[16px]">
+              <p className="mt-2 text-xs leading-[18px] text-[#4B5563] sm:text-sm sm:leading-5 lg:text-base">
                 Fix common problems and errors and get help with technical
                 issues.
               </p>
@@ -111,7 +111,7 @@ export default function Troubleshooting() {
                 return (
                   <article
                     key={faq.title}
-                    className="overflow-hidden rounded-[20px] border border-[#D1D5DB] bg-[#F4F3FF] transition-shadow hover:shadow-[0_5px_15px_rgba(36,16,101,0.06)] lg:rounded-[24px]"
+                    className="overflow-hidden rounded-[20px] border border-[#D1D5DB] bg-[#F4F3FF]   lg:rounded-xl"
                   >
                     <button
                       type="button"
@@ -120,7 +120,7 @@ export default function Troubleshooting() {
                       onClick={() => setOpenFaq(isOpen ? null : index)}
                       className="flex min-h-[80px] w-full items-center justify-between gap-3 px-4 py-4 text-left sm:min-h-[88px] sm:px-5 lg:min-h-[86px] lg:items-center lg:px-6 lg:py-6"
                     >
-                      <span className="min-w-0 flex-1 text-[13px] font-semibold leading-5 text-[#3F1E94] sm:text-[14px] lg:text-[16px] lg:leading-6">
+                      <span className="min-w-0 flex-1 text-sm font-semibold leading-5 text-[#3F1E94] sm:text-sm lg:text-base lg:leading-6">
                         {faq.title}
                       </span>
                       <ChevronDown
@@ -136,13 +136,13 @@ export default function Troubleshooting() {
                         id={panelId}
                         className="border-t border-[#D1D5DB] bg-white/60 px-5 py-4 sm:px-6"
                       >
-                        <p className="text-[12px] leading-[18px] text-[#4B5563] sm:text-[13px]">
+                        <p className="text-xs leading-[18px] text-[#4B5563] sm:text-sm">
                           {faq.answer}
                         </p>
                         <button
                           type="button"
                           onClick={() => navigate(faq.path)}
-                          className="mt-3 inline-flex items-center gap-1 text-[12px] font-semibold text-[#6133DA] underline decoration-[#C4B5FD] underline-offset-4 transition hover:text-[#4D26B5] sm:text-[13px]"
+                          className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-[#6133DA] underline decoration-[#C4B5FD] underline-offset-4 transition hover:text-[#4D26B5] sm:text-sm"
                         >
                           {faq.action}
                           <ArrowRight size={13} />

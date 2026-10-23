@@ -107,7 +107,7 @@ export default function VendorLanding() {
     return (
       <Shell>
         <div className="mx-auto h-9 w-9 animate-spin rounded-full border-2 border-[var(--tk-border-strong)] border-t-[var(--tk-brand)]" />
-        <p className="mt-3 text-[13px] font-medium text-[var(--tk-ink-soft)]">
+        <p className="mt-3 text-sm font-medium text-[var(--tk-ink-soft)]">
           Connecting you to the vendor…
         </p>
       </Shell>
@@ -126,11 +126,11 @@ export default function VendorLanding() {
         <Icon size={24} className="text-[#DC2626]" aria-hidden="true" />
       </span>
 
-      <h1 className="mt-4 text-[17px] font-bold text-[var(--tk-ink)]">
+      <h1 className="mt-4 text-base font-bold text-[var(--tk-ink)]">
         {config.title}
       </h1>
 
-      <p className="mx-auto mt-2 max-w-[34ch] text-[13px] leading-6 text-[var(--tk-ink-soft)]">
+      <p className="mx-auto mt-2 max-w-[34ch] text-sm leading-6 text-[var(--tk-ink-soft)]">
         {state.message || config.body}
       </p>
 
@@ -138,13 +138,13 @@ export default function VendorLanding() {
         <button
           type="button"
           onClick={recheck}
-          className="inline-flex items-center gap-2 rounded-[9px] bg-[var(--tk-brand)] px-5 py-2.5 text-[12px] font-semibold text-[var(--tk-brand-ink)] transition hover:opacity-90"
+          className="inline-flex items-center gap-2 rounded-[9px] bg-[var(--tk-brand)] px-5 py-2.5 text-xs font-semibold text-[var(--tk-brand-ink)] transition hover:opacity-90"
         >
           <MessageCircle size={14} aria-hidden="true" />
           Try again
         </button>
 
-        <p className="flex items-center gap-1.5 text-[11px] text-[var(--tk-ink-muted)]">
+        <p className="flex items-center gap-1.5 text-xs text-[var(--tk-ink-muted)]">
           <AlertTriangle size={12} aria-hidden="true" />
           If this keeps happening, contact the vendor directly.
         </p>

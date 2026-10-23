@@ -47,7 +47,7 @@ const FAQItem = ({ item, isOpen, onToggle }) => {
         onClick={onToggle}
         className="flex w-full items-center justify-between py-6 text-left transition hover:text-[#6133DA]"
       >
-        <h3 className="text-[16px] font-semibold text-[#241065] sm:text-[18px]">
+        <h3 className="text-base font-semibold text-[#241065] sm:text-lg">
           {item.question}
         </h3>
         <HiOutlineChevronDown
@@ -60,7 +60,7 @@ const FAQItem = ({ item, isOpen, onToggle }) => {
 
       {isOpen && (
         <div className="pb-6">
-          <p className="text-[14px] leading-[22px] text-[#4B5563] sm:text-[16px] sm:leading-[24px]">
+          <p className="text-sm leading-[22px] text-[#4B5563] sm:text-base sm:leading-[24px]">
             {item.answer}
           </p>
         </div>
@@ -77,17 +77,17 @@ const FAQ = () => {
       <div className="mx-auto max-w-[1376px] px-4 sm:px-6 lg:px-8 xl:px-12">
         {/* Heading */}
         <div className="text-center mb-12">
-          <p className="text-[14px] font-semibold uppercase tracking-wide text-[#241065] sm:text-[16px]">
+          <p className="text-sm font-semibold uppercase tracking-wide text-[#241065] sm:text-base">
             Frequently Asked Questions
           </p>
 
-          <h2 className="mt-3 text-[28px] font-bold leading-tight text-[#241065] sm:text-[36px] lg:text-[44px] lg:leading-[52px]">
+          <h2 className="mt-3 text-3xl font-bold leading-tight text-[#241065] sm:text-4xl lg:text-5xl lg:leading-[52px]">
             Have Questions?
             <br />
             We Have Answers
           </h2>
 
-          <p className="mx-auto mt-6 max-w-2xl text-[14px] leading-[22px] text-[#4B5563] sm:text-[16px] sm:leading-[24px]">
+          <p className="mx-auto mt-6 max-w-2xl text-sm leading-[22px] text-[#4B5563] sm:text-base sm:leading-[24px]">
             Find answers to common questions about Trendysize, our features, pricing, and how we help fashion businesses grow.
           </p>
         </div>
@@ -106,7 +106,7 @@ const FAQ = () => {
 
         {/* CTA */}
         <div className="mt-12 text-center">
-          <p className="mb-4 text-[14px] text-[#241065] sm:text-[16px]">
+          <p className="mb-4 text-sm text-[#241065] sm:text-base">
             Can't find what you're looking for?
           </p>
           <a

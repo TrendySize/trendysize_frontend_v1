@@ -89,7 +89,7 @@ export default function GettingStarted() {
             <BrandLogo
               className="h-9 w-9 max-[380px]:h-8 max-[380px]:w-8"
             />
-            <span className="-ml-1 text-[14px] font-extrabold text-[#241065] max-[380px]:text-[13px]">
+            <span className="-ml-1 text-sm font-extrabold text-[#241065] max-[380px]:text-sm">
               TRENDY<span className="text-[#9B8AFB]">SIZE</span>
             </span>
           </button>
@@ -103,7 +103,7 @@ export default function GettingStarted() {
               <Bell size={19} strokeWidth={1.7} />
               <span className="absolute right-1 top-1 h-1.5 w-1.5 rounded-full bg-[#6133DA]" />
             </button>
-            <span className="hidden text-[14px] font-medium text-[#241065] sm:inline">
+            <span className="hidden text-sm font-medium text-[#241065] sm:inline">
               Help Center
             </span>
           </div>
@@ -122,10 +122,10 @@ export default function GettingStarted() {
 
             <div className="mb-7 sm:mb-8 lg:-mt-6 lg:mb-7">
               <div>
-                <h1 className="text-[18px] font-bold leading-tight text-[#241065] sm:text-[20px] lg:text-[22px]">
+                <h1 className="text-lg font-bold leading-tight text-[#241065] sm:text-xl lg:text-2xl">
                   Getting Started
                 </h1>
-                <p className="mt-1.5 max-w-[650px] text-[12px] leading-[18px] text-[#4B5563] sm:text-[13px] lg:text-[14px]">
+                <p className="mt-1.5 max-w-[650px] text-xs leading-[18px] text-[#4B5563] sm:text-sm lg:text-sm">
                   Everything you need to start using TrendySize and collecting
                   customer&apos;s information.
                 </p>
@@ -141,7 +141,7 @@ export default function GettingStarted() {
               return (
                 <article
                   key={guide.title}
-                  className="overflow-hidden rounded-xl border border-[#E1DDF1] bg-white shadow-[0_2px_8px_rgba(36,16,101,0.035)] transition-shadow hover:shadow-[0_5px_15px_rgba(36,16,101,0.06)]"
+                  className="overflow-hidden rounded-xl border border-[#E1DDF1] bg-white "
                 >
                   <button
                     type="button"
@@ -157,10 +157,10 @@ export default function GettingStarted() {
                         <Icon size={18} strokeWidth={1.7} />
                       </span>
                       <span className="flex min-w-0 flex-col gap-1">
-                        <span className="text-[13px] font-semibold leading-5 text-[#3F1E94] sm:text-[14px]">
+                        <span className="text-sm font-semibold leading-5 text-[#3F1E94] sm:text-sm">
                           {guide.title}
                         </span>
-                        <span className="text-[11px] leading-[17px] text-[#6B7280] sm:text-[12px]">
+                        <span className="text-xs leading-[17px] text-[#6B7280] sm:text-xs">
                           {guide.description}
                         </span>
                       </span>
@@ -178,7 +178,7 @@ export default function GettingStarted() {
                       id={panelId}
                       className="border-t border-[#E8E4F4] bg-[#FAF9FF] px-4 py-4 sm:px-5 sm:pl-[68px]"
                     >
-                      <ol className="list-decimal space-y-2 pl-4 text-[12px] leading-[18px] text-[#4B5563] sm:text-[13px]">
+                      <ol className="list-decimal space-y-2 pl-4 text-xs leading-[18px] text-[#4B5563] sm:text-sm">
                         {guide.steps.map((step) => (
                           <li key={step}>{step}</li>
                         ))}
@@ -186,7 +186,7 @@ export default function GettingStarted() {
                       <button
                         type="button"
                         onClick={() => navigate(guide.path)}
-                        className="mt-4 text-[12px] font-semibold text-[#6133DA] underline decoration-[#C4B5FD] underline-offset-4 transition hover:text-[#4D26B5] sm:text-[13px]"
+                        className="mt-4 text-xs font-semibold text-[#6133DA] underline decoration-[#C4B5FD] underline-offset-4 transition hover:text-[#4D26B5] sm:text-sm"
                       >
                         {guide.action}
                       </button>

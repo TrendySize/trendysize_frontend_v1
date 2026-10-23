@@ -246,7 +246,7 @@ export default function FrontPhoto() {
           <button
             type="button"
             onClick={() => navigate("/how-it-works")}
-            className="flex h-[38px] w-[106px] items-center justify-center gap-2 rounded-lg border border-[#D8D6FE] bg-[#EBE9FE] text-[12px] font-medium text-[#241065] transition hover:bg-[#D8D6FE] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40"
+            className="flex h-[38px] w-[106px] items-center justify-center gap-2 rounded-lg border border-[#D8D6FE] bg-[#EBE9FE] text-xs font-medium text-[#241065] transition hover:bg-[#D8D6FE] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40"
           >
             <ArrowLeft size={14} aria-hidden="true" />
             Back
@@ -254,11 +254,11 @@ export default function FrontPhoto() {
         </div>
 
         <div className="mt-5 text-center">
-          <h1 className="text-[28px] font-bold text-[#241065]">
+          <h1 className="text-3xl font-bold text-[#241065]">
             Take a Front Photo
           </h1>
 
-          <p className="mt-1 text-[12px] text-[#4C2BB0]">
+          <p className="mt-1 text-xs text-[#4C2BB0]">
             Stand straight facing the camera
           </p>
         </div>
@@ -266,7 +266,7 @@ export default function FrontPhoto() {
         {error && (
           <p
             role="alert"
-            className="mx-auto mt-4 w-full max-w-[720px] rounded-lg border border-[#FECACA] bg-[#FFF7F7] px-4 py-2 text-center text-[12px] font-medium text-[#B91C1C]"
+            className="mx-auto mt-4 w-full max-w-[720px] rounded-lg border border-[#FECACA] bg-[#FFF7F7] px-4 py-2 text-center text-xs font-medium text-[#B91C1C]"
           >
             {error}
           </p>
@@ -326,8 +326,8 @@ export default function FrontPhoto() {
             {/* GUIDE MESSAGE */}
 
             {!cameraActive && !photo && (
-              <div className="absolute bottom-8 left-1/2 z-20 -translate-x-1/2 rounded-md bg-white/90 px-4 py-2 text-center shadow-sm">
-                <p className="text-[10px] font-medium text-[#241065]">
+              <div className="absolute bottom-8 left-1/2 z-20 -translate-x-1/2 rounded-md bg-white/90 px-4 py-2 text-center ">
+                <p className="text-xs font-medium text-[#241065]">
                   Align yourself with the guide
                 </p>
               </div>
@@ -338,7 +338,7 @@ export default function FrontPhoto() {
 
           <div className="w-full max-w-[340px] rounded-lg border border-[#D8D6FE] bg-[#EBE9FE] p-5 sm:w-[260px]">
 
-            <h2 className="text-[13px] font-semibold text-[#241065]">
+            <h2 className="text-sm font-semibold text-[#241065]">
               Photo tips
             </h2>
 
@@ -352,7 +352,7 @@ export default function FrontPhoto() {
                   color="white"
                 />
 
-                <p className="text-[10px] text-[#241065]">
+                <p className="text-xs text-[#241065]">
                   Make sure your whole body is visible
                 </p>
               </div>
@@ -365,7 +365,7 @@ export default function FrontPhoto() {
                   color="white"
                 />
 
-                <p className="text-[10px] text-[#241065]">
+                <p className="text-xs text-[#241065]">
                   Keep your arms relaxed at your sides
                 </p>
               </div>
@@ -378,7 +378,7 @@ export default function FrontPhoto() {
                   color="white"
                 />
 
-                <p className="text-[10px] text-[#241065]">
+                <p className="text-xs text-[#241065]">
                   Look straight ahead
                 </p>
               </div>
@@ -391,7 +391,7 @@ export default function FrontPhoto() {
                   color="white"
                 />
 
-                <p className="text-[10px] text-[#241065]">
+                <p className="text-xs text-[#241065]">
                   Wear fitted clothing
                 </p>
               </div>
@@ -404,7 +404,7 @@ export default function FrontPhoto() {
                   color="white"
                 />
 
-                <p className="text-[10px] text-[#241065]">
+                <p className="text-xs text-[#241065]">
                   Stand on plain background
                 </p>
               </div>
@@ -437,7 +437,7 @@ export default function FrontPhoto() {
           <button
             type="button"
             onClick={handleCaptureClick}
-            className="flex h-[38px] w-[165px] items-center justify-center gap-2 rounded-lg border border-[#6133DA] bg-white text-[11px] font-semibold text-[#4C2BB0] transition hover:bg-[#EBE9FE] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40"
+            className="flex h-[38px] w-[165px] items-center justify-center gap-2 rounded-lg border border-[#6133DA] bg-white text-xs font-semibold text-[#4C2BB0] transition hover:bg-[#EBE9FE] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40"
           >
             <Camera size={16} aria-hidden="true" />
 
@@ -447,7 +447,7 @@ export default function FrontPhoto() {
           <button
             type="button"
             onClick={handleExistingPhoto}
-            className="flex h-[38px] w-[165px] items-center justify-center gap-2 rounded-lg border border-[#6133DA] bg-white text-[11px] font-semibold text-[#4C2BB0] transition hover:bg-[#EBE9FE] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40"
+            className="flex h-[38px] w-[165px] items-center justify-center gap-2 rounded-lg border border-[#6133DA] bg-white text-xs font-semibold text-[#4C2BB0] transition hover:bg-[#EBE9FE] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40"
           >
             <Image size={16} aria-hidden="true" />
             Using Existing Photo
@@ -461,7 +461,7 @@ export default function FrontPhoto() {
           <button
             type="button"
             onClick={handleContinue}
-            className="mx-auto flex h-[44px] w-full max-w-[420px] items-center justify-center rounded-lg bg-[#6133DA] text-[12px] font-semibold text-white transition hover:bg-[#4D26B5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40 focus-visible:ring-offset-2"
+            className="mx-auto flex h-[44px] w-full max-w-[420px] items-center justify-center rounded-lg bg-[#6133DA] text-xs font-semibold text-white transition hover:bg-[#4D26B5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40 focus-visible:ring-offset-2"
           >
             Continue to Next Step
           </button>
@@ -470,11 +470,11 @@ export default function FrontPhoto() {
         {/* SECURITY MESSAGE */}
 
         <div className="mt-3 flex items-center justify-center gap-1">
-          <span aria-hidden="true" className="text-[11px] text-[#6D4CE0]">
+          <span aria-hidden="true" className="text-xs text-[#6D4CE0]">
             ♥
           </span>
 
-          <p className="text-[11px] text-[#241065]">
+          <p className="text-xs text-[#241065]">
             Your photos are encrypted and secure
           </p>
         </div>

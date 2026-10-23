@@ -611,7 +611,7 @@ export default function Dashboard() {
                 aria-hidden="true"
                 className="mt-0.5 shrink-0 text-[#B45309]"
               />
-              <p className="flex-1 text-[13px] leading-5 text-[#78350F]">
+              <p className="flex-1 text-sm leading-5 text-[#78350F]">
                 Your email address isn&apos;t confirmed yet. Check your inbox
                 for the confirmation link, or{" "}
                 <button
@@ -668,7 +668,7 @@ export default function Dashboard() {
             <BrandLogo
               className="h-9 w-9 max-[380px]:h-8 max-[380px]:w-8"
             />
-            <span className="-ml-1 text-[14px] font-extrabold text-[#241065] max-[380px]:text-[13px]">
+            <span className="-ml-1 text-sm font-extrabold text-[#241065] max-[380px]:text-sm">
               TRENDY<span className="text-[#9B8AFB]">SIZE</span>
             </span>
           </button>
@@ -739,12 +739,12 @@ export default function Dashboard() {
                       overflow-hidden
                       rounded-full
                       bg-[#241065]
-                      text-[12px]
+                      text-xs
                       text-[#9B8CF9]
 
                       max-lg:h-[38px]
                       max-lg:w-[38px]
-                      max-lg:text-[14px]
+                      max-lg:text-sm
                     "
                   >
                     {profileImage && !avatarFailed ? (
@@ -764,7 +764,7 @@ export default function Dashboard() {
                     className="
                       max-w-[100px]
                       truncate
-                      text-[11px]
+                      text-xs
                       text-[#241065]
 
                       max-lg:hidden
@@ -790,7 +790,7 @@ export default function Dashboard() {
                       "/signin";
                   }}
                   className="
-                    text-[13px]
+                    text-sm
                     font-semibold
                     text-[#6133DA]
                     transition
@@ -841,7 +841,7 @@ export default function Dashboard() {
                 h-[210px]
                 w-full
                 overflow-hidden
-                rounded-[22px]
+                rounded-xl
                 bg-[#6133DA]
 
                 max-lg:h-[250px]
@@ -916,15 +916,15 @@ export default function Dashboard() {
                     left-0
                     top-[28px]
                     w-[330px]
-                    text-[17px]
+                    text-base
                     font-bold
                     leading-[21px]
                     text-[#F4F3FF]
 
                     max-lg:top-[30px]
                     max-lg:w-full
-                    max-lg:text-[19px]
-                    max-[360px]:!text-[10px]
+                    max-lg:text-lg
+                    max-[360px]:!text-xs
                     max-lg:leading-[24px]
                   "
                 >
@@ -955,14 +955,14 @@ export default function Dashboard() {
                     left-0
                     top-[62px]
                     w-[390px]
-                    text-[11px]
+                    text-xs
                     font-medium
                     leading-[14px]
                     text-[#BCB5FD]
 
                     max-lg:top-[68px]
                     max-lg:w-full
-                    max-lg:text-[10px]
+                    max-lg:text-xs
                     max-lg:leading-[14px]
                   "
                 >
@@ -1012,11 +1012,10 @@ export default function Dashboard() {
                     px-[12px]
                     transition-all
                     duration-200
-                    hover:-translate-y-[1px]
-                    hover:scale-[1.04]
+                    
+                    
                     hover:border-[#B9A9FF]
-                    hover:bg-[#F1EDFF]
-                    hover:shadow-[0_12px_24px_rgba(97,51,218,0.18)]
+                    hover:bg-[#F1EDFF] 
 
                     max-lg:bottom-[33px]
                     max-lg:left-[6px]
@@ -1038,11 +1037,11 @@ export default function Dashboard() {
 
                   <span
                     className="
-                      text-[11px]
+                      text-xs
                       font-medium
                       text-[#7A5DF5]
 
-                      max-lg:text-[10px]
+                      max-lg:text-xs
                     "
                   >
                     Create customer link
@@ -1072,31 +1071,31 @@ export default function Dashboard() {
             >
               <h2
                 className="
-                  text-[11px]
+                  text-xs
                   font-semibold
                   text-[#241065]
 
-                  max-lg:text-[13px]
+                  max-lg:text-sm
                   max-lg:leading-[18px]
                 "
               >
                 Share your store link
               </h2>
 
-              <p className="mt-[4px] text-[9px] font-medium leading-[13px] text-[var(--tk-ink-muted)] max-lg:text-[10px] max-lg:leading-[15px]">
+              <p className="mt-[4px] text-xs font-medium leading-[13px] text-[var(--tk-ink-muted)] max-lg:text-xs max-lg:leading-[15px]">
                 Share your public profile, or copy your direct WhatsApp link.
               </p>
 
               {vendorUsername && (
                 <div className="mt-[10px] flex items-center justify-between gap-[8px] rounded-[8px] bg-[var(--tk-bg-elevated)] px-[10px] py-[7px]">
                   <div className="min-w-0">
-                    <p className="text-[9px] font-medium uppercase tracking-wide text-[var(--tk-ink-muted)]">
+                    <p className="text-xs font-medium uppercase tracking-wide text-[var(--tk-ink-muted)]">
                       Your store handle
                     </p>
-                    <p className="truncate text-[11px] font-semibold text-[var(--tk-brand)]">
+                    <p className="truncate text-xs font-semibold text-[var(--tk-brand)]">
                       @{vendorUsername}
                     </p>
-                    <p className="mt-[1px] truncate text-[9px] font-medium text-[var(--tk-ink-muted)]">
+                    <p className="mt-[1px] truncate text-xs font-medium text-[var(--tk-ink-muted)]">
                       Public profile link
                     </p>
                   </div>
@@ -1105,7 +1104,7 @@ export default function Dashboard() {
                     type="button"
                     onClick={copyProfileLink}
                     disabled={!publicProfileLink}
-                    className="shrink-0 rounded-[6px] border border-[var(--tk-border)] bg-[var(--tk-surface)] px-[7px] py-[4px] text-[9px] font-semibold text-[var(--tk-ink)] transition hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="shrink-0 rounded-[6px] border border-[var(--tk-border)] bg-[var(--tk-surface)] px-[7px] py-[4px] text-xs font-semibold text-[var(--tk-ink)] transition hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-50"
                     aria-label="Copy your public profile link"
                   >
                     Copy
@@ -1184,11 +1183,11 @@ export default function Dashboard() {
 
                         <span
                           className="
-                            text-[10px]
+                            text-xs
                             font-medium
                             text-[var(--tk-ink)]
 
-                            max-lg:text-[11px]
+                            max-lg:text-xs
                           "
                         >
                           {isWhatsApp ? "Copy WhatsApp link" : label}
@@ -1204,7 +1203,7 @@ export default function Dashboard() {
                   href={vanityWhatsappLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-auto flex items-center gap-[8px] pt-[12px] text-[10px] font-semibold text-[#16A34A] hover:underline max-lg:pt-[10px] max-lg:text-[11px]"
+                  className="mt-auto flex items-center gap-[8px] pt-[12px] text-xs font-semibold text-[#16A34A] hover:underline max-lg:pt-[10px] max-lg:text-xs"
                 >
                   <FaWhatsapp size={13} aria-hidden="true" />
                   Preview how customers reach you
@@ -1291,11 +1290,11 @@ export default function Dashboard() {
                     className="
                       overflow-hidden
                       text-ellipsis
-                      text-[12px]
+                      text-xs
                       font-medium
                       text-[#241065]
 
-                      max-lg:text-[11px]
+                      max-lg:text-xs
                       max-lg:leading-[16px]
                     "
                   >
@@ -1305,12 +1304,12 @@ export default function Dashboard() {
                   <strong
                     className="
                       block
-                      text-[27px]
+                      text-3xl
                       font-bold
                       leading-none
                       text-[#241065]
 
-                      max-lg:text-[22px]
+                      max-lg:text-2xl
                     "
                   >
                     {animatedCustomerCount}
@@ -1321,11 +1320,11 @@ export default function Dashboard() {
                       block
                       truncate
                       whitespace-nowrap
-                      text-[9px]
+                      text-xs
                       font-medium
                       text-[#6B7280]
 
-                      max-lg:text-[8px]
+                      max-lg:text-xs
                     "
                   >
                     {totals[0]
@@ -1384,11 +1383,11 @@ export default function Dashboard() {
                       overflow-hidden
                       text-ellipsis
                       whitespace-nowrap
-                      text-[12px]
+                      text-xs
                       font-medium
                       text-[#241065]
 
-                      max-lg:text-[11px]
+                      max-lg:text-xs
                     "
                   >
                     Measurements collected
@@ -1397,12 +1396,12 @@ export default function Dashboard() {
                   <strong
                     className="
                       block
-                      text-[27px]
+                      text-3xl
                       font-bold
                       leading-none
                       text-[#241065]
 
-                      max-lg:text-[22px]
+                      max-lg:text-2xl
                     "
                   >
                     {animatedMeasurementCount}
@@ -1413,11 +1412,11 @@ export default function Dashboard() {
                       block
                       truncate
                       whitespace-nowrap
-                      text-[9px]
+                      text-xs
                       font-medium
                       text-[#6B7280]
 
-                      max-lg:text-[8px]
+                      max-lg:text-xs
                     "
                   >
                     {totals[1]
@@ -1473,11 +1472,11 @@ export default function Dashboard() {
               <div className="min-w-0">
                 <h2
                   className="
-                    text-[12px]
+                    text-xs
                     font-medium
                     text-[#241065]
 
-                    max-lg:text-[11px]
+                    max-lg:text-xs
                   "
                 >
                   Needs review
@@ -1489,13 +1488,13 @@ export default function Dashboard() {
                     flex
                     items-center
                     gap-[6px]
-                    text-[27px]
+                    text-3xl
                     font-bold
                     leading-none
                     text-[#241065]
 
                     max-lg:mt-[5px]
-                    max-lg:text-[22px]
+                    max-lg:text-2xl
                   "
                 >
                   {animatedNeedsReview}
@@ -1512,12 +1511,12 @@ export default function Dashboard() {
                     mt-[8px]
                     block
                     truncate
-                    text-[9px]
+                    text-xs
                     font-medium
                     text-[#6B7280]
 
                     max-lg:mt-[5px]
-                    max-lg:text-[8px]
+                    max-lg:text-xs
                   "
                 >
                   {measurementStats.needsReview
@@ -1533,10 +1532,10 @@ export default function Dashboard() {
           {measurements.length > 0 && (
             <div className="mt-[14px] w-full max-w-[1140px] rounded-[11px] bg-[#EBE9FE] px-[16px] py-[14px] max-lg:rounded-[12px]">
               <div className="flex flex-wrap items-center justify-between gap-[10px]">
-                <p className="text-[12px] font-semibold text-[#241065]">
+                <p className="text-xs font-semibold text-[#241065]">
                   Status breakdown
                 </p>
-                <div className="flex flex-wrap items-center gap-[12px] text-[11px] font-medium">
+                <div className="flex flex-wrap items-center gap-[12px] text-xs font-medium">
                   <span className="flex items-center gap-[6px] text-[#4C2BB0]">
                     <span className="h-[8px] w-[8px] rounded-full bg-[#7C5CFA]" />
                     {measurementStats.pending} pending
@@ -1593,12 +1592,12 @@ export default function Dashboard() {
               {measurementStats.trend.some((n) => n > 0) && (
                 <div className="mt-[12px]">
                   <div className="flex items-center justify-between">
-                    <p className="flex items-center gap-[6px] text-[11px] font-medium text-[#6B7280]">
+                    <p className="flex items-center gap-[6px] text-xs font-medium text-[#6B7280]">
                       <TrendingUp size={13} strokeWidth={2} className="text-[#7C5CFA]" />
                       Last 7 days
                     </p>
                     <span
-                      className={`text-[11px] font-semibold ${
+                      className={`text-xs font-semibold ${
                         measurementStats.trendDelta >= 0
                           ? "text-[#16A34A]"
                           : "text-[#DC2626]"
@@ -1647,7 +1646,7 @@ export default function Dashboard() {
 
             {loading ? (
               <div className="p-[16px]" aria-busy="true" aria-live="polite">
-                <h2 className="mb-[12px] text-[12px] font-semibold text-[#241065] max-lg:text-[14px]">
+                <h2 className="mb-[12px] text-xs font-semibold text-[#241065] max-lg:text-sm">
                   Recent Activities
                 </h2>
                 <ul className="flex flex-col gap-[8px]">
@@ -1669,7 +1668,7 @@ export default function Dashboard() {
               </div>
             ) : activities.length > 0 ? (
               <div className="max-h-[240px] overflow-y-auto p-[16px] max-lg:max-h-none">
-                <h2 className="mb-[12px] text-[12px] font-semibold text-[#241065] max-lg:text-[14px]">
+                <h2 className="mb-[12px] text-xs font-semibold text-[#241065] max-lg:text-sm">
                   Recent Activities
                 </h2>
 
@@ -1692,18 +1691,17 @@ export default function Dashboard() {
                       <motion.li
                         key={activity.id}
                         variants={statCardVariants}
-                        whileHover={shouldReduceMotion ? undefined : { x: 3 }}
                         className="flex items-center gap-[10px] rounded-[10px] bg-[var(--tk-bg-elevated)] px-[12px] py-[10px] transition-colors hover:bg-[#F4F3FF] dark:hover:bg-[#211b3a]"
                       >
-                        <span className="flex h-[32px] w-[32px] shrink-0 items-center justify-center rounded-full bg-[#EBE9FE] text-[12px] font-bold text-[#6133DA]">
+                        <span className="flex h-[32px] w-[32px] shrink-0 items-center justify-center rounded-full bg-[#EBE9FE] text-xs font-bold text-[#6133DA]">
                           {activity.customerName.charAt(0).toUpperCase()}
                         </span>
 
                         <div className="min-w-0 flex-1">
-                          <p className="truncate text-[11px] font-semibold text-[#241065]">
+                          <p className="truncate text-xs font-semibold text-[#241065]">
                             {activity.customerName}
                           </p>
-                          <p className="truncate text-[10px] text-[#6B7280]">
+                          <p className="truncate text-xs text-[#6B7280]">
                             {activity.orderReference
                               ? `${activity.orderReference} · `
                               : ""}
@@ -1712,7 +1710,7 @@ export default function Dashboard() {
                         </div>
 
                         <span
-                          className={`shrink-0 rounded-full px-[8px] py-[3px] text-[9px] font-semibold ${badge.cls}`}
+                          className={`shrink-0 rounded-full px-[8px] py-[3px] text-xs font-semibold ${badge.cls}`}
                         >
                           {badge.label}
                         </span>
@@ -1736,12 +1734,12 @@ export default function Dashboard() {
                 <h2
                   className="
                     pt-[18px]
-                    text-[12px]
+                    text-xs
                     font-medium
                     text-[#241065]
 
                     max-lg:pt-[16px]
-                    max-lg:text-[14px]
+                    max-lg:text-sm
                   "
                 >
                   Recent Activities
@@ -1777,12 +1775,12 @@ export default function Dashboard() {
                 <h3
                   className="
                     mt-[10px]
-                    text-[15px]
+                    text-sm
                     font-bold
                     text-[#241065]
 
                     max-lg:mt-[9px]
-                    max-lg:text-[14px]
+                    max-lg:text-sm
                   "
                 >
                   No activity yet
@@ -1793,14 +1791,14 @@ export default function Dashboard() {
                     mt-[4px]
                     max-w-[350px]
                     text-center
-                    text-[9px]
+                    text-xs
                     font-medium
                     leading-[12px]
                     text-[#6B7280]
 
                     max-lg:mt-[5px]
                     max-lg:max-w-[250px]
-                    max-lg:text-[9px]
+                    max-lg:text-xs
                     max-lg:leading-[14px]
                   "
                 >

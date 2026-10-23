@@ -417,7 +417,7 @@ export default function Subscription() {
           <button
             type="button"
             onClick={handleBack}
-            className="flex items-center gap-2 text-[13px] font-medium text-[#241065] transition hover:opacity-70"
+            className="flex items-center gap-2 text-sm font-medium text-[#241065] transition hover:opacity-70"
           >
             <ArrowLeft size={17} />
             Back to Dashboard
@@ -431,11 +431,11 @@ export default function Subscription() {
         ===================================================== */}
         <div className="mb-10 lg:mb-12">
 
-          <h1 className="text-[25px] font-bold leading-tight text-[#241065] sm:text-[28px] lg:text-[32px]">
+          <h1 className="text-3xl font-bold leading-tight text-[#241065] sm:text-3xl lg:text-4xl">
             Subscription Plans
           </h1>
 
-          <p className="mt-2 max-w-[620px] text-[12px] leading-5 text-[#6B7280] sm:text-[13px]">
+          <p className="mt-2 max-w-[620px] text-xs leading-5 text-[#6B7280] sm:text-sm">
             Choose a plan that fits your fashion business and manage
             your measurement links from one place. Every new account
             starts with 10 free measurement links.
@@ -448,7 +448,7 @@ export default function Subscription() {
             ACTIVE SUBSCRIPTION
         ===================================================== */}
         {subscription && (
-          <div className="mb-10 rounded-[18px] border border-[#D8D6FE] bg-white p-6 shadow-[0_8px_28px_rgba(36,16,101,0.06)] lg:p-7">
+          <div className="mb-10 rounded-[18px] border border-[#D8D6FE] bg-white p-6  lg:p-7">
 
             <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
 
@@ -467,18 +467,18 @@ export default function Subscription() {
 
                   <div className="flex items-center gap-2">
 
-                    <span className="text-[14px] font-semibold text-[#241065]">
+                    <span className="text-sm font-semibold text-[#241065]">
                       {subscription.planName}
                     </span>
 
-                    <span className="rounded-full bg-[#EBE9FE] px-2 py-0.5 text-[9px] font-semibold text-[#6133DA]">
+                    <span className="rounded-full bg-[#EBE9FE] px-2 py-0.5 text-xs font-semibold text-[#6133DA]">
                       Active
                     </span>
 
                   </div>
 
                   {/* PRICE */}
-                  <p className="mt-1 text-[10px] text-[#6B7280]">
+                  <p className="mt-1 text-xs text-[#6B7280]">
                     ₦{Number(subscription.amount).toLocaleString()} /{" "}
                     {subscription.active
                       ? "30 days"
@@ -488,7 +488,7 @@ export default function Subscription() {
                   {/* =================================================
                       EXPIRY
                   ================================================= */}
-                  <p className="mt-1 text-[10px] font-medium text-[#6133DA]">
+                  <p className="mt-1 text-xs font-medium text-[#6133DA]">
                     Expires on:{" "}
                     <span className="font-semibold">
                       {expiryDate}
@@ -506,7 +506,7 @@ export default function Subscription() {
                 <button
                   type="button"
                   onClick={handleGenerateLink}
-                  className="flex h-[36px] items-center justify-center gap-1.5 rounded-[8px] bg-[#6133DA] px-4 text-[11px] font-semibold text-white transition hover:bg-[#4f27b8]"
+                  className="flex h-[36px] items-center justify-center gap-1.5 rounded-[8px] bg-[#6133DA] px-4 text-xs font-semibold text-white transition hover:bg-[#4f27b8]"
                 >
                   <LinkIcon size={15} />
                   Generate Link
@@ -515,7 +515,7 @@ export default function Subscription() {
                 <button
                   type="button"
                   onClick={handleCancelSubscription}
-                  className="flex h-[36px] items-center justify-center gap-1.5 rounded-[8px] border border-[#F0CACA] bg-white px-4 text-[11px] font-semibold text-[#DC2626] transition hover:bg-[#FEF2F2]"
+                  className="flex h-[36px] items-center justify-center gap-1.5 rounded-[8px] border border-[#F0CACA] bg-white px-4 text-xs font-semibold text-[#DC2626] transition hover:bg-[#FEF2F2]"
                 >
                   <X size={15} />
                   Cancel
@@ -532,7 +532,7 @@ export default function Subscription() {
             GENERATED LINK
         ===================================================== */}
         {generatedLink && (
-          <div className="mb-10 rounded-[18px] border border-[#E5E7EB] bg-white p-6 shadow-[0_8px_28px_rgba(36,16,101,0.06)] lg:p-7">
+          <div className="mb-10 rounded-[18px] border border-[#E5E7EB] bg-white p-6  lg:p-7">
 
             <div className="flex items-center gap-3">
 
@@ -545,11 +545,11 @@ export default function Subscription() {
 
               <div className="min-w-0">
 
-                <h2 className="text-[13px] font-semibold text-[#241065]">
+                <h2 className="text-sm font-semibold text-[#241065]">
                   Measurement Link
                 </h2>
 
-                <p className="mt-0.5 text-[10px] text-[#6B7280]">
+                <p className="mt-0.5 text-xs text-[#6B7280]">
                   One-time link for collecting customer measurements.
                 </p>
 
@@ -561,7 +561,7 @@ export default function Subscription() {
             <div className="mt-3 flex flex-col gap-2 rounded-[9px] bg-[#F4F3FF] p-2.5 sm:flex-row sm:items-center">
 
               <div className="min-w-0 flex-1 px-1">
-                <p className="truncate text-[10px] text-[#4B5563]">
+                <p className="truncate text-xs text-[#4B5563]">
                   {generatedLink.link}
                 </p>
               </div>
@@ -571,7 +571,7 @@ export default function Subscription() {
                 <button
                   type="button"
                   onClick={handleCopy}
-                  className="flex h-[32px] items-center justify-center gap-1.5 rounded-[7px] bg-white px-3 text-[10px] font-semibold text-[#241065] shadow-sm transition hover:bg-[#EBE9FE]"
+                  className="flex h-[32px] items-center justify-center gap-1.5 rounded-[7px] bg-white px-3 text-xs font-semibold text-[#241065]  transition hover:bg-[#EBE9FE]"
                 >
                   {copied ? (
                     <Check size={14} />
@@ -586,7 +586,7 @@ export default function Subscription() {
                 <button
                   type="button"
                   onClick={handleShare}
-                  className="flex h-[32px] items-center justify-center gap-1.5 rounded-[7px] bg-[#6133DA] px-3 text-[10px] font-semibold text-white transition hover:bg-[#4f27b8]"
+                  className="flex h-[32px] items-center justify-center gap-1.5 rounded-[7px] bg-[#6133DA] px-3 text-xs font-semibold text-white transition hover:bg-[#4f27b8]"
                 >
                   <Share2 size={14} />
                   Share
@@ -596,7 +596,7 @@ export default function Subscription() {
                 <button
                   type="button"
                   onClick={handleOpenLink}
-                  className="flex h-[32px] items-center justify-center gap-1.5 rounded-[7px] border border-[#6133DA] bg-white px-3 text-[10px] font-semibold text-[#6133DA] transition hover:bg-[#EBE9FE]"
+                  className="flex h-[32px] items-center justify-center gap-1.5 rounded-[7px] border border-[#6133DA] bg-white px-3 text-xs font-semibold text-[#6133DA] transition hover:bg-[#EBE9FE]"
                 >
                   <ExternalLink size={14} />
                   Open
@@ -615,13 +615,13 @@ export default function Subscription() {
 
           <div>
 
-            <h2 className="text-[17px] font-bold text-[#241065] sm:text-[18px]">
+            <h2 className="text-base font-bold text-[#241065] sm:text-lg">
               {subscription
                 ? "Change your plan"
                 : "Choose a plan"}
             </h2>
 
-            <p className="mt-1.5 text-[10px] text-[#6B7280] sm:text-[11px]">
+            <p className="mt-1.5 text-xs text-[#6B7280] sm:text-xs">
               {subscription
                 ? "Switch to another plan whenever you need."
                 : "New accounts get 10 free measurement links. Choose a plan for unlimited links."}
@@ -648,7 +648,7 @@ export default function Subscription() {
             return (
               <div
                 key={plan.id}
-                className={`relative flex min-h-[400px] flex-col rounded-[18px] bg-white p-6 shadow-[0_8px_28px_rgba(36,16,101,0.05)] transition sm:p-7 ${
+                className={`relative flex min-h-[400px] flex-col rounded-[18px] bg-white p-6  transition sm:p-7 ${
                   isCurrentPlan
                     ? "border-2 border-[#6133DA]"
                     : isSelected
@@ -658,29 +658,29 @@ export default function Subscription() {
               >
 
                 {isCurrentPlan && (
-                  <span className="absolute right-4 top-4 rounded-full bg-[#EBE9FE] px-2.5 py-1 text-[8px] font-bold text-[#6133DA]">
+                  <span className="absolute right-4 top-4 rounded-full bg-[#EBE9FE] px-2.5 py-1 text-xs font-bold text-[#6133DA]">
                     CURRENT PLAN
                   </span>
                 )}
 
 
-                <h3 className="text-[16px] font-bold text-[#241065]">
+                <h3 className="text-base font-bold text-[#241065]">
                   {plan.name}
                 </h3>
 
 
-                <p className="mt-2 min-h-[38px] max-w-[220px] text-[10px] leading-[15px] text-[#6B7280]">
+                <p className="mt-2 min-h-[38px] max-w-[220px] text-xs leading-[15px] text-[#6B7280]">
                   {plan.description}
                 </p>
 
 
                 <div className="mt-5 flex items-baseline">
 
-                  <span className="text-[25px] font-bold leading-none text-[#241065]">
+                  <span className="text-3xl font-bold leading-none text-[#241065]">
                     ₦{plan.amount.toLocaleString()}
                   </span>
 
-                  <span className="ml-1.5 text-[9px] text-[#6B7280]">
+                  <span className="ml-1.5 text-xs text-[#6B7280]">
                     / {plan.duration} days
                   </span>
 
@@ -706,7 +706,7 @@ export default function Subscription() {
                         />
                       </div>
 
-                      <span className="text-[10px] leading-[15px] text-[#4B5563]">
+                      <span className="text-xs leading-[15px] text-[#4B5563]">
                         {feature}
                       </span>
 
@@ -722,7 +722,7 @@ export default function Subscription() {
                     <button
                       type="button"
                       disabled
-                      className="h-[37px] w-full cursor-not-allowed rounded-[8px] bg-[#EBE9FE] text-[10px] font-semibold text-[#6133DA]"
+                      className="h-[37px] w-full cursor-not-allowed rounded-[8px] bg-[#EBE9FE] text-xs font-semibold text-[#6133DA]"
                     >
                       Current Plan
                     </button>
@@ -730,7 +730,7 @@ export default function Subscription() {
                     <button
                       type="button"
                       onClick={() => handleSubscribe(plan)}
-                      className="h-[37px] w-full rounded-[8px] bg-[#6133DA] text-[10px] font-semibold text-white transition hover:bg-[#4f27b8]"
+                      className="h-[37px] w-full rounded-[8px] bg-[#6133DA] text-xs font-semibold text-white transition hover:bg-[#4f27b8]"
                     >
                       {subscription
                         ? "Switch to this plan"
@@ -751,7 +751,7 @@ export default function Subscription() {
             GENERATE LINK BOTTOM SECTION
         ===================================================== */}
         {subscription && !generatedLink && (
-          <div className="mt-8 rounded-[18px] border border-[#E5E7EB] bg-white px-6 py-7 text-center shadow-[0_8px_28px_rgba(36,16,101,0.05)] sm:px-7">
+          <div className="mt-8 rounded-[18px] border border-[#E5E7EB] bg-white px-6 py-7 text-center  sm:px-7">
 
             <div className="mx-auto flex h-[42px] w-[42px] items-center justify-center rounded-[10px] bg-[#EBE9FE]">
               <LinkIcon
@@ -760,11 +760,11 @@ export default function Subscription() {
               />
             </div>
 
-            <h2 className="mt-2.5 text-[14px] font-bold text-[#241065]">
+            <h2 className="mt-2.5 text-sm font-bold text-[#241065]">
               Ready to generate a measurement link?
             </h2>
 
-            <p className="mx-auto mt-1 max-w-[430px] text-[10px] leading-4 text-[#6B7280]">
+            <p className="mx-auto mt-1 max-w-[430px] text-xs leading-4 text-[#6B7280]">
               Your {activePlan?.name || subscription.planName} plan is
               active. Generate a link whenever you need one.
             </p>
@@ -772,7 +772,7 @@ export default function Subscription() {
             <button
               type="button"
               onClick={handleGenerateLink}
-              className="mt-3 inline-flex h-[35px] items-center gap-1.5 rounded-[8px] bg-[#6133DA] px-4 text-[10px] font-semibold text-white transition hover:bg-[#4f27b8]"
+              className="mt-3 inline-flex h-[35px] items-center gap-1.5 rounded-[8px] bg-[#6133DA] px-4 text-xs font-semibold text-white transition hover:bg-[#4f27b8]"
             >
               <LinkIcon size={14} />
               Generate Link

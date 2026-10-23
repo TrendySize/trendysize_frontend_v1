@@ -19,14 +19,14 @@ const GoogleHandle = () => {
   if (!idToken) {
     return (
       <section className="flex min-h-screen items-center justify-center bg-[#F4F3FF] px-4">
-        <div className="w-full max-w-md rounded-[32px] border border-[#E9E7FF] bg-white p-10 text-center shadow-[0_25px_70px_rgba(0,0,0,0.06)]">
+        <div className="w-full max-w-md rounded-xl border border-[#E9E7FF] bg-white p-10 text-center ">
           <p className="mb-6 text-sm font-medium text-red-600">
             Your Google session has expired. Please sign in with Google again.
           </p>
           <button
             type="button"
             onClick={() => navigate("/signin")}
-            className="flex h-12 w-full items-center justify-center rounded-xl bg-[#6133DA] text-[16px] font-semibold text-white hover:bg-[#4F28C7]"
+            className="flex h-12 w-full items-center justify-center rounded-xl bg-[#6133DA] text-base font-semibold text-white hover:bg-[#4F28C7]"
           >
             Back to sign in
           </button>
@@ -74,22 +74,22 @@ const GoogleHandle = () => {
               <button
                 type="button"
                 onClick={() => navigate("/signin")}
-                className="flex h-8 w-8 items-center justify-center rounded-full bg-[#EBE9FE] text-[#241065] transition-all duration-300 hover:bg-[#DCD6FF] hover:scale-105"
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-[#EBE9FE] text-[#241065] transition-all duration-300 hover:bg-[#DCD6FF] "
               >
                 <HiChevronLeft size={18} />
               </button>
 
               <h1
-                className="flex-1 pr-8 text-center text-[28px] font-bold leading-9 text-[#241065] sm:text-[32px]"
+                className="flex-1 pr-8 text-center text-3xl font-bold leading-9 text-[#241065] sm:text-4xl"
                 style={{ fontFamily: "SF Pro Display, sans-serif" }}
               >
                 Choose your handle
               </h1>
             </div>
 
-            <div className="rounded-[32px] border border-[#E9E7FF] bg-white p-8 shadow-[0_25px_70px_rgba(0,0,0,0.06)] sm:p-10">
+            <div className="rounded-xl border border-[#E9E7FF] bg-white p-8  sm:p-10">
               <p className="mb-6 text-center text-sm font-medium text-[#4B5563]">
-                One last step — pick the handle customers will use to reach your
+                One last step: pick the handle customers will use to reach your
                 store on WhatsApp.
               </p>
 
@@ -102,7 +102,7 @@ const GoogleHandle = () => {
               <form onSubmit={handleSubmit}>
                 <div className="mb-5">
                   <label
-                    className="mb-2 block text-[16px] font-semibold leading-6 text-[#241065]"
+                    className="mb-2 block text-base font-semibold leading-6 text-[#241065]"
                     style={{ fontFamily: "SF Pro Display, sans-serif" }}
                   >
                     Store Handle
@@ -113,13 +113,13 @@ const GoogleHandle = () => {
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     autoComplete="username"
-                    className="h-14 w-full rounded-xl border border-[#D1D5DB] bg-[#F4F3FF] px-4 text-[14px] font-medium text-[#241065] transition placeholder:text-[#6B7280] focus:border-[#6133DA] focus:outline-none focus:ring-2 focus:ring-[#EBE9FE]"
+                    className="h-14 w-full rounded-xl border border-[#D1D5DB] bg-[#F4F3FF] px-4 text-sm font-medium text-[#241065] transition placeholder:text-[#6B7280] focus:border-[#6133DA] focus:outline-none focus:ring-2 focus:ring-[#EBE9FE]"
                   />
                 </div>
 
                 <div className="mb-5">
                   <label
-                    className="mb-2 block text-[16px] font-semibold leading-6 text-[#241065]"
+                    className="mb-2 block text-base font-semibold leading-6 text-[#241065]"
                     style={{ fontFamily: "SF Pro Display, sans-serif" }}
                   >
                     WhatsApp Number (optional)
@@ -130,14 +130,14 @@ const GoogleHandle = () => {
                     value={whatsapp}
                     onChange={(e) => setWhatsapp(e.target.value)}
                     autoComplete="tel"
-                    className="h-14 w-full rounded-xl border border-[#D1D5DB] bg-[#F4F3FF] px-4 text-[14px] font-medium text-[#241065] transition placeholder:text-[#6B7280] focus:border-[#6133DA] focus:outline-none focus:ring-2 focus:ring-[#EBE9FE]"
+                    className="h-14 w-full rounded-xl border border-[#D1D5DB] bg-[#F4F3FF] px-4 text-sm font-medium text-[#241065] transition placeholder:text-[#6B7280] focus:border-[#6133DA] focus:outline-none focus:ring-2 focus:ring-[#EBE9FE]"
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={loading}
-                  className="mt-2 flex h-12 w-full items-center justify-center rounded-xl bg-[#6133DA] text-[16px] font-semibold text-white transition-all duration-300 hover:bg-[#4F28C7] hover:shadow-lg active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
+                  className="mt-2 flex h-12 w-full items-center justify-center rounded-xl bg-[#6133DA] text-base font-semibold text-white transition-all duration-300 hover:bg-[#4F28C7]   disabled:cursor-not-allowed disabled:opacity-60"
                   style={{ fontFamily: "SF Pro Display, sans-serif" }}
                 >
                   {loading ? "Creating account…" : "Finish sign-up"}

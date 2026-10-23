@@ -24,7 +24,7 @@ const navItems = [
 ];
 
 const itemBase =
-  "flex h-[63px] w-[204px] items-center gap-4 rounded-l-[30px] px-4 text-left text-[14px] font-medium leading-[17px] text-[var(--tk-ink)] transition-colors duration-[var(--tk-dur-base)] ease-[var(--tk-ease-out)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tk-brand)] focus-visible:ring-inset";
+  "flex h-[63px] w-[204px] items-center gap-4 rounded-l-[30px] px-4 text-left text-sm font-medium leading-[17px] text-[var(--tk-ink)] transition-colors duration-[var(--tk-dur-base)] ease-[var(--tk-ease-out)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tk-brand)] focus-visible:ring-inset";
 
 function itemClass(active) {
   return `${itemBase} ${
@@ -58,7 +58,7 @@ export default function DashboardSidebar({ activeLabel = "Dashboard" }) {
             alt="TrendySize logo"
             className="h-[48px] w-[48px] -translate-y-1"
           />
-          <span className="ml-3 h-[32px] w-[152px] shrink-0 font-['Inter'] text-[20px] font-extrabold leading-[24px] tracking-tight text-[#241065]">
+          <span className="ml-3 h-[32px] w-[152px] shrink-0 font-['Inter'] text-xl font-extrabold leading-[24px] tracking-tight text-[#241065]">
             TRENDY<span className="text-[#6D4CE0]">SIZE</span>
           </span>
         </div>
@@ -102,7 +102,7 @@ export default function DashboardSidebar({ activeLabel = "Dashboard" }) {
           </button>
 
           <div className="mt-2 flex items-center justify-between px-1">
-            <span className="text-[12px] font-medium text-[#5B5280]">
+            <span className="text-xs font-medium text-[#5B5280]">
               Appearance
             </span>
             <ThemeToggle />

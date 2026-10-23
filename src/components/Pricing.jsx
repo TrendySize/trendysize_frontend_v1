@@ -63,8 +63,7 @@ const PricingCard = ({ plan, onSignup }) => {
       p-8
       transition-all
       duration-300
-      hover:-translate-y-2
-      hover:shadow-[0_30px_50px_rgba(36,16,101,0.25)]
+      
       ${
         plan.featured
           ? "bg-[#6133DA] text-white"
@@ -74,7 +73,7 @@ const PricingCard = ({ plan, onSignup }) => {
       {/* Badge */}
 
       <div
-        className={`inline-flex rounded-lg px-4 py-2 text-[10px] font-medium tracking-widest
+        className={`inline-flex rounded-lg px-4 py-2 text-xs font-medium tracking-widest
         ${
           plan.featured
             ? "bg-white text-[#6133DA]"
@@ -87,7 +86,7 @@ const PricingCard = ({ plan, onSignup }) => {
       {/* Price */}
 
       <div className="mt-6 flex items-end">
-        <h2 className="text-[42px] font-bold">
+        <h2 className="text-5xl font-bold">
           {plan.price}
         </h2>
 
@@ -120,7 +119,7 @@ const PricingCard = ({ plan, onSignup }) => {
             />
 
             <p
-              className={`text-[15px] font-medium ${
+              className={`text-sm font-medium ${
                 plan.featured
                   ? "text-white"
                   : "text-[#4B5563]"
@@ -161,16 +160,16 @@ const Pricing = () => {
 
         <div className="mx-auto max-w-[600px] text-center">
 
-          <p className="text-[18px] font-medium text-[#241065] sm:text-[20px]">
+          <p className="text-lg font-medium text-[#241065] sm:text-xl">
             Pricing
           </p>
 
-          <h2 className="mt-3 text-[32px] font-bold leading-tight sm:text-[40px] lg:text-[48px] lg:whitespace-nowrap">
+          <h2 className="mt-3 text-4xl font-bold leading-tight sm:text-5xl lg:text-5xl lg:whitespace-nowrap">
             <span className="text-[#241065]">Simple,</span>{' '}
             <span className="text-[#6133DA]">Transparent Pricing</span>
           </h2>
 
-          <p className="mt-6 text-[15px] text-[#4B5563] sm:mt-8 sm:text-[16px]">
+          <p className="mt-6 text-sm text-[#4B5563] sm:mt-8 sm:text-base">
             Start free and enjoy all the tools you need to manage customer measurements.
           </p>
 

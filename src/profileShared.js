@@ -93,7 +93,7 @@ export function customerDisplayPhone(customer) {
     customer?.phone_number ||
     customer?.phoneNumber ||
     customer?.contact ||
-    "—"
+    "Not set"
   );
 }
 

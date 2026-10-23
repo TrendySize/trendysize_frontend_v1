@@ -42,10 +42,10 @@ function StatTile({ icon, value, label, className = "" }) {
       </span>
 
       <div className="min-w-0">
-        <p className="truncate text-[18px] font-bold leading-none text-[var(--tk-ink)]">
-          {value === "" || value === null || value === undefined ? "—" : value}
+        <p className="truncate text-lg font-bold leading-none text-[var(--tk-ink)]">
+          {value === "" || value === null || value === undefined ? "Not set" : value}
         </p>
-        <p className="mt-1 truncate text-[11px] font-medium text-[var(--tk-ink-muted)]">
+        <p className="mt-1 truncate text-xs font-medium text-[var(--tk-ink-muted)]">
           {label}
         </p>
       </div>
@@ -57,12 +57,12 @@ function StatTile({ icon, value, label, className = "" }) {
 function FactRow({ icon, label, value, emphasize = false }) {
   return (
     <div className="flex items-center justify-between gap-3 py-2">
-      <span className="flex items-center gap-2 text-[12px] font-medium text-[var(--tk-ink-muted)]">
+      <span className="flex items-center gap-2 text-xs font-medium text-[var(--tk-ink-muted)]">
         <span className="text-[var(--tk-brand)]">{icon}</span>
         {label}
       </span>
       <span
-        className={`min-w-0 truncate text-[12px] font-semibold ${
+        className={`min-w-0 truncate text-xs font-semibold ${
           emphasize
             ? "text-[var(--tk-ink)]"
             : value
@@ -199,7 +199,7 @@ export default function Profile() {
               </div>
 
               <div className="absolute bottom-0 left-1/2 z-10 -translate-x-1/2 translate-y-1/2">
-                <div className="h-[132px] w-[132px] overflow-hidden rounded-full border-[5px] border-[var(--tk-bg)] bg-[var(--tk-surface)] shadow-[0_12px_30px_rgba(36,16,101,0.18)] sm:h-[140px] sm:w-[140px] lg:h-[150px] lg:w-[150px] lg:border-[6px]">
+                <div className="h-[132px] w-[132px] overflow-hidden rounded-full border-[5px] border-[var(--tk-bg)] bg-[var(--tk-surface)]  sm:h-[140px] sm:w-[140px] lg:h-[150px] lg:w-[150px] lg:border-[6px]">
                   {profile.profileImage ? (
                     <img
                       src={profile.profileImage}
@@ -207,7 +207,7 @@ export default function Profile() {
                       className="h-full w-full object-cover"
                     />
                   ) : (
-                    <div className="flex h-full w-full items-center justify-center px-3 text-center text-[10px] font-semibold text-[var(--tk-brand)] sm:text-[11px]">
+                    <div className="flex h-full w-full items-center justify-center px-3 text-center text-xs font-semibold text-[var(--tk-brand)] sm:text-xs">
                       Add Business Picture
                     </div>
                   )}
@@ -219,7 +219,7 @@ export default function Profile() {
             <div className="mt-[84px] text-center sm:mt-[88px] lg:mt-[96px]">
               <div className="flex items-center justify-center gap-1.5 sm:gap-2">
                 <h1
-                  className={`max-w-[80%] truncate text-[19px] font-bold sm:text-[21px] lg:max-w-none lg:text-[24px] ${
+                  className={`max-w-[80%] truncate text-lg font-bold sm:text-xl lg:max-w-none lg:text-2xl ${
                     profile.businessName
                       ? "text-[var(--tk-ink)]"
                       : "text-[var(--tk-ink-muted)]"
@@ -239,7 +239,7 @@ export default function Profile() {
                 )}
               </div>
 
-              <div className="mt-1.5 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[12px] font-medium text-[var(--tk-ink-soft)] sm:text-[13px] lg:text-[14px]">
+              <div className="mt-1.5 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs font-medium text-[var(--tk-ink-soft)] sm:text-sm lg:text-sm">
                 {locationLine && (
                   <span className="flex items-center gap-1">
                     <MapPin size={13} aria-hidden="true" />
@@ -269,7 +269,7 @@ export default function Profile() {
               <button
                 type="button"
                 onClick={handleMeasurementLink}
-                className="flex items-center gap-2 rounded-lg bg-[var(--tk-brand)] px-3.5 py-2 text-[12px] font-semibold text-[var(--tk-brand-ink)] transition hover:opacity-90"
+                className="flex items-center gap-2 rounded-lg bg-[var(--tk-brand)] px-3.5 py-2 text-xs font-semibold text-[var(--tk-brand-ink)] transition hover:opacity-90"
               >
                 <LinkIcon size={15} />
                 Measurement link
@@ -282,7 +282,7 @@ export default function Profile() {
                   href={storefrontUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-center gap-2 rounded-lg border border-[var(--tk-border-strong)] bg-[var(--tk-bg-elevated)] px-3.5 py-2 text-[12px] font-semibold text-[var(--tk-ink)] transition hover:bg-[var(--tk-surface)]"
+                  className="flex items-center gap-2 rounded-lg border border-[var(--tk-border-strong)] bg-[var(--tk-bg-elevated)] px-3.5 py-2 text-xs font-semibold text-[var(--tk-ink)] transition hover:bg-[var(--tk-surface)]"
                 >
                   <Store size={15} className="text-[var(--tk-brand)]" />
                   View storefront
@@ -291,7 +291,7 @@ export default function Profile() {
                 <button
                   type="button"
                   onClick={copyStoreLink}
-                  className="flex items-center gap-2 rounded-lg border border-[var(--tk-border-strong)] bg-[var(--tk-bg-elevated)] px-3.5 py-2 text-[12px] font-semibold text-[var(--tk-ink)] transition hover:bg-[var(--tk-surface)]"
+                  className="flex items-center gap-2 rounded-lg border border-[var(--tk-border-strong)] bg-[var(--tk-bg-elevated)] px-3.5 py-2 text-xs font-semibold text-[var(--tk-ink)] transition hover:bg-[var(--tk-surface)]"
                 >
                   <Copy size={15} className="text-[var(--tk-brand)]" />
                   Copy link
@@ -301,7 +301,7 @@ export default function Profile() {
 
             <Link
               to="/settings"
-              className="flex items-center gap-2 rounded-lg border border-[var(--tk-border-strong)] bg-[var(--tk-bg-elevated)] px-3.5 py-2 text-[12px] font-semibold text-[var(--tk-brand)] transition hover:bg-[var(--tk-surface)]"
+              className="flex items-center gap-2 rounded-lg border border-[var(--tk-border-strong)] bg-[var(--tk-bg-elevated)] px-3.5 py-2 text-xs font-semibold text-[var(--tk-brand)] transition hover:bg-[var(--tk-surface)]"
             >
               <Pencil size={15} />
               Edit profile
@@ -311,27 +311,27 @@ export default function Profile() {
           {/* BENTO OVERVIEW */}
           <section className="mt-5 grid grid-cols-1 gap-4 lg:mt-7 lg:grid-cols-12 lg:gap-5">
             {/* STORY / ABOUT */}
-            <div className="tk-tile rounded-2xl p-4 sm:p-5 lg:col-span-7">
-              <h2 className="flex items-center gap-2 text-[13px] font-bold uppercase tracking-wide text-[var(--tk-ink)] lg:text-[14px]">
+            <div className="tk-tile rounded-xl p-4 sm:p-5 lg:col-span-7">
+              <h2 className="flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-[var(--tk-ink)] lg:text-sm">
                 <Sparkles size={15} className="text-[var(--tk-brand)]" />
                 Your story
               </h2>
 
               {profile.tagline?.trim() ? (
-                <p className="mt-3 text-[13px] font-medium italic text-[var(--tk-ink-soft)] sm:text-[14px]">
+                <p className="mt-3 text-sm font-medium italic text-[var(--tk-ink-soft)] sm:text-sm">
                   “{profile.tagline}”
                 </p>
               ) : null}
 
               {profile.description?.trim() ? (
-                <p className="mt-2 whitespace-pre-line text-[12px] leading-6 text-[var(--tk-ink-muted)] sm:text-[13px]">
+                <p className="mt-2 whitespace-pre-line text-xs leading-6 text-[var(--tk-ink-muted)] sm:text-sm">
                   {profile.description}
                 </p>
               ) : null}
 
               {craftTags.length > 0 && (
                 <div className="mt-4">
-                  <p className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide text-[var(--tk-ink-muted)]">
+                  <p className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-[var(--tk-ink-muted)]">
                     <Tags size={13} />
                     Crafts
                   </p>
@@ -339,7 +339,7 @@ export default function Profile() {
                     {craftTags.map((tag) => (
                       <span
                         key={tag}
-                        className="rounded-full border border-[var(--tk-border-strong)] bg-[var(--tk-surface)] px-2.5 py-1 text-[10px] font-semibold text-[var(--tk-ink)] sm:text-[11px]"
+                        className="rounded-full border border-[var(--tk-border-strong)] bg-[var(--tk-surface)] px-2.5 py-1 text-xs font-semibold text-[var(--tk-ink)] sm:text-xs"
                       >
                         {tag}
                       </span>
@@ -349,7 +349,7 @@ export default function Profile() {
               )}
 
               {!hasStory && (
-                <p className="mt-3 text-[12px] leading-6 text-[var(--tk-ink-muted)]">
+                <p className="mt-3 text-xs leading-6 text-[var(--tk-ink-muted)]">
                   Add a tagline, description and craft tags so customers
                   understand your signature look.
                 </p>
@@ -357,7 +357,7 @@ export default function Profile() {
 
               <Link
                 to="/settings"
-                className="mt-4 inline-flex items-center gap-1.5 text-[12px] font-semibold text-[var(--tk-brand)] transition hover:opacity-80"
+                className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-[var(--tk-brand)] transition hover:opacity-80"
               >
                 <Pencil size={12} />
                 Edit your story
@@ -365,8 +365,8 @@ export default function Profile() {
             </div>
 
             {/* AT A GLANCE */}
-            <div className="tk-tile rounded-2xl p-4 sm:p-5 lg:col-span-5">
-              <h2 className="flex items-center gap-2 text-[13px] font-bold uppercase tracking-wide text-[var(--tk-ink)] lg:text-[14px]">
+            <div className="tk-tile rounded-xl p-4 sm:p-5 lg:col-span-5">
+              <h2 className="flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-[var(--tk-ink)] lg:text-sm">
                 <Store size={15} className="text-[var(--tk-brand)]" />
                 At a glance
               </h2>
@@ -436,7 +436,7 @@ export default function Profile() {
               <button
                 type="button"
                 onClick={handleMeasurementLink}
-                className="flex min-h-[48px] w-full items-center justify-center gap-2 rounded-lg bg-[var(--tk-brand)] px-4 text-[13px] font-bold text-[var(--tk-brand-ink)] shadow-sm transition hover:opacity-90"
+                className="flex min-h-[48px] w-full items-center justify-center gap-2 rounded-lg bg-[var(--tk-brand)] px-4 text-sm font-bold text-[var(--tk-brand-ink)]  transition hover:opacity-90"
               >
                 <LinkIcon size={18} />
                 Measurement link
@@ -454,7 +454,7 @@ export default function Profile() {
                   className="flex min-h-[52px] flex-col items-center justify-center gap-1 rounded-lg bg-[var(--tk-surface)] px-1.5 text-center transition hover:bg-[var(--tk-hover)]"
                 >
                   <Store size={17} className="text-[var(--tk-brand)]" />
-                  <span className="text-[10px] font-semibold text-[var(--tk-ink)]">
+                  <span className="text-xs font-semibold text-[var(--tk-ink)]">
                     Storefront
                   </span>
                 </a>
@@ -471,7 +471,7 @@ export default function Profile() {
                   className="text-[#25D366]"
                   aria-hidden="true"
                 />
-                <span className="text-[10px] font-semibold text-[var(--tk-ink)]">
+                <span className="text-xs font-semibold text-[var(--tk-ink)]">
                   WhatsApp
                 </span>
               </a>
@@ -484,7 +484,7 @@ export default function Profile() {
                   className="flex min-h-[52px] flex-col items-center justify-center gap-1 rounded-lg bg-[var(--tk-surface)] px-1.5 text-center transition hover:bg-[var(--tk-hover)]"
                 >
                   <ExternalLink size={17} className="text-[var(--tk-brand)]" />
-                  <span className="text-[10px] font-semibold text-[var(--tk-ink)]">
+                  <span className="text-xs font-semibold text-[var(--tk-ink)]">
                     Portfolio
                   </span>
                 </a>
@@ -495,7 +495,7 @@ export default function Profile() {
                 className="flex min-h-[52px] flex-col items-center justify-center gap-1 rounded-lg bg-[var(--tk-surface)] px-1.5 text-center transition hover:bg-[var(--tk-hover)]"
               >
                 <Phone size={17} className="text-[var(--tk-brand)]" />
-                <span className="text-[10px] font-semibold text-[var(--tk-ink)]">
+                <span className="text-xs font-semibold text-[var(--tk-ink)]">
                   Contact
                 </span>
               </a>
@@ -507,7 +507,7 @@ export default function Profile() {
                   className="flex min-h-[52px] flex-col items-center justify-center gap-1 rounded-lg bg-[var(--tk-surface)] px-1.5 text-center transition hover:bg-[var(--tk-hover)]"
                 >
                   <Copy size={17} className="text-[var(--tk-brand)]" />
-                  <span className="text-[10px] font-semibold text-[var(--tk-ink)]">
+                  <span className="text-xs font-semibold text-[var(--tk-ink)]">
                     Copy
                   </span>
                 </button>
@@ -518,7 +518,7 @@ export default function Profile() {
                 className="flex min-h-[52px] flex-col items-center justify-center gap-1 rounded-lg bg-[var(--tk-surface)] px-1.5 text-center transition hover:bg-[var(--tk-hover)]"
               >
                 <Pencil size={17} className="text-[var(--tk-brand)]" />
-                <span className="text-[10px] font-semibold text-[var(--tk-ink)]">
+                <span className="text-xs font-semibold text-[var(--tk-ink)]">
                   Edit
                 </span>
               </Link>
@@ -529,11 +529,11 @@ export default function Profile() {
           <section className="mt-7 lg:mt-9">
             <div className="mb-3 flex items-end justify-between gap-3 lg:mb-4">
               <div>
-                <h2 className="flex items-center gap-2 text-[14px] font-bold uppercase tracking-wide text-[var(--tk-ink)] lg:text-[15px]">
+                <h2 className="flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-[var(--tk-ink)] lg:text-sm">
                   <Images size={16} className="text-[var(--tk-brand)]" />
                   Featured Work
                 </h2>
-                <p className="mt-1 text-[11px] text-[var(--tk-brand)] lg:text-[12px]">
+                <p className="mt-1 text-xs text-[var(--tk-brand)] lg:text-xs">
                   {looksCount > 0
                     ? `${looksCount} ${looksCount === 1 ? "look" : "looks"} in your gallery`
                     : "Looks from your atelier"}
@@ -542,7 +542,7 @@ export default function Profile() {
 
               <Link
                 to="/settings"
-                className="flex shrink-0 items-center gap-1.5 rounded-md border border-[var(--tk-border-strong)] px-2.5 py-1.5 text-[10px] font-semibold text-[var(--tk-brand)] transition hover:bg-[var(--tk-surface)] sm:px-3 sm:py-2 sm:text-[12px]"
+                className="flex shrink-0 items-center gap-1.5 rounded-md border border-[var(--tk-border-strong)] px-2.5 py-1.5 text-xs font-semibold text-[var(--tk-brand)] transition hover:bg-[var(--tk-surface)] sm:px-3 sm:py-2 sm:text-xs"
               >
                 <Pencil size={12} />
                 Manage
@@ -555,17 +555,17 @@ export default function Profile() {
                   <ImageIcon size={23} />
                 </div>
 
-                <h3 className="mt-2.5 text-[13px] font-semibold text-[var(--tk-ink)] lg:mt-3 lg:text-[14px]">
+                <h3 className="mt-2.5 text-sm font-semibold text-[var(--tk-ink)] lg:mt-3 lg:text-sm">
                   No looks yet
                 </h3>
 
-                <p className="mt-1 text-[10px] text-[var(--tk-ink-muted)] sm:text-[11px] lg:text-[12px]">
+                <p className="mt-1 text-xs text-[var(--tk-ink-muted)] sm:text-xs lg:text-xs">
                   Add looks to show customers your craft
                 </p>
 
                 <Link
                   to="/settings"
-                  className="mt-3 flex items-center gap-1.5 rounded-md bg-[var(--tk-brand)] px-3.5 py-1.5 text-[10px] font-semibold text-[var(--tk-brand-ink)] transition hover:opacity-90 lg:px-4 lg:py-2 lg:text-[12px]"
+                  className="mt-3 flex items-center gap-1.5 rounded-md bg-[var(--tk-brand)] px-3.5 py-1.5 text-xs font-semibold text-[var(--tk-brand-ink)] transition hover:opacity-90 lg:px-4 lg:py-2 lg:text-xs"
                 >
                   Add Look
                 </Link>
@@ -581,12 +581,12 @@ export default function Profile() {
                       <img
                         src={product.image}
                         alt={product.name}
-                        className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.04]"
+                        className="h-full w-full object-cover transition duration-300 group-"
                       />
                     </div>
 
                     <div className="p-2.5 lg:p-3">
-                      <p className="truncate text-[12px] font-semibold text-[var(--tk-ink)] lg:text-[14px]">
+                      <p className="truncate text-xs font-semibold text-[var(--tk-ink)] lg:text-sm">
                         {product.name}
                       </p>
                     </div>

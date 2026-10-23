@@ -14,7 +14,7 @@ export function InputField({
     <div>
       <label
         htmlFor={name}
-        className="mb-1.5 block text-[12px] font-semibold text-[var(--tk-ink)] sm:text-[14px]"
+        className="mb-1.5 block text-xs font-semibold text-[var(--tk-ink)] sm:text-sm"
       >
         {label}
       </label>
@@ -29,11 +29,11 @@ export function InputField({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className="w-full rounded-lg border border-[var(--tk-border-strong)] px-3 py-2.5 text-[13px] text-[var(--tk-ink)] outline-none transition placeholder:text-[var(--tk-ink-muted)] focus:border-[var(--tk-brand)] focus:ring-2 focus:ring-[var(--tk-brand)]/10 sm:text-[14px]"
+        className="w-full rounded-lg border border-[var(--tk-border-strong)] px-3 py-2.5 text-sm text-[var(--tk-ink)] outline-none transition placeholder:text-[var(--tk-ink-muted)] focus:border-[var(--tk-brand)] focus:ring-2 focus:ring-[var(--tk-brand)]/10 sm:text-sm"
       />
 
       {hint && (
-        <p className="mt-1 text-[10px] text-[var(--tk-ink-muted)] sm:text-[11px]">
+        <p className="mt-1 text-xs text-[var(--tk-ink-muted)] sm:text-xs">
           {hint}
         </p>
       )}
@@ -57,7 +57,7 @@ export function InputWithIcon({
     <div>
       <label
         htmlFor={name}
-        className="mb-1.5 block text-[12px] font-semibold text-[var(--tk-ink)] sm:text-[14px]"
+        className="mb-1.5 block text-xs font-semibold text-[var(--tk-ink)] sm:text-sm"
       >
         {label}
       </label>
@@ -76,12 +76,12 @@ export function InputWithIcon({
           value={value}
           onChange={onChange}
           placeholder={placeholder}
-          className="w-full rounded-lg border border-[var(--tk-border-strong)] py-2.5 pl-9 pr-3 text-[13px] text-[var(--tk-ink)] outline-none transition placeholder:text-[var(--tk-ink-muted)] focus:border-[var(--tk-brand)] focus:ring-2 focus:ring-[var(--tk-brand)]/10 sm:text-[14px]"
+          className="w-full rounded-lg border border-[var(--tk-border-strong)] py-2.5 pl-9 pr-3 text-sm text-[var(--tk-ink)] outline-none transition placeholder:text-[var(--tk-ink-muted)] focus:border-[var(--tk-brand)] focus:ring-2 focus:ring-[var(--tk-brand)]/10 sm:text-sm"
         />
       </div>
 
       {hint && (
-        <p className="mt-1 text-[10px] text-[var(--tk-ink-muted)] sm:text-[11px]">
+        <p className="mt-1 text-xs text-[var(--tk-ink-muted)] sm:text-xs">
           {hint}
         </p>
       )}

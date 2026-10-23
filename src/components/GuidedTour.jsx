@@ -36,11 +36,11 @@ const TOUR_STEPS = [
     route: "/dashboard",
     targets: ['[data-tour="dashboard-activity"]'],
     intro:
-      "Your home base for the health of your workspace and the tasks you use most.",
+      "This is your workspace dashboard. It shows customer and measurement activity and the actions you use most.",
     points: [
-      "See customer and measurement activity at a glance.",
+      "See customer and measurement activity here.",
       "Find your store handle and public profile link.",
-      "Jump straight to common tasks with quick actions.",
+      "Open common tasks from quick actions.",
     ],
     tip: "Your workspace summary updates as customers submit measurements.",
   },
@@ -361,7 +361,7 @@ export default function GuidedTour({ onFinish }) {
       {spotlight && (
         <motion.div
           aria-hidden="true"
-          className="pointer-events-none fixed rounded-xl border-2 border-violet-400 shadow-[0_0_0_9999px_rgba(17,24,39,0.5)]"
+          className="pointer-events-none fixed rounded-xl border-2 border-violet-400 "
           initial={false}
           animate={{
             left: spotlight.left,
@@ -379,7 +379,7 @@ export default function GuidedTour({ onFinish }) {
         aria-modal="false"
         aria-labelledby="tour-title"
         tabIndex={-1}
-        className="pointer-events-auto fixed flex max-h-[min(72dvh,560px)] w-[min(380px,calc(100vw-24px))] flex-col overflow-hidden rounded-xl border border-[var(--tk-border)] bg-[var(--tk-bg-elevated)] text-[var(--tk-ink)] shadow-xl outline-none"
+        className="pointer-events-auto fixed flex max-h-[min(72dvh,560px)] w-[min(380px,calc(100vw-24px))] flex-col overflow-hidden rounded-xl border border-[var(--tk-border)] bg-[var(--tk-bg-elevated)] text-[var(--tk-ink)]  outline-none"
         initial={
           shouldReduceMotion
             ? false
@@ -404,7 +404,7 @@ export default function GuidedTour({ onFinish }) {
         </div>
 
         <div className="flex items-center justify-between px-4 pt-3">
-          <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[var(--tk-ink-muted)]">
+          <span className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--tk-ink-muted)]">
             Step {index + 1} of {TOUR_STEPS.length}
           </span>
           <button
@@ -422,18 +422,18 @@ export default function GuidedTour({ onFinish }) {
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--tk-brand)]/10 text-[var(--tk-brand)]">
               <Icon size={20} aria-hidden="true" />
             </span>
-            <h2 id="tour-title" className="text-[16px] font-bold leading-tight">
+            <h2 id="tour-title" className="text-base font-bold leading-tight">
               {step.title}
             </h2>
           </div>
-          <p className="mt-3 text-[12px] leading-5 text-[var(--tk-ink-soft)]">
+          <p className="mt-3 text-xs leading-5 text-[var(--tk-ink-soft)]">
             {step.intro}
           </p>
           <ul className="mt-3 space-y-2">
             {step.points.map((point) => (
               <li
                 key={point}
-                className="flex gap-2.5 text-[11px] leading-5 text-[var(--tk-ink-muted)]"
+                className="flex gap-2.5 text-xs leading-5 text-[var(--tk-ink-muted)]"
               >
                 <span
                   aria-hidden="true"
@@ -444,7 +444,7 @@ export default function GuidedTour({ onFinish }) {
             ))}
           </ul>
           {step.tip && (
-            <div className="mt-3 rounded-xl border border-[var(--tk-border)] bg-[var(--tk-surface-muted)] px-3 py-2 text-[10px] leading-4 text-[var(--tk-ink-muted)]">
+            <div className="mt-3 rounded-xl border border-[var(--tk-border)] bg-[var(--tk-surface-muted)] px-3 py-2 text-xs leading-4 text-[var(--tk-ink-muted)]">
               <span className="font-semibold text-[var(--tk-ink)]">Tip:</span>{" "}
               {step.tip}
             </div>
@@ -456,7 +456,7 @@ export default function GuidedTour({ onFinish }) {
             type="button"
             onClick={() => setIndex((current) => Math.max(current - 1, 0))}
             disabled={index === 0}
-            className="inline-flex min-h-10 items-center gap-1.5 rounded-lg border border-[var(--tk-border-strong)] px-3 text-[11px] font-semibold text-[var(--tk-ink)] transition hover:bg-[var(--tk-surface)] disabled:cursor-not-allowed disabled:opacity-40"
+            className="inline-flex min-h-10 items-center gap-1.5 rounded-lg border border-[var(--tk-border-strong)] px-3 text-xs font-semibold text-[var(--tk-ink)] transition hover:bg-[var(--tk-surface)] disabled:cursor-not-allowed disabled:opacity-40"
           >
             <ArrowLeft size={13} />
             Back
@@ -482,7 +482,7 @@ export default function GuidedTour({ onFinish }) {
               if (isLast) onFinish();
               else setIndex((current) => current + 1);
             }}
-            className="inline-flex min-h-10 items-center gap-1.5 rounded-lg bg-[var(--tk-brand)] px-4 text-[11px] font-semibold text-[var(--tk-brand-ink)] transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tk-brand)] focus-visible:ring-offset-2"
+            className="inline-flex min-h-10 items-center gap-1.5 rounded-lg bg-[var(--tk-brand)] px-4 text-xs font-semibold text-[var(--tk-brand-ink)] transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tk-brand)] focus-visible:ring-offset-2"
           >
             {isLast ? "Finish tour" : "Next"}
             {isLast ? <X size={13} /> : <ArrowRight size={13} />}

@@ -44,11 +44,11 @@ export default function ConfirmDialog({
         aria-modal="true"
         aria-labelledby="confirm-title"
         aria-describedby={description ? "confirm-desc" : undefined}
-        className="relative w-full max-w-[420px] rounded-2xl bg-white p-6 shadow-[0_20px_60px_rgba(36,16,101,0.25)]"
+        className="relative w-full max-w-[420px] rounded-xl bg-white p-6 "
       >
         <h2
           id="confirm-title"
-          className="text-[17px] font-bold text-[#241065]"
+          className="text-base font-bold text-[#241065]"
         >
           {title}
         </h2>
@@ -56,7 +56,7 @@ export default function ConfirmDialog({
         {description && (
           <p
             id="confirm-desc"
-            className="mt-2 text-[13px] leading-5 text-[#4B5563]"
+            className="mt-2 text-sm leading-5 text-[#4B5563]"
           >
             {description}
           </p>
@@ -66,7 +66,7 @@ export default function ConfirmDialog({
           <button
             type="button"
             onClick={onCancel}
-            className="flex h-10 items-center justify-center rounded-lg border border-[#D8D6FE] bg-white px-4 text-[13px] font-semibold text-[#241065] transition hover:bg-[#F4F3FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40"
+            className="flex h-10 items-center justify-center rounded-lg border border-[#D8D6FE] bg-white px-4 text-sm font-semibold text-[#241065] transition hover:bg-[#F4F3FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40"
           >
             {cancelLabel}
           </button>
@@ -75,7 +75,7 @@ export default function ConfirmDialog({
             ref={confirmRef}
             type="button"
             onClick={onConfirm}
-            className={`flex h-10 items-center justify-center rounded-lg px-4 text-[13px] font-semibold text-white transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
+            className={`flex h-10 items-center justify-center rounded-lg px-4 text-sm font-semibold text-white transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
               isDanger
                 ? "bg-[#DC2626] hover:bg-[#B91C1C] focus-visible:ring-[#DC2626]/40"
                 : "bg-[#6133DA] hover:bg-[#4D26B5] focus-visible:ring-[#6133DA]/40"

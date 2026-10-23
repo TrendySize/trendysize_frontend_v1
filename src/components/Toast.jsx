@@ -23,7 +23,7 @@ export default function Toast({ message, tone = "success", onDismiss, duration =
       className="tk-toast-enter pointer-events-none fixed inset-x-0 bottom-[calc(84px+env(safe-area-inset-bottom))] z-[1002] flex justify-center px-4 lg:bottom-5"
     >
       <div
-        className="pointer-events-auto flex w-[min(92vw,380px)] items-start gap-3 rounded-xl border bg-[var(--tk-bg-elevated)] px-4 py-3 shadow-[0_12px_40px_rgba(36,16,101,0.28)]"
+        className="pointer-events-auto flex w-[min(92vw,380px)] items-start gap-3 rounded-xl border bg-[var(--tk-bg-elevated)] px-4 py-3 "
         style={{ borderColor: isError ? "#FCA5A5" : "var(--tk-border-strong)" }}
       >
         <Icon
@@ -33,7 +33,7 @@ export default function Toast({ message, tone = "success", onDismiss, duration =
             isError ? "text-[#B91C1C]" : "text-[#16A34A]"
           }`}
         />
-        <p className="flex-1 text-[13px] font-semibold leading-5 text-[var(--tk-ink)]">
+        <p className="flex-1 text-sm font-semibold leading-5 text-[var(--tk-ink)]">
           {message}
         </p>
         {onDismiss && (

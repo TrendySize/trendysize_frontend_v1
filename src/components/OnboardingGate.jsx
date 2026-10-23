@@ -194,7 +194,7 @@ export default function OnboardingGate({ profile, onProfileChange, children }) {
       <main className="fixed inset-0 z-[1200] flex items-center justify-center bg-[var(--tk-bg)] px-4 py-8">
         <section
           aria-labelledby="email-verification-title"
-          className="w-full max-w-[460px] rounded-2xl border border-[var(--tk-border)] bg-[var(--tk-bg-elevated)] p-6 shadow-2xl sm:p-8"
+          className="w-full max-w-[460px] rounded-xl border border-[var(--tk-border)] bg-[var(--tk-bg-elevated)] p-6  sm:p-8"
         >
           <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-[var(--tk-brand)]/10 text-[var(--tk-brand)]">
             <MailCheck size={24} aria-hidden="true" />
@@ -206,7 +206,7 @@ export default function OnboardingGate({ profile, onProfileChange, children }) {
             Verify your email to continue
           </h1>
           <p className="mt-2 text-sm leading-6 text-[var(--tk-ink-muted)]">
-            Confirm {profile.email ? <strong>{profile.email}</strong> : "your email address"} to unlock your TrendySize workspace. You can request a fresh confirmation link below.
+            Confirm {profile.email ? <strong>{profile.email}</strong> : "your email address"} to start using your TrendySize workspace. You can request a fresh confirmation link below.
           </p>
 
           {confirmationMessage && (

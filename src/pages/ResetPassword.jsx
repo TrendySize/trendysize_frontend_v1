@@ -60,20 +60,20 @@ const ResetPassword = () => {
               <button
                 type="button"
                 onClick={() => navigate("/signin")}
-                className="flex h-8 w-8 items-center justify-center rounded-full bg-[#EBE9FE] text-[#241065] transition-all duration-300 hover:bg-[#DCD6FF] hover:scale-105"
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-[#EBE9FE] text-[#241065] transition-all duration-300 hover:bg-[#DCD6FF] "
               >
                 <HiChevronLeft size={18} />
               </button>
 
               <h1
-                className="flex-1 pr-8 text-center text-[28px] font-bold leading-9 text-[#241065] sm:text-[32px]"
+                className="flex-1 pr-8 text-center text-3xl font-bold leading-9 text-[#241065] sm:text-4xl"
                 style={{ fontFamily: "SF Pro Display, sans-serif" }}
               >
                 New Password
               </h1>
             </div>
 
-            <div className="rounded-[32px] border border-[#E9E7FF] bg-white p-8 shadow-[0_25px_70px_rgba(0,0,0,0.06)] sm:p-10">
+            <div className="rounded-xl border border-[#E9E7FF] bg-white p-8  sm:p-10">
               {linkInvalid ? (
                 <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-center text-sm font-medium text-red-600">
                   This reset link is invalid or incomplete. Please request a new
@@ -97,7 +97,7 @@ const ResetPassword = () => {
 
                   <div className="mb-5">
                     <label
-                      className="mb-2 block text-[16px] font-semibold leading-6 text-[#241065]"
+                      className="mb-2 block text-base font-semibold leading-6 text-[#241065]"
                       style={{ fontFamily: "SF Pro Display, sans-serif" }}
                     >
                       New Password
@@ -109,7 +109,7 @@ const ResetPassword = () => {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         autoComplete="new-password"
-                        className="w-full bg-transparent text-[14px] font-medium text-[#241065] outline-none placeholder:text-[#6B7280] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40"
+                        className="w-full bg-transparent text-sm font-medium text-[#241065] outline-none placeholder:text-[#6B7280] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40"
                       />
                       <button
                         type="button"
@@ -124,7 +124,7 @@ const ResetPassword = () => {
 
                   <div className="mb-5">
                     <label
-                      className="mb-2 block text-[16px] font-semibold leading-6 text-[#241065]"
+                      className="mb-2 block text-base font-semibold leading-6 text-[#241065]"
                       style={{ fontFamily: "SF Pro Display, sans-serif" }}
                     >
                       Confirm Password
@@ -136,7 +136,7 @@ const ResetPassword = () => {
                         value={confirm}
                         onChange={(e) => setConfirm(e.target.value)}
                         autoComplete="new-password"
-                        className="w-full bg-transparent text-[14px] font-medium text-[#241065] outline-none placeholder:text-[#6B7280] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40"
+                        className="w-full bg-transparent text-sm font-medium text-[#241065] outline-none placeholder:text-[#6B7280] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40"
                       />
                     </div>
                   </div>
@@ -144,7 +144,7 @@ const ResetPassword = () => {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="mt-2 flex h-12 w-full items-center justify-center rounded-xl bg-[#6133DA] text-[16px] font-semibold text-white transition-all duration-300 hover:bg-[#4F28C7] hover:shadow-lg active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
+                    className="mt-2 flex h-12 w-full items-center justify-center rounded-xl bg-[#6133DA] text-base font-semibold text-white transition-all duration-300 hover:bg-[#4F28C7]   disabled:cursor-not-allowed disabled:opacity-60"
                     style={{ fontFamily: "SF Pro Display, sans-serif" }}
                   >
                     {loading ? "Resetting…" : "Reset password"}

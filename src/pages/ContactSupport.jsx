@@ -52,7 +52,7 @@ export default function ContactSupport() {
             <BrandLogo
               className="h-9 w-9 max-[380px]:h-8 max-[380px]:w-8"
             />
-            <span className="-ml-1 text-[14px] font-extrabold text-[#241065] max-[380px]:text-[13px]">
+            <span className="-ml-1 text-sm font-extrabold text-[#241065] max-[380px]:text-sm">
               TRENDY<span className="text-[#9B8AFB]">SIZE</span>
             </span>
           </button>
@@ -66,7 +66,7 @@ export default function ContactSupport() {
               <Bell size={19} strokeWidth={1.7} />
               <span className="absolute right-1 top-1 h-1.5 w-1.5 rounded-full bg-[#6133DA]" />
             </button>
-            <span className="hidden text-[14px] font-medium text-[#241065] sm:inline">
+            <span className="hidden text-sm font-medium text-[#241065] sm:inline">
               Contact Support
             </span>
           </div>
@@ -84,10 +84,10 @@ export default function ContactSupport() {
             </button>
 
             <div className="mb-4">
-              <h1 className="text-[20px] font-bold leading-tight text-[#241065] sm:text-[23px] lg:text-[26px]">
+              <h1 className="text-xl font-bold leading-tight text-[#241065] sm:text-2xl lg:text-3xl">
                 Contact Support
               </h1>
-              <p className="mt-1.5 max-w-[650px] text-[12px] leading-[18px] text-[#4B5563] sm:text-[13px] sm:leading-[19px] lg:text-[14px]">
+              <p className="mt-1.5 max-w-[650px] text-xs leading-[18px] text-[#4B5563] sm:text-sm sm:leading-[19px] lg:text-sm">
                 Can’t find what you’re looking for? Tell us what is happening
                 and we’ll help you sort it out.
               </p>
@@ -101,7 +101,7 @@ export default function ContactSupport() {
                 <div className="flex flex-col gap-2">
                   <label
                     htmlFor="support-subject"
-                    className="text-[14px] font-semibold leading-[19px] text-[#241065] sm:text-[16px]"
+                    className="text-sm font-semibold leading-[19px] text-[#241065] sm:text-base"
                   >
                     Subject
                   </label>
@@ -113,14 +113,14 @@ export default function ContactSupport() {
                     value={subject}
                     onChange={(event) => setSubject(event.target.value)}
                     placeholder="Briefly describe your issue"
-                    className="h-12 w-full rounded-lg border border-[#D1D5DB] bg-transparent px-3 py-2 text-[13px] text-[#241065] outline-none placeholder:text-[#6B7280] focus:border-[#9B8AFB] focus:ring-2 focus:ring-[#EBE9FE]"
+                    className="h-12 w-full rounded-lg border border-[#D1D5DB] bg-transparent px-3 py-2 text-sm text-[#241065] outline-none placeholder:text-[#6B7280] focus:border-[#9B8AFB] focus:ring-2 focus:ring-[#EBE9FE]"
                   />
                 </div>
 
                 <div className="flex flex-col gap-2">
                   <label
                     htmlFor="support-message"
-                    className="text-[14px] font-semibold leading-[19px] text-[#241065] sm:text-[16px]"
+                    className="text-sm font-semibold leading-[19px] text-[#241065] sm:text-base"
                   >
                     Message
                   </label>
@@ -131,16 +131,16 @@ export default function ContactSupport() {
                     value={message}
                     onChange={(event) => setMessage(event.target.value)}
                     placeholder="Tell us what happened and how we can help"
-                    className="h-[120px] w-full resize-y rounded-lg border border-[#D1D5DB] bg-transparent px-3 py-2 text-[13px] leading-5 text-[#241065] outline-none placeholder:text-[#6B7280] focus:border-[#9B8AFB] focus:ring-2 focus:ring-[#EBE9FE]"
+                    className="h-[120px] w-full resize-y rounded-lg border border-[#D1D5DB] bg-transparent px-3 py-2 text-sm leading-5 text-[#241065] outline-none placeholder:text-[#6B7280] focus:border-[#9B8AFB] focus:ring-2 focus:ring-[#EBE9FE]"
                   />
-                  <span className="text-right text-[12px] leading-[15px] text-[#6B7280]">
+                  <span className="text-right text-xs leading-[15px] text-[#6B7280]">
                     {message.length}/1000
                   </span>
                 </div>
 
                 <button
                   type="submit"
-                  className="flex h-11 w-full items-center justify-center rounded-[10px] bg-[#6133DA] px-4 text-[15px] font-bold text-[#F4F3FF] transition hover:bg-[#5128C7] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9B8AFB] focus-visible:ring-offset-2 sm:text-[16px]"
+                  className="flex h-11 w-full items-center justify-center rounded-[10px] bg-[#6133DA] px-4 text-sm font-bold text-[#F4F3FF] transition hover:bg-[#5128C7] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9B8AFB] focus-visible:ring-offset-2 sm:text-base"
                 >
                   Send details
                 </button>
@@ -153,7 +153,7 @@ export default function ContactSupport() {
                     strokeWidth={1.5}
                     className="text-[#6133DA]"
                   />
-                  <h2 className="text-[16px] font-semibold text-[#241065]">
+                  <h2 className="text-base font-semibold text-[#241065]">
                     Other ways to reach us
                   </h2>
                 </div>
@@ -168,10 +168,10 @@ export default function ContactSupport() {
                         <Mail size={20} strokeWidth={1.7} />
                       </span>
                       <span className="flex min-w-0 flex-col gap-1">
-                        <span className="text-[13px] font-medium text-[#241065]">
+                        <span className="text-sm font-medium text-[#241065]">
                           Email Support
                         </span>
-                        <span className="truncate text-[12px] text-[#6B7280]">
+                        <span className="truncate text-xs text-[#6B7280]">
                           {supportEmail}
                         </span>
                       </span>
@@ -193,10 +193,10 @@ export default function ContactSupport() {
                         <FaWhatsapp size={20} />
                       </span>
                       <span className="flex min-w-0 flex-col gap-1">
-                        <span className="text-[13px] font-medium text-[#241065]">
+                        <span className="text-sm font-medium text-[#241065]">
                           Whatsapp Support
                         </span>
-                        <span className="text-[12px] text-[#6B7280]">
+                        <span className="text-xs text-[#6B7280]">
                           Chat with our support team
                         </span>
                       </span>

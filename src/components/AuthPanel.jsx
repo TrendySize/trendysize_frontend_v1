@@ -21,7 +21,7 @@ export default function AuthPanel({ heroClassName = "" }) {
           />
 
           <h1
-            className="-ml-2 text-[22px] font-bold tracking-normal text-white"
+            className="-ml-2 text-2xl font-bold tracking-normal text-white"
             style={{ fontFamily: "Agency FB, sans-serif" }}
           >
             TRENDY
@@ -31,7 +31,7 @@ export default function AuthPanel({ heroClassName = "" }) {
 
         <div className="mt-28 max-w-105">
           <h2
-            className="text-[40px] font-bold leading-12 text-[#F4F3FF]"
+            className="text-5xl font-bold leading-12 text-[#F4F3FF]"
             style={{ fontFamily: "SF Pro Display, sans-serif" }}
           >
             Collect and Manage
@@ -44,7 +44,7 @@ export default function AuthPanel({ heroClassName = "" }) {
           </h2>
 
           <p
-            className="mt-8 max-w-90 text-[20px] leading-7 text-[#BCB5FD]"
+            className="mt-8 max-w-90 text-xl leading-7 text-[#BCB5FD]"
             style={{ fontFamily: "SF Pro Display, sans-serif", fontWeight: 510 }}
           >
             Collect, organize and retrieve customer measurements from one simple workspace.

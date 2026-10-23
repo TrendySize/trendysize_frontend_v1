@@ -40,12 +40,12 @@ export default function BrandMarquee() {
     <section className="overflow-x-hidden bg-white py-12 text-slate-900 sm:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 xl:px-12">
         <div className="mx-auto max-w-3xl text-center">
-          <h2 className="text-[24px] font-bold text-[#241065] sm:text-[28px]">
+          <h2 className="text-2xl font-bold text-[#241065] sm:text-3xl">
             Designed for Fashion. Built for Fit.
           </h2>
           <p className="mt-3 text-sm font-medium text-[#6B7280] sm:text-base">
             From independent tailors to growing fashion brands, TrendySize
-            makes measurements simple, digital, and effortless.
+            makes measurements simple and digital.
           </p>
         </div>
 
@@ -68,7 +68,7 @@ export default function BrandMarquee() {
                   alt={brand.name}
                   loading="lazy"
                   decoding="async"
-                  className="h-24 w-auto max-w-[190px] object-contain transition duration-300 hover:scale-110 grayscale hover:grayscale-0"
+                  className="h-24 w-auto max-w-[190px] object-contain transition duration-300 grayscale"
                 />
               </div>
             ))}

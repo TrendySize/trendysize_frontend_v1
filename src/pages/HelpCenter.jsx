@@ -206,7 +206,7 @@ export default function HelpCenter() {
                 className="h-9 w-9 max-[380px]:h-8 max-[380px]:w-8"
               />
 
-              <span className="-ml-1 text-[14px] font-extrabold text-[#241065] max-[380px]:text-[13px]">
+              <span className="-ml-1 text-sm font-extrabold text-[#241065] max-[380px]:text-sm">
                 TRENDY
                 <span className="text-[#9B8AFB]">SIZE</span>
               </span>
@@ -225,7 +225,7 @@ export default function HelpCenter() {
               <span className="absolute right-1 top-1 h-1.5 w-1.5 rounded-full bg-[#6133DA]" />
             </button>
 
-            <span className="hidden text-[13px] font-medium text-[#241065] lg:inline">
+            <span className="hidden text-sm font-medium text-[#241065] lg:inline">
               Help Center
             </span>
 
@@ -241,11 +241,11 @@ export default function HelpCenter() {
                 PAGE INTRO
             ===================================================== */}
             <div className="mb-5 sm:mb-6">
-              <h1 className="text-[21px] font-bold leading-[1.2] text-[#241065] sm:text-[23px]">
+              <h1 className="text-xl font-bold leading-[1.2] text-[#241065] sm:text-2xl">
                 Help Center
               </h1>
 
-              <p className="mt-1.5 max-w-[650px] text-[12px] leading-[18px] text-[#6B7280] sm:text-[13px] sm:leading-5">
+              <p className="mt-1.5 max-w-[650px] text-xs leading-[18px] text-[#6B7280] sm:text-sm sm:leading-5">
                 Find answers, learn how to get the most out of TrendySize,
                 and resolve common issues.
               </p>
@@ -255,7 +255,7 @@ export default function HelpCenter() {
                 SEARCH
             ===================================================== */}
             <div className="mb-7 max-w-[620px]">
-              <label data-tour="help-search" className="flex h-[46px] w-full items-center gap-3 rounded-[12px] border border-[#DDD8F5] bg-white px-3.5 shadow-[0_2px_8px_rgba(36,16,101,0.03)] transition focus-within:border-[#9B8AFB] focus-within:ring-2 focus-within:ring-[#EBE9FE]">
+              <label data-tour="help-search" className="flex h-[46px] w-full items-center gap-3 rounded-[12px] border border-[#DDD8F5] bg-white px-3.5  transition focus-within:border-[#9B8AFB] focus-within:ring-2 focus-within:ring-[#EBE9FE]">
                 <Search
                   size={18}
                   strokeWidth={1.8}
@@ -271,7 +271,7 @@ export default function HelpCenter() {
                   }}
                   placeholder="Search for help..."
                   aria-label="Search Help Center"
-                  className="h-full w-full bg-transparent text-[13px] text-[#241065] outline-none placeholder:text-[#9CA3AF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40"
+                  className="h-full w-full bg-transparent text-sm text-[#241065] outline-none placeholder:text-[#9CA3AF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40"
                 />
 
                 {searchTerm && (
@@ -295,17 +295,17 @@ export default function HelpCenter() {
             ===================================================== */}
             <div className="mb-4 flex items-center justify-between">
               <div>
-                <h2 className="text-[15px] font-bold text-[#241065] sm:text-[16px]">
+                <h2 className="text-sm font-bold text-[#241065] sm:text-base">
                   Browse by category
                 </h2>
 
-                <p className="mt-1 text-[11px] leading-4 text-[#7A748A] sm:text-[12px]">
+                <p className="mt-1 text-xs leading-4 text-[#7A748A] sm:text-xs">
                   Choose a topic to find the help you need.
                 </p>
               </div>
 
               {searchTerm && (
-                <span className="rounded-full bg-[#EBE9FE] px-2.5 py-1 text-[10px] font-semibold text-[#6133DA]">
+                <span className="rounded-full bg-[#EBE9FE] px-2.5 py-1 text-xs font-semibold text-[#6133DA]">
                   {filteredCategories.length}{" "}
                   {filteredCategories.length === 1
                     ? "result"
@@ -333,8 +333,8 @@ export default function HelpCenter() {
                         key={category.title}
                         className={`overflow-hidden rounded-[14px] border bg-white transition-all duration-200 ${
                           isActive
-                            ? "border-[#BDB4F7] shadow-[0_6px_20px_rgba(36,16,101,0.08)]"
-                            : "border-[#E1DDF1] shadow-[0_2px_8px_rgba(36,16,101,0.035)] hover:border-[#CFC7F5] hover:shadow-[0_5px_15px_rgba(36,16,101,0.06)]"
+                            ? "border-[#BDB4F7] "
+                            : "border-[#E1DDF1]  hover:border-[#CFC7F5] "
                         }`}
                       >
                       {/* =================================================
@@ -354,11 +354,11 @@ export default function HelpCenter() {
 
                         {/* Text */}
                         <span className="min-w-0 flex-1">
-                          <span className="block text-[12px] font-bold leading-4 text-[#3F1E94] sm:text-[14px] sm:leading-5">
+                          <span className="block text-xs font-bold leading-4 text-[#3F1E94] sm:text-sm sm:leading-5">
                             {category.title}
                           </span>
 
-                          <span className="mt-0.5 block max-w-[390px] text-[10px] leading-[15px] text-[#6B7280] sm:mt-1 sm:text-[12px] sm:leading-[18px]">
+                          <span className="mt-0.5 block max-w-[390px] text-xs leading-[15px] text-[#6B7280] sm:mt-1 sm:text-xs sm:leading-[18px]">
                             {category.description}
                           </span>
                         </span>
@@ -400,23 +400,23 @@ export default function HelpCenter() {
                             >
                               <div className="flex items-start gap-3">
                                 {/* Number */}
-                                <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#EBE9FE] text-[10px] font-bold text-[#6133DA]">
+                                <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#EBE9FE] text-xs font-bold text-[#6133DA]">
                                   {index + 1}
                                 </span>
 
                                 <div className="min-w-0 flex-1">
-                                  <h3 className="text-[12px] font-semibold leading-5 text-[#3F1E94] sm:text-[13px]">
+                                  <h3 className="text-xs font-semibold leading-5 text-[#3F1E94] sm:text-sm">
                                     {topic.title}
                                   </h3>
 
-                                  <p className="mt-0.5 max-w-[600px] text-[10px] leading-[16px] text-[#6B7280] sm:text-[11px] sm:leading-[17px]">
+                                  <p className="mt-0.5 max-w-[600px] text-xs leading-[16px] text-[#6B7280] sm:text-xs sm:leading-[17px]">
                                     {topic.description}
                                   </p>
 
                                   {topic.href ? (
                                     <a
                                       href={topic.href}
-                                      className="mt-1.5 inline-flex items-center gap-1 text-[10px] font-bold text-[#6133DA] transition hover:text-[#4D26B5] sm:text-[11px]"
+                                      className="mt-1.5 inline-flex items-center gap-1 text-xs font-bold text-[#6133DA] transition hover:text-[#4D26B5] sm:text-xs"
                                     >
                                       {topic.action}
                                       <ArrowRight size={12} />
@@ -425,7 +425,7 @@ export default function HelpCenter() {
                                     <button
                                       type="button"
                                       onClick={() => navigate(topic.path)}
-                                      className="mt-1.5 inline-flex items-center gap-1 text-[10px] font-bold text-[#6133DA] transition hover:text-[#4D26B5] sm:text-[11px]"
+                                      className="mt-1.5 inline-flex items-center gap-1 text-xs font-bold text-[#6133DA] transition hover:text-[#4D26B5] sm:text-xs"
                                     >
                                       {topic.action}
                                       <ArrowRight size={12} />
@@ -446,16 +446,16 @@ export default function HelpCenter() {
               /* =======================================================
                  EMPTY SEARCH STATE
               ======================================================= */
-              <div className="rounded-[14px] border border-[#E1DDF1] bg-white px-5 py-10 text-center shadow-[0_2px_8px_rgba(36,16,101,0.035)] sm:py-12">
+              <div className="rounded-[14px] border border-[#E1DDF1] bg-white px-5 py-10 text-center  sm:py-12">
                 <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[#EBE9FE] text-[#6133DA]">
                   <Search size={20} strokeWidth={1.7} />
                 </div>
 
-                <h3 className="mt-4 text-[14px] font-bold text-[#241065]">
+                <h3 className="mt-4 text-sm font-bold text-[#241065]">
                   No help topics found
                 </h3>
 
-                <p className="mx-auto mt-1.5 max-w-[330px] text-[11px] leading-[17px] text-[#6B7280]">
+                <p className="mx-auto mt-1.5 max-w-[330px] text-xs leading-[17px] text-[#6B7280]">
                   No help topics match “{searchTerm}”. Try searching with
                   another word or phrase.
                 </p>
@@ -466,7 +466,7 @@ export default function HelpCenter() {
                     setSearchTerm("");
                     setActiveCategory(null);
                   }}
-                  className="mt-4 rounded-[9px] bg-[#6133DA] px-4 py-2 text-[11px] font-semibold text-white transition hover:bg-[#5128C7]"
+                  className="mt-4 rounded-[9px] bg-[#6133DA] px-4 py-2 text-xs font-semibold text-white transition hover:bg-[#5128C7]"
                 >
                   Clear Search
                 </button>
@@ -479,11 +479,11 @@ export default function HelpCenter() {
             <div className="mt-6 rounded-[14px] border border-[#DDD8F5] bg-[#EBE9FE] px-4 py-4 sm:px-5 sm:py-5">
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                  <p className="text-[12px] font-bold text-[#241065] sm:text-[13px]">
+                  <p className="text-xs font-bold text-[#241065] sm:text-sm">
                     New to TrendySize, or need a refresher?
                   </p>
 
-                  <p className="mt-0.5 text-[10px] leading-4 text-[#6B7280] sm:text-[11px]">
+                  <p className="mt-0.5 text-xs leading-4 text-[#6B7280] sm:text-xs">
                     Take the guided tour to see the dashboard, customers,
                     measurement links, storefront, subscription and support.
                   </p>
@@ -492,7 +492,7 @@ export default function HelpCenter() {
                 <button
                   type="button"
                   onClick={startGuidedTour}
-                  className="inline-flex h-9 shrink-0 items-center justify-center gap-1.5 rounded-[9px] border border-[#6133DA] bg-white px-4 text-[10px] font-semibold text-[#6133DA] transition hover:bg-[#F4F3FF] sm:h-10 sm:px-5 sm:text-[11px]"
+                  className="inline-flex h-9 shrink-0 items-center justify-center gap-1.5 rounded-[9px] border border-[#6133DA] bg-white px-4 text-xs font-semibold text-[#6133DA] transition hover:bg-[#F4F3FF] sm:h-10 sm:px-5 sm:text-xs"
                 >
                   <Compass size={13} />
                   Take the tour
@@ -506,18 +506,18 @@ export default function HelpCenter() {
             <div className="mt-7 rounded-[14px] border border-[#DDD8F5] bg-white px-4 py-4 sm:px-5 sm:py-5">
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                  <p className="text-[12px] font-bold text-[#241065] sm:text-[13px]">
+                  <p className="text-xs font-bold text-[#241065] sm:text-sm">
                     Still need help?
                   </p>
 
-                  <p className="mt-0.5 text-[10px] leading-4 text-[#6B7280] sm:text-[11px]">
+                  <p className="mt-0.5 text-xs leading-4 text-[#6B7280] sm:text-xs">
                     Our support team can help you with any TrendySize issue.
                   </p>
                 </div>
 
                 <a
                   href="/contact-support"
-                  className="inline-flex h-9 items-center justify-center gap-1.5 rounded-[9px] bg-[#6133DA] px-4 text-[10px] font-semibold text-white transition hover:bg-[#5128C7] sm:h-10 sm:px-5 sm:text-[11px]"
+                  className="inline-flex h-9 items-center justify-center gap-1.5 rounded-[9px] bg-[#6133DA] px-4 text-xs font-semibold text-white transition hover:bg-[#5128C7] sm:h-10 sm:px-5 sm:text-xs"
                 >
                   Contact Support
                   <ArrowRight size={13} />

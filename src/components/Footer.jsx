@@ -51,7 +51,7 @@ const Footer = () => {
           </div>
 
           {/* Description */}
-          <p className="mt-3 text-[13px] font-medium leading-[18px] text-[#9B8CF9] sm:text-[14px] sm:leading-[20px] lg:text-left">
+          <p className="mt-3 text-sm font-medium leading-[18px] text-[#9B8CF9] sm:text-sm sm:leading-[20px] lg:text-left">
             The simple way for tailors and fashion businesses to collect,
             organize and manage customer measurements digitally.
           </p>
@@ -83,7 +83,7 @@ const Footer = () => {
 
           {/* Product */}
           <div className="flex flex-col gap-2 text-left">
-            <h4 className="text-[13px] font-semibold uppercase text-[#4C2BB0] sm:text-[14px]">
+            <h4 className="text-sm font-semibold uppercase text-[#4C2BB0] sm:text-sm">
               PRODUCT
             </h4>
 
@@ -91,7 +91,7 @@ const Footer = () => {
               <Link
                 key={item.label}
                 to={item.to}
-                className="text-[13px] font-medium text-[#4B5563] transition-colors duration-300 hover:text-[#6133DA] sm:text-[14px]"
+                className="text-sm font-medium text-[#4B5563] transition-colors duration-300 hover:text-[#6133DA] sm:text-sm"
               >
                 {item.label}
               </Link>
@@ -100,7 +100,7 @@ const Footer = () => {
 
           {/* Resources */}
           <div className="flex flex-col gap-2 text-left">
-            <h4 className="text-[13px] font-semibold uppercase text-[#4C2BB0] sm:text-[14px]">
+            <h4 className="text-sm font-semibold uppercase text-[#4C2BB0] sm:text-sm">
               RESOURCES
             </h4>
 
@@ -108,7 +108,7 @@ const Footer = () => {
               <Link
                 key={item.label}
                 to={item.to}
-                className="text-[13px] font-medium text-[#4B5563] transition-colors duration-300 hover:text-[#6133DA] sm:text-[14px]"
+                className="text-sm font-medium text-[#4B5563] transition-colors duration-300 hover:text-[#6133DA] sm:text-sm"
               >
                 {item.label}
               </Link>
@@ -117,7 +117,7 @@ const Footer = () => {
 
           {/* Company */}
           <div className="flex flex-col gap-2 text-left">
-            <h4 className="text-[13px] font-semibold uppercase text-[#4C2BB0] sm:text-[14px]">
+            <h4 className="text-sm font-semibold uppercase text-[#4C2BB0] sm:text-sm">
               COMPANY
             </h4>
 
@@ -125,7 +125,7 @@ const Footer = () => {
               <Link
                 key={item.label}
                 to={item.to}
-                className="text-[13px] font-medium text-[#4B5563] transition-colors duration-300 hover:text-[#6133DA] sm:text-[14px]"
+                className="text-sm font-medium text-[#4B5563] transition-colors duration-300 hover:text-[#6133DA] sm:text-sm"
               >
                 {item.label}
               </Link>
@@ -137,7 +137,7 @@ const Footer = () => {
 
       <div className="mx-auto mt-10 w-full max-w-7xl px-2 sm:px-8">
         <div className="border-t border-slate-200 pt-8 text-center">
-          <p className="inline-flex h-auto items-center text-[11px] font-normal leading-[15px] text-[#6133DA] sm:text-[12px]">
+          <p className="inline-flex h-auto items-center text-xs font-normal leading-[15px] text-[#6133DA] sm:text-xs">
             © 2026 Trendysize. All rights reserved.
           </p>
         </div>

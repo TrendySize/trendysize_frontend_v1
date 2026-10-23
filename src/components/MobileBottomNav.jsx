@@ -107,7 +107,7 @@ export default function MobileBottomNav({ activeLabel = "Dashboard" }) {
   }, [moreOpen]);
 
   const tabClass = (active) =>
-    `flex flex-1 flex-col items-center justify-center gap-0.5 py-2 text-[10px] font-medium leading-none transition-colors duration-[var(--tk-dur-base)] ease-[var(--tk-ease-out)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--tk-brand)] ${
+    `flex flex-1 flex-col items-center justify-center gap-0.5 py-2 text-xs font-medium leading-none transition-colors duration-[var(--tk-dur-base)] ease-[var(--tk-ease-out)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--tk-brand)] ${
       active ? "text-[var(--tk-brand)]" : "text-[var(--tk-ink-muted)] hover:text-[var(--tk-ink-soft)]"
     }`;
 
@@ -128,10 +128,10 @@ export default function MobileBottomNav({ activeLabel = "Dashboard" }) {
             role="dialog"
             aria-modal="true"
             aria-label="More options"
-            className="tk-glass tk-glass-line relative z-10 rounded-t-2xl border-t border-[var(--tk-glass-border)] pb-[calc(env(safe-area-inset-bottom)+12px)] shadow-2xl"
+            className="tk-glass tk-glass-line relative z-10 rounded-t-2xl border-t border-[var(--tk-glass-border)] pb-[calc(env(safe-area-inset-bottom)+12px)] "
           >
             <div className="flex items-center justify-between px-4 pt-3 pb-1">
-              <span className="text-[13px] font-bold text-[var(--tk-ink)]">
+              <span className="text-sm font-bold text-[var(--tk-ink)]">
                 More
               </span>
               <button
@@ -150,7 +150,7 @@ export default function MobileBottomNav({ activeLabel = "Dashboard" }) {
                   key={label}
                   to={path}
                   onClick={() => setMoreOpen(false)}
-                  className="flex items-center gap-3 rounded-xl px-3 py-3 text-[14px] font-medium text-[var(--tk-ink)] transition hover:bg-[var(--tk-surface)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tk-brand)]"
+                  className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-[var(--tk-ink)] transition hover:bg-[var(--tk-surface)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tk-brand)]"
                 >
                   <Icon
                     size={18}
@@ -163,7 +163,7 @@ export default function MobileBottomNav({ activeLabel = "Dashboard" }) {
               ))}
 
               <div className="flex items-center justify-between rounded-xl px-3 py-2.5">
-                <span className="text-[14px] font-medium text-[var(--tk-ink)]">
+                <span className="text-sm font-medium text-[var(--tk-ink)]">
                   Appearance
                 </span>
                 <ThemeToggle />
@@ -172,7 +172,7 @@ export default function MobileBottomNav({ activeLabel = "Dashboard" }) {
               <button
                 type="button"
                 onClick={handleLogout}
-                className="flex items-center gap-3 rounded-xl px-3 py-3 text-[14px] font-medium text-[#EF4444] transition hover:bg-[#EF4444]/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#EF4444]/50"
+                className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-[#EF4444] transition hover:bg-[#EF4444]/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#EF4444]/50"
               >
                 <LogOut size={18} strokeWidth={1.6} aria-hidden="true" />
                 Logout
@@ -204,7 +204,7 @@ export default function MobileBottomNav({ activeLabel = "Dashboard" }) {
                   active ? "motion-safe:-translate-y-0.5" : ""
                 }`}
               />
-              <span className="max-[360px]:text-[9px]">
+              <span className="max-[360px]:text-xs">
                 {label}
               </span>
             </Link>
@@ -219,7 +219,7 @@ export default function MobileBottomNav({ activeLabel = "Dashboard" }) {
           className={tabClass(moreActive)}
         >
           <MoreHorizontal size={22} strokeWidth={1.8} aria-hidden="true" />
-          <span className="max-[360px]:text-[9px]">More</span>
+          <span className="max-[360px]:text-xs">More</span>
         </button>
       </nav>
     </>

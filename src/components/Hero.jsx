@@ -38,7 +38,7 @@ const Hero = () => {
           <div className="z-20 max-w-full text-center sm:text-left">
 
             <h2
-              className="text-[28px] font-bold leading-tight text-[#241065] sm:text-[36px] lg:text-[42px] lg:leading-[50px] max-[380px]:text-[24px] max-[380px]:leading-[30px]"
+              className="text-3xl font-bold leading-tight text-[#241065] sm:text-4xl lg:text-5xl lg:leading-[50px] max-[380px]:text-2xl max-[380px]:leading-[30px]"
               style={{ fontFamily: "SF Pro Display" }}
             >
               Collect and Manage
@@ -49,14 +49,14 @@ const Hero = () => {
             </h2>
 
             <p
-              className="mx-auto mt-5 max-w-[820px] text-[16px] leading-7 text-[#4B5563] sm:mx-0 sm:mt-8 sm:text-[20px] lg:mt-10 lg:text-[24px] lg:leading-[32px] max-[380px]:mt-3 max-[380px]:text-[14px] max-[380px]:leading-5 sm:hidden"
+              className="mx-auto mt-5 max-w-[820px] text-base leading-7 text-[#4B5563] sm:mx-0 sm:mt-8 sm:text-xl lg:mt-10 lg:text-2xl lg:leading-[32px] max-[380px]:mt-3 max-[380px]:text-sm max-[380px]:leading-5 sm:hidden"
               style={{ fontFamily: "SF Pro Display" }}
             >
               Collect, organize, and retrieve customer measurements from one simple workspace built for quick fit sessions and smoother follow-ups.
             </p>
 
             <p
-              className="mx-auto mt-5 hidden max-w-[820px] text-[16px] leading-7 text-[#4B5563] sm:mx-0 sm:mt-8 sm:block sm:text-[20px] lg:mt-10 lg:text-[24px] lg:leading-[32px]"
+              className="mx-auto mt-5 hidden max-w-[820px] text-base leading-7 text-[#4B5563] sm:mx-0 sm:mt-8 sm:block sm:text-xl lg:mt-10 lg:text-2xl lg:leading-[32px]"
               style={{ fontFamily: "SF Pro Display" }}
             >
               Collect, organize and retrieve customer measurements from one simple workspace
@@ -66,14 +66,14 @@ const Hero = () => {
               <button
                 type="button"
                 onClick={() => navigate("/signup")}
-                className="h-[48px] w-full rounded-lg bg-[#6133DA] font-medium text-white transition hover:bg-[#4D26B5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40 focus-visible:ring-offset-2 sm:w-[220px] max-[380px]:h-[43px] max-[380px]:text-[13px]"
+                className="h-[48px] w-full rounded-lg bg-[#6133DA] font-medium text-white transition hover:bg-[#4D26B5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40 focus-visible:ring-offset-2 sm:w-[220px] max-[380px]:h-[43px] max-[380px]:text-sm"
               >
                 Create free account
               </button>
 
               <a
                 href="#how-it-works"
-                className="flex h-[48px] w-full items-center justify-center rounded-lg border border-[#6133DA] bg-transparent font-medium text-[#4C2BB0] transition hover:bg-[#EBE9FE] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40 sm:w-[220px] max-[380px]:h-[43px] max-[380px]:text-[13px]"
+                className="flex h-[48px] w-full items-center justify-center rounded-lg border border-[#6133DA] bg-transparent font-medium text-[#4C2BB0] transition hover:bg-[#EBE9FE] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6133DA]/40 sm:w-[220px] max-[380px]:h-[43px] max-[380px]:text-sm"
               >
                 Learn more
               </a>
@@ -89,7 +89,7 @@ const Hero = () => {
             aria-hidden="true"
             fetchPriority="high"
             decoding="async"
-            className="z-10 h-[90vw] w-[125vw] max-h-[760px] max-w-[760px] rotate-[-8deg] drop-shadow-[0_20px_20px_rgba(0,0,0,0.15)] object-contain sm:h-[560px] sm:w-[560px] lg:h-[760px] lg:w-[760px] max-[380px]:h-[75vw] max-[380px]:w-[95vw]"
+            className="z-10 h-[90vw] w-[125vw] max-h-[760px] max-w-[760px] rotate-[-8deg]  object-contain sm:h-[560px] sm:w-[560px] lg:h-[760px] lg:w-[760px] max-[380px]:h-[75vw] max-[380px]:w-[95vw]"
           />
         </div>
       </div>
