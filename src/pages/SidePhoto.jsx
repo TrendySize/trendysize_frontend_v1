@@ -540,10 +540,6 @@ export default function SidePhoto() {
         {/* PRIVACY */}
 
         <div className="mt-3 flex items-center justify-center gap-1.5 px-4 text-center">
-          <span aria-hidden="true" className="text-xs text-[#6D4CE0]">
-            ♥
-          </span>
-
           <p className="text-xs text-[#241065]">
             Used only for your measurements and shared only with your vendor.
           </p>
@@ -553,4 +549,3 @@ export default function SidePhoto() {
     </div>
   );
 }
-
