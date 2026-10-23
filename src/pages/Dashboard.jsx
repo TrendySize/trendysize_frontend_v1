@@ -100,7 +100,7 @@ function useCountUp(value, { duration = 900, enabled = true } = {}) {
   return display;
 }
 
-// Lightweight SVG sparkline — no chart dependency. Draws a smooth-ish area
+// Lightweight SVG sparkline - no chart dependency. Draws a smooth-ish area
 // line for a small series of daily counts and animates its draw on mount.
 function Sparkline({ points, stroke = "#6133DA", fill = "rgba(97,51,218,0.14)", height = 44 }) {
   const shouldReduceMotion = useReducedMotion();
@@ -427,7 +427,7 @@ export default function Dashboard() {
       else if (status === "submitted" || status === "completed")
         base.submitted += 1;
 
-      if (m?.frontImageUrl || m?.sideImageUrl) base.withPhotos += 1;
+      if (m?.hasPhotos) base.withPhotos += 1;
 
       const stamp = m?.analysedAt || m?.createdAt;
       if (stamp) {
@@ -498,7 +498,7 @@ export default function Dashboard() {
   const vanityWhatsappLink = whatsappDirectLink || publicProfileLink;
 
   // ============================================================
-  // LIVELY DASHBOARD — animated figures (respects reduced motion)
+  // LIVELY DASHBOARD - animated figures (respects reduced motion)
   // ============================================================
   const shouldReduceMotion = useReducedMotion();
   const loaded = !loading;
@@ -660,7 +660,7 @@ export default function Dashboard() {
     }
   };
 
-  // WhatsApp CTA — copies the vendor's DIRECT WhatsApp chat link (wa.me),
+  // WhatsApp CTA - copies the vendor's DIRECT WhatsApp chat link (wa.me),
   // so it opens their chat straight away when tapped or pasted.
   const copyWhatsappLink = async () => {
     if (!whatsappDirectLink) {
@@ -1101,7 +1101,7 @@ export default function Dashboard() {
                   </span>
                 </p>
 
-                {/* PRIMARY CTA — creates a per-customer measurement link
+                {/* PRIMARY CTA - creates a per-customer measurement link
                     (guide §5). Generation needs a customer, so route to the
                     Customers page rather than generating here. */}
                 <button
@@ -1751,7 +1751,7 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              {/* Proportional bar — animates its segments on mount. */}
+              {/* Proportional bar - animates its segments on mount. */}
               <div
                 className="mt-[10px] flex h-[10px] w-full overflow-hidden rounded-full bg-[#Dedafb]"
                 role="img"

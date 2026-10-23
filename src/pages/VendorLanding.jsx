@@ -79,7 +79,7 @@ export default function VendorLanding() {
       if (!active) return;
 
       if (result.kind === "redirect") {
-        // Vendor is active — hand off to the backend's 302 → wa.me.
+        // Vendor is active - hand off to the backend's 302 → wa.me.
         if (!navigatedRef.current) {
           navigatedRef.current = true;
           window.location.replace(backendVanityUrl(username));

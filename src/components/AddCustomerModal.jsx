@@ -9,14 +9,14 @@ import { customerDisplayName, useOverlay } from "../profileShared";
 
 /*
 |--------------------------------------------------------------------------
-| ADD CUSTOMER MODAL (guide §4.1 — POST /api/customers upsert-by-phone)
+| ADD CUSTOMER MODAL (guide §4.1 - POST /api/customers upsert-by-phone)
 |--------------------------------------------------------------------------
 |
 | The backend upserts on PhoneNumber: posting an existing number returns the
 | existing customer (200) instead of a duplicate. We surface that to the
 | vendor ("already in your records") rather than silently adding a row.
 |
-| Gender must be a JSON number (0 = Male, 1 = Female) — no enum converter is
+| Gender must be a JSON number (0 = Male, 1 = Female) - no enum converter is
 | registered server-side.
 |
 */

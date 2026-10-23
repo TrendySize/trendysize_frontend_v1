@@ -6,7 +6,7 @@ import OnboardingGate from "./OnboardingGate";
 
 // A cached profile makes the app usable instantly. The .NET backend can be
 // cold (Render free tier: 15–60s), so we must NOT block the whole UI on a
-// fresh /auth/me — that looked like a blank page. If we have a token we render
+// fresh /auth/me - that looked like a blank page. If we have a token we render
 // right away and verify in the background, only bouncing on a hard 401.
 function readCachedUser() {
   try {
@@ -61,7 +61,7 @@ export default function ProtectedRoute() {
       .catch((error) => {
         if (!active) return;
         // Only sign out on a real auth failure. A network error / cold-start
-        // timeout must not log the user out — keep the cached session.
+        // timeout must not log the user out - keep the cached session.
         if (error?.status === 401) {
           clearToken();
           setStatus("anon");

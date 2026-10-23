@@ -6,7 +6,7 @@
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
     Roboto, "Helvetica Neue", Arial, sans-serif;
 
-  /* Brand palette — single source of truth for the design system. */
+  /* Brand palette - single source of truth for the design system. */
   --color-brand-900: #241065;
   --color-brand-700: #3F1E94;
   --color-brand-600: #4C2BB0;
@@ -57,7 +57,7 @@
   --tk-toggle-track: #EBE9FE;
   --tk-toggle-thumb: #FFFFFF;
   --tk-toggle-thumb-ink: #6133DA;
-/* Motion tokens — one source of truth for app-wide transition timing.
+/* Motion tokens - one source of truth for app-wide transition timing.
    * Enter eases out (decelerates on arrival); exits resolve faster. */
   --tk-dur-fast: 150ms;
   --tk-dur-base: 240ms;
@@ -65,7 +65,7 @@
   --tk-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --tk-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 
-  /* Light glass — frosted chrome over content. Tint follows the brand
+  /* Light glass - frosted chrome over content. Tint follows the brand
    * surface so it reads as intentional, not a generic white blur. */
   --tk-glass-bg: rgba(255, 255, 255, 0.62);
   --tk-glass-bg-strong: rgba(255, 255, 255, 0.78);
@@ -73,7 +73,7 @@
   --tk-glass-highlight: rgba(255, 255, 255, 0.7);
   --tk-glass-blur: 18px;
 
-  /* Content cards — near-solid surfaces with restrained hover feedback. */
+  /* Content cards - near-solid surfaces with restrained hover feedback. */
   --tk-tile-bg: #FFFFFF;
   --tk-tile-bg-hover: #FFFFFF;
 
@@ -358,7 +358,7 @@ html.dark .tk-loader__logo .tk-brand-logo__img {
   }
 }
 
-/* Scrim + dialog entrance — the scrim fades, the panel rises/scales in.
+/* Scrim + dialog entrance - the scrim fades, the panel rises/scales in.
  * Deceleration easing so it settles rather than snaps. */
 @keyframes tk-scrim-in {
   from {
@@ -399,7 +399,7 @@ html.dark .tk-loader__logo .tk-brand-logo__img {
 
 /* Toast entrance animates opacity and vertical offset only. Horizontal
  * centering is done with auto margins (inset-x-0 + mx-auto) on the toast box
- * so the animation never has to encode a -50% X translate — combining it with
+ * so the animation never has to encode a -50% X translate - combining it with
  * Tailwind's translate utilities double-applied the offset and pushed the
  * toast off-screen. */
 @keyframes tk-toast-in {

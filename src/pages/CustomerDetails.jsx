@@ -336,7 +336,7 @@ export default function CustomerDetails() {
 
           {/* MAIN GRID */}
 
-          <div className="grid grid-cols-1 gap-6 xl:grid-cols-[1fr_190px]">
+          <div className="grid grid-cols-1 gap-6">
 
             {/* LEFT */}
 
@@ -497,34 +497,6 @@ export default function CustomerDetails() {
 
             </div>
 
-            {/* RIGHT - RECENT SCAN */}
-
-            <div className="h-fit rounded-[7px] border border-[#BDB4F7] bg-[#F4F3FF]">
-
-              <div className="border-b border-[#DDD8F6] px-4 py-3 text-center">
-
-                <h2 className="text-xs font-bold text-[#241065]">
-                  Recent Scan
-                </h2>
-
-              </div>
-
-              <div className="p-4">
-
-                <ScanImage
-                  src={measurement?.frontImageUrl || null}
-                  alt="Front scan"
-                />
-
-                <ScanImage
-                  src={measurement?.sideImageUrl || null}
-                  alt="Side scan"
-                />
-
-              </div>
-
-            </div>
-
           </div>
 
         </section>
@@ -571,55 +543,6 @@ function InfoField({
       <div className="flex h-[25px] items-center rounded-[3px] border border-[#DDD8F6] bg-white px-2 text-xs text-[#241065]">
         {value}
       </div>
-
-    </div>
-  );
-}
-
-/*
-|--------------------------------------------------------------------------
-| SCAN IMAGE
-|--------------------------------------------------------------------------
-*/
-
-function ScanImage({
-  src,
-  alt,
-}) {
-  const [imageError, setImageError] =
-    useState(false);
-
-  if (!src || imageError) {
-
-    return (
-      <div className="mb-3 flex h-[105px] items-center justify-center overflow-hidden rounded-[4px] border border-[#DDD8F6] bg-white">
-
-        <div className="text-center">
-
-          <Ruler
-            size={22}
-            className="mx-auto text-[#C9C3E8]"
-          />
-
-          <p className="mt-2 text-xs text-[#A19ABA]">
-            No scan available
-          </p>
-
-        </div>
-
-      </div>
-    );
-  }
-
-  return (
-    <div className="mb-3 flex h-[105px] items-center justify-center overflow-hidden rounded-[4px] border border-[#DDD8F6] bg-white">
-
-      <img
-        src={src}
-        alt={alt}
-        className="h-full w-full object-contain"
-        onError={() => setImageError(true)}
-      />
 
     </div>
   );

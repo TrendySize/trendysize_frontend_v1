@@ -72,7 +72,7 @@ export default function Customers() {
   const [linkTarget, setLinkTarget] = useState(null);
   const [linkModalOpen, setLinkModalOpen] = useState(false);
 
-  // Add customer (POST /api/customers — upsert by phone number).
+  // Add customer (POST /api/customers - upsert by phone number).
   const [addModalOpen, setAddModalOpen] = useState(false);
 
   /*
@@ -802,7 +802,7 @@ export default function Customers() {
 
           {/* =====================================================
               DESKTOP SUMMARY CARDS
-              DESKTOP ONLY — ORIGINAL DESIGN
+              DESKTOP ONLY - ORIGINAL DESIGN
           ===================================================== */}
 
           <div className="hidden grid-cols-1 gap-4 md:grid md:grid-cols-3">

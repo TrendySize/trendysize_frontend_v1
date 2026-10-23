@@ -30,7 +30,7 @@ import { getPublicVendorProfile, backendVanityUrl } from "../services/api";
 | tagline, an About section, and a prominent "Chat on WhatsApp" action.
 |
 | The WhatsApp button links to the backend vanity endpoint
-| GET /api/public/v/{username} (guide §6.1), which 302s to wa.me — we never
+| GET /api/public/v/{username} (guide §6.1), which 302s to wa.me - we never
 | expose the raw phone number to the page.
 |
 | Visitors only ever see public business information. Every field the vendor
@@ -394,7 +394,7 @@ export default function PublicVendorProfile() {
           </a>
         )}
 
-        {/* EMPTY-DETAILS NOTE — only when the vendor has added nothing yet. */}
+        {/* EMPTY-DETAILS NOTE - only when the vendor has added nothing yet. */}
         {!hasDetails && (
           <p className="mt-6 rounded-xl border border-[var(--tk-border)] bg-[var(--tk-surface-muted)] px-4 py-4 text-center text-xs leading-6 text-[var(--tk-ink-muted)]">
             This vendor hasn't added their store details yet. You can still

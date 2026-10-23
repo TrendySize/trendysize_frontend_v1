@@ -68,7 +68,7 @@ export function deriveSpecialtyLine(profile) {
   return line || (profile.specialtyLine || "").trim();
 }
 
-// Location only (city, region) — shown directly under the business name.
+// Location only (city, region) - shown directly under the business name.
 export function deriveLocationLine(profile) {
   return [profile.city, profile.region]
     .map((part) => (part || "").trim())

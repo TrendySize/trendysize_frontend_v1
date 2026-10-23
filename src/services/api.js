@@ -1,5 +1,5 @@
 ﻿// ============================================================================
-// TrendySize API client — wired to the .NET backend (TrendySize.Api)
+// TrendySize API client - wired to the .NET backend (TrendySize.Api)
 //
 // Contracts follow Backend-DotNet/FRONTEND_WIRING_GUIDE.md.
 // Base URL: VITE_API_URL in .env, e.g. http://localhost:5128/api
@@ -46,7 +46,7 @@ export function setUnauthorizedHandler(handler) {
 }
 
 // ============================================================================
-// ERROR READER — the backend has THREE error shapes (guide §7):
+// ERROR READER - the backend has THREE error shapes (guide §7):
 //   1. { "message": "..." }                       (deliberate)
 //   2. { errors: { Field: ["..."] }, title, ... } (ASP.NET model validation)
 //   3. ["PasswordTooWeak", ...]                   (Identity/EF)
@@ -119,7 +119,7 @@ export async function apiRequest(endpoint, options = {}) {
 
   const headers = {
     Accept: "application/json",
-    // Never set Content-Type for FormData — the browser adds the multipart
+    // Never set Content-Type for FormData - the browser adds the multipart
     // boundary itself.
     ...(isFormData ? {} : { "Content-Type": "application/json" }),
     ...(options.headers || {}),
@@ -178,7 +178,7 @@ export async function apiRequest(endpoint, options = {}) {
 // AUTH  (guide §3)
 // ============================================================================
 
-// 3.1 Signup — PascalCase fields. Username is required. No password_confirmation.
+// 3.1 Signup - PascalCase fields. Username is required. No password_confirmation.
 export function signup({
   firstName,
   lastName,
@@ -202,7 +202,7 @@ export function signup({
   });
 }
 
-// 3.2 Confirm email — from the emailed link (?userId=&token=).
+// 3.2 Confirm email - from the emailed link (?userId=&token=).
 export function confirmEmail(userId, token) {
   return apiRequest("/auth/confirm-email", {
     method: "POST",
@@ -226,7 +226,7 @@ export function getEmailStatus() {
   return apiRequest("/auth/email-status", { method: "GET" });
 }
 
-// 3.3 Login — email + password only.
+// 3.3 Login - email + password only.
 export function login(email, password) {
   return apiRequest("/auth/login", {
     method: "POST",
@@ -234,7 +234,7 @@ export function login(email, password) {
   });
 }
 
-// 3.3b Google sign-in — idToken from GIS; username only needed on first-time creation.
+// 3.3b Google sign-in - idToken from GIS; username only needed on first-time creation.
 export function googleSignIn({ idToken, username, whatsappNumber }) {
   return apiRequest("/auth/google", {
     method: "POST",
@@ -246,7 +246,7 @@ export function googleSignIn({ idToken, username, whatsappNumber }) {
   });
 }
 
-// 3.4 Logout — stateless; the client just discards the token.
+// 3.4 Logout - stateless; the client just discards the token.
 export function logout() {
   return apiRequest("/auth/logout", { method: "POST" });
 }
@@ -256,7 +256,7 @@ export function getProfile() {
   return apiRequest("/auth/me", { method: "GET" });
 }
 
-// Onboarding — recorded per account so the policy gate and tour survive
+// Onboarding - recorded per account so the policy gate and tour survive
 // switching devices.
 export function acceptDataPolicy() {
   return apiRequest("/auth/accept-data-policy", { method: "POST" });
@@ -266,7 +266,7 @@ export function completeGuidedTour() {
   return apiRequest("/auth/tour-completed", { method: "POST" });
 }
 
-// 3.6 Partial profile update — PascalCase, null fields ignored.
+// 3.6 Partial profile update - PascalCase, null fields ignored.
 export function updateProfile(fields) {
   return apiRequest("/auth/me", {
     method: "PUT",
@@ -274,7 +274,7 @@ export function updateProfile(fields) {
   });
 }
 
-// 3.7 Profile/banner image upload — multipart, fields "File" and "Type".
+// 3.7 Profile/banner image upload - multipart, fields "File" and "Type".
 export function uploadProfileImage(file, type) {
   const form = new FormData();
   form.append("File", file);
@@ -283,7 +283,7 @@ export function uploadProfileImage(file, type) {
 }
 
 // ============================================================================
-// FEATURED WORK  (vendor portfolio — guide §6.3)
+// FEATURED WORK  (vendor portfolio - guide §6.3)
 // ============================================================================
 
 export function getVendorProjects() {
@@ -335,7 +335,7 @@ export function resetPassword(email, token, newPassword) {
 }
 
 // ============================================================================
-// CUSTOMERS  (guide §4)  — Gender is a NUMBER (0 = Male, 1 = Female)
+// CUSTOMERS  (guide §4)  - Gender is a NUMBER (0 = Male, 1 = Female)
 // ============================================================================
 
 export function getCustomers() {
@@ -402,7 +402,7 @@ export function generateMeasurementLinkForNewCustomer({
   });
 }
 
-// GET /api/subscription — read-only subscription state for the authenticated
+// GET /api/subscription - read-only subscription state for the authenticated
 // vendor. Used to pre-check whether link generation is allowed before POSTing
 // to /measurements/generate-link. Shape: { isActive, status, isSubscriptionActive,
 // subscriptionExpiresAt, canGenerateLinks, freeLinksRemaining, freeLinksLimit, freeLinksUsed }.
@@ -440,12 +440,12 @@ export function markAllNotificationsRead() {
 }
 
 // ============================================================================
-// PUBLIC  (guide §6) — no auth
+// PUBLIC  (guide §6) - no auth
 // ============================================================================
 
 // The vendor's PUBLIC profile page in OUR app (/vendor/{username}). This is the
 // canonical store-handle link customers open: it renders the vendor's business
-// profile with a WhatsApp button. Never share the raw backend URL — it dumps
+// profile with a WhatsApp button. Never share the raw backend URL - it dumps
 // JSON.
 export function publicProfileLinkFor(username) {
   const origin =
@@ -469,7 +469,7 @@ export function backendVanityUrl(username) {
 
 // Normalise a raw phone number into the digits-only international form wa.me
 // requires. Vendors often store a local number (e.g. Nigerian "0807…") which
-// wa.me rejects with "This link couldn't be opened" — so strip non-digits, drop
+// wa.me rejects with "This link couldn't be opened" - so strip non-digits, drop
 // a leading international "00", then convert a leading local "0" to 234.
 export function toWhatsappDigits(whatsappNumber) {
   let digits = String(whatsappNumber || "").replace(/\D/g, "");
@@ -500,8 +500,8 @@ export function whatsappDirectLinkFor(whatsappNumber) {
 
 // Probe a vendor vanity link without following the 302 (guide §6.1).
 // Returns one of:
-//   { kind: "redirect" }                    — vendor active; navigate browser to link
-//   { kind: "inactive"|"notfound"|"error", message }  — show a result card
+//   { kind: "redirect" }                    - vendor active; navigate browser to link
+//   { kind: "inactive"|"notfound"|"error", message }  - show a result card
 export async function probeVendorVanity(username) {
   const url = backendVanityUrl(username);
 
@@ -552,7 +552,7 @@ export async function probeVendorVanity(username) {
 }
 
 // Fetch the vendor's public business profile for the customer-facing profile
-// page (guide §6.3). Public — no auth. Returns the raw vendor object, or throws
+// page (guide §6.3). Public - no auth. Returns the raw vendor object, or throws
 // ApiError with the backend message (404 "Vendor not found." / 400 inactive).
 export function getPublicVendorProfile(username) {
   return apiRequest(`/public/v/${encodeURIComponent(username)}/profile`, {

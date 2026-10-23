@@ -96,7 +96,7 @@ function AppRoutes() {
           />
 
           {/* =========================
-              PUBLIC — CUSTOMER MEASUREMENT FLOW
+              PUBLIC - CUSTOMER MEASUREMENT FLOW
               (reached from a shared link, no vendor auth)
           ========================== */}
 
@@ -110,7 +110,7 @@ function AppRoutes() {
 
           <Route path="/processing" element={<Processing />} />
 
-          {/* Public vendor vanity link (guide §6.1) — shows a result page
+          {/* Public vendor vanity link (guide §6.1) - shows a result page
               for inactive / not-found vendors and forwards active ones. */}
 
           <Route path="/v/:username" element={<VendorLanding />} />
@@ -162,7 +162,7 @@ function AppRoutes() {
               element={<Settings />}
             />
 
-            {/* Legacy combined route — keep old links working. */}
+            {/* Legacy combined route - keep old links working. */}
 
             <Route
               path="/profile-settings"

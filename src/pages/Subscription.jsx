@@ -105,7 +105,7 @@ function buildSubscription(plan) {
 
 function createMeasurementLink(username) {
   // The backend only exposes a public WhatsApp redirect for a vendor
-  // (GET /api/public/v/{username} — guide §6). Measurement links that carry a
+  // (GET /api/public/v/{username} - guide §6). Measurement links that carry a
   // submission token are generated per customer from the Customers page.
   const link = publicProfileLinkFor(username);
 

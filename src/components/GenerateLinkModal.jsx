@@ -42,7 +42,7 @@ import {
 |  - Otherwise a searchable customer picker is shown first.
 |  - The generated link is built from the token so it never points at
 |    localhost (the backend `link` falls back to localhost when
-|    App:FrontendBaseUrl is unset — guide §5).
+|    App:FrontendBaseUrl is unset - guide §5).
 |
 */
 
@@ -77,7 +77,7 @@ export default function GenerateLinkModal({
   const dialogRef = useOverlay(open, onClose);
 
   // Reset every time the modal transitions to open (React "adjust state
-  // during render" pattern — avoids setState inside an effect).
+  // during render" pattern - avoids setState inside an effect).
   if (open && !wasOpen) {
     setWasOpen(true);
     setState({ ...EMPTY_STATE, selected: customer || null });
@@ -116,7 +116,7 @@ export default function GenerateLinkModal({
   }, [open, customer, customers]);
 
   // Pre-check the vendor's subscription so we can block link generation before
-  // the round trip. The backend still enforces this and returns 400 — we mirror
+  // the round trip. The backend still enforces this and returns 400 - we mirror
   // the same copy. If the subscription endpoint is unavailable we fail open and
   // let the generate call surface any error.
   useEffect(() => {
