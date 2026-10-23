@@ -191,7 +191,15 @@ export default function Customers() {
   */
 
   const getCustomerName = (customer) => {
+    const firstName = customer?.firstName || customer?.first_name || "";
+    const lastName = customer?.lastName || customer?.last_name || "";
+    const personalName = [firstName, lastName]
+      .map((part) => String(part).trim())
+      .filter(Boolean)
+      .join(" ");
+
     return (
+      personalName ||
       customer?.name ||
       customer?.full_name ||
       customer?.fullName ||

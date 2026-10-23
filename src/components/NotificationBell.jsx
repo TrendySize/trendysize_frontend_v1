@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
 import { Bell, CheckCheck } from "lucide-react";
 import {
@@ -33,7 +34,10 @@ export default function NotificationBell({
 }) {
   const navigate = useNavigate();
   const rootRef = useRef(null);
+  const triggerRef = useRef(null);
+  const panelRef = useRef(null);
   const [open, setOpen] = useState(false);
+  const [panelPosition, setPanelPosition] = useState(null);
   const [items, setItems] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -74,8 +78,32 @@ export default function NotificationBell({
     // eslint-disable-next-line react-hooks/set-state-in-effect
     load();
 
+    const updatePanelPosition = () => {
+      const trigger = triggerRef.current;
+      if (!trigger) return;
+
+      const rect = trigger.getBoundingClientRect();
+      const width = Math.min(360, window.innerWidth - 24);
+      const maxHeight = Math.min(480, window.innerHeight - 24);
+      const left = Math.max(
+        12,
+        Math.min(rect.right - width, window.innerWidth - width - 12)
+      );
+      const top = Math.max(
+        12,
+        Math.min(rect.bottom + 8, window.innerHeight - maxHeight - 12)
+      );
+
+      setPanelPosition({ left, top, width });
+    };
+
+    updatePanelPosition();
+
     const onPointerDown = (event) => {
-      if (rootRef.current && !rootRef.current.contains(event.target)) {
+      if (
+        !rootRef.current?.contains(event.target) &&
+        !panelRef.current?.contains(event.target)
+      ) {
         setOpen(false);
       }
     };
@@ -83,12 +111,16 @@ export default function NotificationBell({
       if (event.key === "Escape") setOpen(false);
     };
 
-    document.addEventListener("mousedown", onPointerDown);
+    document.addEventListener("pointerdown", onPointerDown);
     document.addEventListener("keydown", onKeyDown);
+    window.addEventListener("resize", updatePanelPosition);
+    window.addEventListener("scroll", updatePanelPosition, true);
 
     return () => {
-      document.removeEventListener("mousedown", onPointerDown);
+      document.removeEventListener("pointerdown", onPointerDown);
       document.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener("resize", updatePanelPosition);
+      window.removeEventListener("scroll", updatePanelPosition, true);
     };
   }, [open]);
 
@@ -133,6 +165,7 @@ export default function NotificationBell({
   return (
     <div ref={rootRef} className="relative">
       <button
+        ref={triggerRef}
         type="button"
         aria-label={label}
         aria-expanded={open}
@@ -147,8 +180,16 @@ export default function NotificationBell({
         )}
       </button>
 
-      {open && (
-        <div className="absolute right-0 top-full z-[1250] mt-2 w-[min(360px,calc(100vw-24px))] overflow-hidden rounded-xl border border-[var(--tk-border)] bg-[var(--tk-bg-elevated)] text-[var(--tk-ink)]">
+      {open && panelPosition && createPortal(
+        <div
+          ref={panelRef}
+          style={{
+            left: panelPosition.left,
+            top: panelPosition.top,
+            width: panelPosition.width,
+          }}
+          className="fixed z-[1250] flex max-h-[min(480px,calc(100dvh-24px))] flex-col overflow-hidden rounded-xl border border-[var(--tk-border)] bg-[var(--tk-bg-elevated)] text-[var(--tk-ink)] shadow-xl"
+        >
           <div className="flex items-start justify-between gap-3 border-b border-[var(--tk-border)] px-4 py-3">
             <div>
               <p className="text-sm font-semibold text-[var(--tk-ink-strong)]">
@@ -163,7 +204,7 @@ export default function NotificationBell({
               <button
                 type="button"
                 onClick={markAllRead}
-                className="inline-flex items-center gap-1 rounded-md border border-[var(--tk-border)] px-2 py-1 text-xs font-medium text-[var(--tk-ink-soft)] transition-colors hover:bg-[var(--tk-hover)] hover:text-[var(--tk-ink)]"
+                className="inline-flex min-h-10 shrink-0 items-center gap-1 whitespace-nowrap rounded-md border border-[var(--tk-border)] px-2 py-1 text-xs font-medium text-[var(--tk-ink-soft)] transition-colors hover:bg-[var(--tk-hover)] hover:text-[var(--tk-ink)]"
               >
                 <CheckCheck size={13} strokeWidth={2} />
                 Mark all read
@@ -171,7 +212,7 @@ export default function NotificationBell({
             )}
           </div>
 
-          <div className="max-h-[min(420px,60vh)] overflow-y-auto">
+          <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
             {loading ? (
               <p className="px-4 py-6 text-sm text-[var(--tk-ink-muted)]">
                 Loading notifications...
@@ -210,7 +251,7 @@ export default function NotificationBell({
                           {formatTime(notification.createdAt)}
                         </span>
                       </div>
-                      <p className="mt-0.5 line-clamp-2 text-xs leading-5 text-[var(--tk-ink-soft)]">
+                      <p className="mt-0.5 line-clamp-2 break-words text-xs leading-5 text-[var(--tk-ink-soft)] [overflow-wrap:anywhere]">
                         {notification.message}
                       </p>
                     </div>
@@ -219,7 +260,8 @@ export default function NotificationBell({
               ))
             )}
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
