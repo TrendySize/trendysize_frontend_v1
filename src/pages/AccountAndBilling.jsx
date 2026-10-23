@@ -1,7 +1,7 @@
+import NotificationBell from "../components/NotificationBell";
 import { useState } from "react";
 import {
   ArrowLeft,
-  Bell,
   ChevronDown,
   Wallet,
 } from "lucide-react";
@@ -58,14 +58,7 @@ export default function AccountAndBilling() {
           </button>
 
           <div className="flex items-center gap-4">
-            <button
-              type="button"
-              aria-label="Notifications"
-              className="relative flex h-9 w-9 items-center justify-center rounded-full text-[#241065] transition hover:bg-[#EBE9FE]"
-            >
-              <Bell size={19} strokeWidth={1.7} />
-              <span className="absolute right-1 top-1 h-1.5 w-1.5 rounded-full bg-[#6133DA]" />
-            </button>
+            <NotificationBell className="relative flex h-9 w-9 items-center justify-center rounded-full text-[#241065] transition hover:bg-[#EBE9FE]" size={19} />
             <span className="hidden text-sm font-medium text-[#241065] sm:inline">
               Help Center
             </span>

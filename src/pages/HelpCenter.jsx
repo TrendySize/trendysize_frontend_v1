@@ -1,7 +1,7 @@
+import NotificationBell from "../components/NotificationBell";
 import { useMemo, useState } from "react";
 import {
   ArrowRight,
-  Bell,
   CircleHelp,
   Compass,
   CreditCard,
@@ -215,15 +215,7 @@ export default function HelpCenter() {
 
           {/* Header Actions */}
           <div className="flex items-center gap-2 sm:gap-3">
-            <button
-              type="button"
-              aria-label="Notifications"
-              className="relative flex h-9 w-9 items-center justify-center rounded-full text-[#241065] transition hover:bg-[#EBE9FE]"
-            >
-              <Bell size={19} strokeWidth={1.7} />
-
-              <span className="absolute right-1 top-1 h-1.5 w-1.5 rounded-full bg-[#6133DA]" />
-            </button>
+            <NotificationBell className="relative flex h-9 w-9 items-center justify-center rounded-full text-[#241065] transition hover:bg-[#EBE9FE]" size={19} />
 
             <span className="hidden text-sm font-medium text-[#241065] lg:inline">
               Help Center

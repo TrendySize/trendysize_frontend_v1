@@ -1,8 +1,8 @@
+import NotificationBell from "../components/NotificationBell";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 
 import {
-  Bell,
   ChevronDown,
   ChevronLeft,
   ChevronRight,
@@ -693,16 +693,7 @@ export default function Customers() {
 
           <div className="flex items-center gap-3 max-lg:gap-1">
 
-            <button
-              type="button"
-              aria-label="Notifications"
-              className="flex h-8 w-8 items-center justify-center rounded-full text-[#6133DA] transition hover:bg-[#EBE9FE]"
-            >
-              <Bell
-                size={18}
-                strokeWidth={1.8}
-              />
-            </button>
+            <NotificationBell className="relative flex h-8 w-8 items-center justify-center rounded-full text-[#6133DA] transition hover:bg-[#EBE9FE]" iconClassName="text-[#6133DA]" size={18} />
 
             {userName ? (
               <RouterLink

@@ -1,9 +1,9 @@
+import NotificationBell from "../components/NotificationBell";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
 
 import {
-  Bell,
   ChevronDown,
   ClipboardList,
   MailCheck,
@@ -677,30 +677,7 @@ export default function Dashboard() {
             <div className="flex items-center gap-[14px] max-lg:gap-[4px]">
 
             {/* NOTIFICATION */}
-            <button
-              type="button"
-              aria-label="Notifications"
-              className="
-                flex
-                h-[34px]
-                w-[34px]
-                items-center
-                justify-center
-
-                max-lg:h-[36px]
-                max-lg:w-[36px]
-              "
-            >
-              <Bell
-                size={21}
-                strokeWidth={1.5}
-                className="
-                  text-[#6133DA]
-
-                  max-lg:size-[22px]
-                "
-              />
-            </button>
+            <NotificationBell className="relative flex h-[34px] w-[34px] items-center justify-center max-lg:h-[36px] max-lg:w-[36px]" iconClassName="text-[#6133DA]" size={21} />
 
             {/* USER */}
             <div className="flex items-center gap-[9px] max-lg:gap-[4px]">
